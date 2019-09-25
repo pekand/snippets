@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+         <script>        
+            function wait() {
+                console.log('wait...');
+                 var c = 0; 
+                 for (var i = 0; i <= 999999999; i++) {
+                     c = c + 2;
+                 }
+                 console.log(c);    
+            }
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOMContentLoaded');
+            });
+        </script>
+        
+        <script src="script1.js "></script> <!-- stop page parsing, fetch, execute, continue parsing -->
+        <script src="script2.js" async ></script> <!-- not stop page parsing, fetch (asynchronous), after download stop page parsing, execute , continue parsing -->
+        <script src="script3.js" defer ></script> <!-- not stop page parsing, fetch (asynchronous), after page is parsed execute , continue parsing --> 
+        <script>
+            console.log('head');
+            
+            window.addEventListener("load", function(){
+                console.log('run last 1');
+            });
+        </script>
+    </head>
+
+    <body>
+        <script>
+            console.log('page');
+            
+            window.addEventListener("load", function(){
+                console.log('run last 2');
+            });
+        </script>
+                
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam scelerisque a magna eget tempor. In tempor augue vel egestas bibendum. Etiam imperdiet, ante bibendum fermentum faucibus, nisi urna hendrerit lorem, viverra hendrerit neque nisi feugiat dui. Pellentesque sit amet ipsum efficitur eros finibus vestibulum at ac est. Duis massa leo, fermentum id est at, eleifend molestie urna. Aenean aliquam metus odio. Sed placerat arcu nisl, eu blandit arcu finibus ut. Vestibulum lacinia diam sit amet velit vestibulum, quis egestas elit ullamcorper. Curabitur finibus augue mi, a eleifend nunc vulputate eget. Praesent cursus dictum turpis faucibus malesuada.
+        </p>
+        
+         <script>
+         wait();
+         </script>
+        
+        <script src="script4.js "></script>
+        <script src="script5.js" async ></script>
+        <script src="script6.js" defer ></script>
+        <script>
+            console.log('finish');
+            
+            window.addEventListener("load", function(){
+                console.log('run last 3');
+            });
+        </script>
+    </body>
+
+</html>
