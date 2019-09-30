@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<main>
+    <section>
+        <p>
+            <form action="" method="get">
+                <fieldset>
+                    <legend>Choose</legend>
+                    <input type="radio" id="item1" name="group1">
+                    <label for="item1">Item1</label><br />
+                    <input type="radio" id="item2" name="group1">
+                    <label for="item2">Item2</label><br />
+                    <input type="radio" id="item3" name="group1">
+                    <label for="item3">Item3</label>
+                </fieldset>
+                <hr>
+                <fieldset>
+                    <legend>Choose</legend>
+                    <label>
+                        <input type="radio" name="group2"> Item1
+                    </label><br />
+                    <label>
+                        Item2 <input type="radio" name="group2">
+                    </label><br />
+                </fieldset>
+                <hr>
+                <label for="autocomplete">Options:</label>
+                <input list="data-source" id="autocomplete" name="options" />
+                <datalist id="data-source">
+                    <option value="option1">
+                    <option value="option2">
+                    <option value="option3">
+                    <option value="option4">
+                    <option value="option5">
+                </datalist>
+                <hr>
+                <button class="" type="button">Button</button>
+                <button class="" type="submit">Submit</button>
+                <button class="" type="reset">Reset</button>
+                <hr>
+                <meter min="0" max="100" low="10" high="50" optimum="80" value="5"> at 5/100</meter>
+                <meter min="0" max="100" low="10" high="50" optimum="80" value="15"> at 15/100</meter>
+                <meter min="0" max="100" low="10" high="50" optimum="80" value="55"> at 55/100</meter>
+                <meter min="0" max="100" low="10" high="50" optimum="80" value="85"> at 85/100</meter>
+                <hr>
+                <label for="options1">Choose:</label>
+                <select id="options1">
+                    <option value="1">Option1</option>
+                    <option value="1">Option2</option>
+                    <option value="1">Option3</option>
+                </select>
+                <hr>
+                <label for="options2">Choose:</label>
+                <select id="options2">
+                    <optgroup label="Group1">
+                        <option>Option1</option>
+                        <option>Option2</option>
+                        <option>Option3</option>
+                    </optgroup>
+                    <optgroup label="Group2">
+                        <option>Option1</option>
+                        <option>Option2</option>
+                        <option>Option3</option>
+                    </optgroup>
+                </select>
+                <hr>
+                <input type="range" name="inputValue" value="60" oninput="outputValue.value=parseInt(inputValue.value)" /> +
+                <output name="outputValue">60</output>
+                <hr>
+                <label for="progress1">Progress:</label><progress id="progress1" max="100" value="50"> 50% </progress>
+                <hr>
+                <textarea id="story" name="story" rows="5" cols="33">
+                    It was a dark and stormy night...
+                    </textarea>
+            </form>
+        </p>
+        <hr>
+    </section>
+</main>
+
+</html>
