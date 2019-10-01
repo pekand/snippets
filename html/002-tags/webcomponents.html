@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Web Components</title>
+    <style>
+   
+    span {
+        background: red; /* affect element inserted to shadow dom (but not span inside shhadow dom)*/
+        padding:5px;
+    }
+    
+    .custom-element { /* no effect in shadow dom component */
+        height: 1000px;
+        background: green;
+    }
+    </style>
+</head>
+
+<body>
+    <main>
+        <custom-element>
+            
+            <span slot="element-slot1">Fusce feugiat iaculis eros</span> <!-- inserted as is (span with parent css to component)-->
+            <span slot="element-slot2">Morbi venenatis, arcu eu convallis laoreet, lorem arcu venenatis libero, blandit venenatis dui dolor tincidunt massa.</span>
+        </custom-element>
+    </main>
+    
+    <div style="display:none;">
+        <template id="custom-element-template">
+            <div class="custom-element">
+                <style>
+                 .custom-element { /* effect inside shadow dom */
+                    background: green;
+                    padding:10px;
+                }
+                span { /* no effect on inserted elements to slot */
+                    background: blue;
+                    padding:10px;
+                }
+                </style>
+                <slot name="element-slot1"></slot>
+                <slot name="element-slot2"></slot>
+            </div>
+        </template>
+    </div>
+
+    <script>
+    class CustomElement extends HTMLElement {
+        constructor() {
+            super();
+            const template = document.getElementById('custom-element-template').content;
+            this.attachShadow({ mode: 'open' }).appendChild(template.cloneNode(true));
+        }
+    }
+
+    window.customElements.define('custom-element', CustomElement);
+    </script>
+    
+    
+     <div style="display:none;">
+        <template id="custom-element-template-2">
+            <div class="custom-element-2">
+                
+                <custom-element>
+                    <span slot="element-slot1">1111</span>
+                    <span slot="element-slot2">2222</span>
+                </custom-element>
+                
+                <input id="input" type="number">
+                <span id="output"></span>
+            </div>
+        </template>
+    </div>
+    <div>
+        <custom-element-2></custom-element-2>
+    </div>
+    <script>
+        class Adder extends HTMLElement {
+  constructor() {
+    super();
+
+    const template = document.getElementById('custom-element-template-2').content;
+    this.attachShadow({ mode: 'open' }).appendChild(template.cloneNode(true));
+
+    // or insert template to code:
+    /*this.shadowRoot.innerHTML = `
+      <input type="number">
+      <p></p>
+    `;*/
+
+    this.inputs = this.shadowRoot.querySelectorAll('#input');
+    this.p = this.shadowRoot.querySelector('#output');
+
+    this.update();
+
+    this.inputs[0].addEventListener('input', e => {
+      this.inputvalue = e.target.value;
+    });
+  }
+
+  //attribute name must be lowercase
+  static get observedAttributes() {
+    return ['inputvalue'];
+  }
+
+  get inputvalue() {
+    return +this.getAttribute('inputvalue');
+  }
+
+  set inputvalue(value) {
+    this.setAttribute('inputvalue', value);
+  }
+  
+  attributeChangedCallback() {
+    this.update();
+  }
+
+  update() {
+    this.inputs[0].value = this.inputvalue;
+
+    this.p.textContent = `${this.inputvalue}`;
+  }
+}
+
+customElements.define('custom-element-2', Adder);
+
+    </script>
+</body>
+
+</html>

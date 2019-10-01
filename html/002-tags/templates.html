@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>   
+</head>
+
+<body>
+    <main>
+    	<table id="producttable">
+		  <thead>
+		    <tr>
+		      <td>Column1</td>
+		      <td>Column2</td>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <!-- existing data could optionally be included here -->
+		  </tbody>
+		</table>
+    </main>
+
+	<template id="template1">
+	  <tr>
+	    <td class="record"></td>
+	    <td></td>
+	  </tr>
+	</template>
+	
+    <script type="text/javascript" >
+     var template = document.querySelector('#template1');
+     var tbody = document.querySelector("tbody");
+    var newItem = document.importNode(template.content, true); //deep copy of element
+    var td = newItem.querySelectorAll("td");
+    td[0].textContent = "value1";
+    td[1].textContent = "value2";
+    tbody.appendChild(newItem);
+    </script>
+</body>
+
+</html>
