@@ -1,0 +1,40 @@
+* {
+    
+}
+
+div * {
+   /* all elements inside div */ 
+}
+
+body {
+    
+}
+
+.class1 {
+  
+}
+
+#id1 {
+    
+}
+
+.class2.class3 {
+    /* element with two classies*/
+}
+
+.class4 .class5 {
+    
+}
+
+.class6, .class7 {
+    
+}
+
+.class8>.class9 {
+    /* select direct child class9 of perent class8 */
+}
+
+.class9+.class10 {
+    /* select direct siblink class10 after class9 */
+}
+

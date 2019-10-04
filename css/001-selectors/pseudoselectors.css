@@ -1,0 +1,198 @@
+:root {
+	/* select html element */	
+}
+
+::selection {
+	/* selected text by mouse or keys */		
+}
+
+p:empty {
+	/* selected empty p (no text and childrens) */			
+}
+
+span::after {
+  content: "content";
+  /* insert content after span */
+}
+
+span::before {
+  content: "content";
+  /* insert content before span */
+}
+
+:not(div) {
+	/* match all except div*/
+	/* selector is applied only to selected group (.class1 .class2 not works)*/
+}
+
+:not(div):not(span) {
+	/* match all except div and span*/
+}
+
+
+p:not(.class1) {
+	/* select all p wit not have class .class1 (is not )*/
+}
+
+p:lang(en) {
+	/* p element wit lang atribute en */	
+}
+
+
+:target {
+	/* select target (id) of link pointing to current page <a href="#target"> */	
+}
+
+/* text */
+p::first-letter {
+	
+}
+
+p::first-line {
+	
+}
+
+/* links */
+a:link {
+	
+} 
+
+a:active {
+	/* active link  (hold click on link)*/ 
+}
+
+a:hover {
+	
+}
+
+a:visited {
+	
+}
+
+/*inputs*/
+
+
+input:required {
+	
+}
+
+input:disabled {
+	
+}
+
+input:enabled {
+	
+}
+
+input:read-only {
+	
+}
+
+input:read-write {
+	/* not read only */
+}
+
+input:valid {
+	
+}
+
+input:invalid {
+	
+}
+
+input:checked {
+	/* chceckbox and radio */
+}
+
+option:checked {
+	/* select box */
+}
+
+input:focus {
+	
+}
+
+input:default {
+	/* select default value checkbox, radio, option */
+}
+
+input[type=number]:in-range {
+  
+}
+
+input[type=number]:out-of-range {
+	
+}
+
+input[type="checkbox"]:indeterminate {
+	/* indeterminate value, checkbox, radio, progress */
+}
+
+input::placeholder {
+	/* with placeholder */	
+}
+
+
+/* groups */
+
+p:first-child {
+	/* if p is first child */	
+}
+
+p:nth-child(n) {
+	/* select if is n-th child and is p tag */	
+}
+
+p:nth-child(odd) {
+
+}
+
+p:nth-child(even) {
+
+}
+
+p:nth-child(3n+0) {
+  /*evry 3 starting on 0 element */
+}
+
+p:last-child {
+	/* select if is last child and is p tag */	
+}
+
+:nth-last-child(n) {
+	/* select if is n-th child and is p tag, count from last child up */	
+}
+
+p:only-child {
+ /* select p if is only child tag (text not count) */	
+}
+
+/**/
+p:first-of-type {
+	/* first p in group of siblins */
+}
+p:last-of-type {
+	/* last p in group of siblins */
+}
+
+p:nth-of-type(n) {
+	/* n-th p in group of siblins */
+}
+
+p:nth-last-of-type(n) {
+	/* n-th p from last in group of siblins */
+}
+
+p:only-of-type {
+	/* only child of tipe of its parent */
+}
+
+
+
+
+
+
+
+
+
+

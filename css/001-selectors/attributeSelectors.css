@@ -1,0 +1,32 @@
+[href] {
+    
+}
+
+img[src] {
+    
+}
+
+a[target=_blank] {
+
+}
+
+[title~=word] {
+    /* atribute containing word */
+}
+
+[title*="word"] {
+     /* atribute containing word */
+}
+
+[lang|=en] {
+    /* attribute lang starting with en */
+}
+
+a[href^="https"] {
+    
+}
+
+a[href$=".pdf"] {
+    
+}
+
