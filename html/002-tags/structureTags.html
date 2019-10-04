@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Structure</title>
+    <style>
+    .clear {
+        clear: both;    
+    }
+    
+    .right {
+        float:right;
+    }
+    
+    img {
+      width: 100%;
+      height: auto;
+    }
+    
+    body {
+      padding: 10px;
+      background: #f1f1f1;
+    }
+    
+    body > header {
+      padding: 30px;
+      text-align: center;
+      background: white;
+    }
+       
+    body > header h1 {
+      font-size: 50px;
+    }
+    
+    body > nav {
+      overflow: hidden;
+      background-color: #333;
+      margin-bottom: 20px;
+    }
+
+    body > nav a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    body > nav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    
+    @media screen and (max-width: 400px) {
+      body > nav a, .right {
+        float: none;
+      }
+    }
+
+    body > main {
+      max-width: 1000px;      
+      margin: auto;
+    }
+        
+    body > main > section {
+      float: left;     
+      width: calc(70% - 65px);
+      padding: 20px;
+    }
+    
+    body > main > section > article {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    body > main > aside {   
+      float: right;
+      width: 30%;
+      max-width: 400px;
+      background-color: #f1f1f1;
+    }
+    
+    body > main > aside > section {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    @media screen and (max-width: 800px) {
+      body > main > section, 
+      body > main > aside {   
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+    }
+
+    body > footer {
+      clear:both;
+      margin-top: 20px;
+      padding: 20px;
+      background: #ddd;
+      text-align: center;
+    }
+    
+    
+    </style>
+</head>
+
+<body>
+    
+    <header>
+        <h1>Lorem ipsum dolor sit amet</h1>
+        <p>Lorem ipsum dolor sit amet</p>
+    </header>
+    
+    <nav>
+          <a href="#">Link</a>
+          <a href="#">Link</a>
+          <a href="#">Link</a>
+          <a href="#" class="right">Link</a>
+    </nav>
+    
+    <main>
+
+        <section>
+            <header>
+                <h2>Non odio euismod lacinia at quis risus</h2>
+            </header>
+                
+            <article>
+                <header>
+                    <h2>Non odio euismod lacinia at quis risus</h2>
+                    <h3>Title description, Sep 2, 2017</h3>
+                </header>
+                <figure>
+                  <img src="https://via.placeholder.com/500x250" alt="" >
+                  <figcaption>Aliquam malesuada bibendum</figcaption>
+                </figure>
+                <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
+            </article>
+
+            <article>
+                <header>
+                    <h2>Non odio euismod lacinia at quis risus</h2>
+                    <h3>Title description, Sep 2, 2017</h3>
+                </header>
+                <figure>
+                  <img src="https://via.placeholder.com/500x250" alt="" >
+                  <figcaption>Aliquam malesuada bibendum</figcaption>
+                </figure>
+                <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
+            </article>
+
+        </section>
+        
+        <aside>
+            <section>
+                <header>
+                    <h2>Non odio euismod lacinia at quis risus</h2>
+                    <h3>Title description, Sep 2, 2017</h3>
+                </header>
+                <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras.</p>
+            </section>
+        </aside>
+        
+    </main>
+  
+    <footer>
+        Copyright 2019
+    </footer>
+</body>
+
+</html>
