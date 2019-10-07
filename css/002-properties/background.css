@@ -1,0 +1,125 @@
+
+.background {
+	background:red; /* bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit */
+	background-color:transparent;
+	background-image:url("image1.gif"), url("image2.gif");
+	background-position: left top, right top;
+	background-size:0% 0%;
+	background-repeat:repeat;
+	background-origin:padding-box;
+	background-clip:border-box;
+	background-attachment:scroll;
+}
+
+.background-color-transparent {
+	background-color:transparent;
+}
+
+.background-color-red {
+	background-color:red;
+}
+
+.background-position {
+	background-image:url("image1.gif");
+}
+
+.background-position {
+	background-position:left top;
+	background-position:left center;
+	background-position:left bottom;
+	background-position:right top;
+	background-position:right center;
+	background-position:right bottom;
+	background-position:center top;
+	background-position:center center;
+	background-position:center bottom;
+	background-position:50% 50%;
+	background-position:10px 10px;
+}
+
+.background-size {
+	background-size:auto;
+	background-size:100px 100px;
+	background-size:100px;
+	background-size:50%;
+	background-size:50% 50%;
+	background-size:cover;
+	background-size:contain;
+	background-size:initial;
+}
+
+.background-repeat {
+	background-repeat:repeat;
+	background-repeat:repeat-x;
+	background-repeat:repeat-y;
+	background-repeat:no-repeat;
+	background-repeat:space;
+	background-repeat:round;
+	background-repeat:initial;
+}
+
+.background-origin { /* where background image start */
+	background-origin:padding-box; /* cover padding */
+	background-origin:border-box; /* cover border */
+	background-origin:content-box; /* cover content */
+	background-origin:initial;
+	background-origin:inherit;
+}
+
+.background-clip {
+	background-clip:border-box; /* clip image to border */
+	background-clip:padding-box; /* clip image to padding */
+	background-clip:content-box; /* clip image to content */
+	background-clip:initial;
+	background-clip:inherit;
+}
+
+.background-attachment:{
+	background-attachment:scroll; /* scroll with content */
+	background-attachment:fixed; /* stick on position when scroll */
+	background-attachment:local;
+	background-attachment:initial;
+	background-attachment:inherit;
+}
+
+.background-blend-mode { /* how overlaping background have mix together. Blend the background color or image of an element. */
+	background-blend-mode:normal;
+	background-blend-mode:multiply;
+	background-blend-mode:screen;
+	background-blend-mode:overlay;
+	background-blend-mode:darken;
+	background-blend-mode:lighten;
+	background-blend-mode:color-dodge;
+	background-blend-mode:saturation;
+	background-blend-mode:color;
+	background-blend-mode:luminosity;
+}
+
+.mix-blend-mode { /* blends the content of an element with its background and the content of its direct parent */
+	mix-blend-mode:normal;
+	mix-blend-mode:multiply;
+	mix-blend-mode:screen;
+	mix-blend-mode:overlay;
+	mix-blend-mode:darken;
+	mix-blend-mode:lighten;
+	mix-blend-mode:color-dodge;
+	mix-blend-mode:color-burn;
+	mix-blend-mode: hard-light;
+	mix-blend-mode: soft-light;
+	mix-blend-mode:difference;
+	mix-blend-mode:exclusion;
+	mix-blend-mode:hue;
+	mix-blend-mode:saturation;
+	mix-blend-mode:color;
+	mix-blend-mode:luminosity;
+	mix-blend-mode: initial;
+	mix-blend-mode: inherit;
+	mix-blend-mode: unset;
+}
+
+.blend-mode-isolation {
+	isolation: auto;
+	isolation: isolate; /* start new stack for blend mode. Not count background of current element (or page) to mixing backrounds. No blending with the background. */
+	isolation: initial;
+	isolation: inherit;
+}

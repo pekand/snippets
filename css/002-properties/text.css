@@ -1,0 +1,38 @@
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-justify {
+  text-align: justify;
+}
+
+text-align-last
+text-combine-upright
+text-decoration
+text-decoration-color
+text-decoration-line
+text-decoration-style
+text-indent
+text-justify
+text-orientation
+text-overflow
+text-shadow
+text-transform
+text-underline-position
+
+direction
+hanging-punctuation
+hyphens
+letter-spacing
+quotes
+tab-size
+white-space
+writing-mode

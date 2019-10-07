@@ -1,0 +1,38 @@
+.text-color-red {
+	color:red;
+}
+
+.text-color-red-hex {
+	color:#ff0000;
+}
+
+.text-color-red-rgb {
+	color:rgb(255, 0, 0);
+}
+
+.text-color-red-rgba {
+	color:rgba(255, 99, 71, 0.5);
+}
+
+.text-color-red-hsl {
+	color:hsl(0, 100%, 50%); /* hue, saturation, lightness */
+}
+
+.no-transparent {
+	opacity:1;	
+}
+
+.transparent-10-percent {
+	opacity:0.1; /* apply to text and background */
+}
+
+.transparent-red-backround-10-percent{
+  background: rgba(255, 0, 0, 0.1); /*not apply to text*/
+}
+
+.input-caret-color-red {
+	caret-color:red;
+}
+
+
+

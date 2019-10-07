@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>CSS Positioning</title>
+    <style>
+    .clear {
+        clear: both;
+    }
+
+    .example {
+        margin: 10px;
+        padding: 10px;
+        background-color: #66ccff;
+        margin-bottom: 50px;
+    }
+
+    .box {
+        width: 50px;
+        height: 50px;
+        float: left;
+        background-color: red;
+    }    
+    </style>
+</head>
+
+<body>
+    <main>
+       
+       <style>
+             .example1 .box {
+                position: static;
+            }
+
+            
+      
+       </style>
+        <h3>Static (default - normal position)</h3>
+        <div class="example example1">
+            <div class="box">
+                static 
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        <style>
+            .example2 .box {
+                position: relative;
+                left: 50px;
+                top: -10px;
+            }
+
+            
+        </style>
+        <h3>Relative (move div around initial position)</h3>
+        <div class="example example2">
+            <div class="box">
+                relative 
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        <style>
+            .example3 .box {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                background-color: green;
+            }
+
+            
+        </style>
+        <h3>Fixed (fixet to page)</h3>
+        <div class="example example3">
+            <div class="box">
+                fixed 
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        <style>
+            .example4 {
+                position: relative;
+            }
+
+            .example4 .box {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                background-color: blue;
+            }
+            
+            
+        </style>
+        <h3>Absolute (fixed according to relative perent)</h3>
+        <div class="example example4">
+            <div class="box">
+                absolute 
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        <style>
+            .example5 {
+                height:200px;
+                overflow: scroll;
+            }
+            
+            .example5 .box{
+                position: sticky;
+                top: 0;
+                background-color: blue;
+            }
+            
+            
+        </style>
+        <h3>Sticky (stick  to top)</h3>
+        <div class="example example5">
+            <div class="random-content" data-count="500"></div>
+            <div class="box">
+                sticky
+            </div>
+            <div class="clear"></div>
+            
+            <div class="random-content" data-count="2000"></div>
+        </div>
+
+        <style>
+            .example6 {
+                height:200px;
+                overflow: scroll;
+            }
+            
+            .example6 .box{
+                position: sticky;
+                bottom: 0;
+                background-color: blue;
+            }
+        </style>
+        <h3>Sticky (stick  to bottom)</h3>
+        <div class="example example6">
+            <div class="random-content" data-count="2000"></div>
+            <div class="box">
+                sticky
+            </div>
+            <div class="clear"></div>
+            
+            <div class="random-content" data-count="2000"></div>
+        </div>
+        
+        <style>
+            .example7 {
+                height:200px;
+            }
+            
+            .example7 .container{
+                position: relative;
+                background-color: red;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .example7 .container .text {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background-color: green;
+            }
+            
+            .example7 .container .image{
+                background-color: blue;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <h3>Place text to corner</h3>
+        <div class="example example7">
+            <div class="container">
+                <div class="image">
+                    image
+                </div>    
+                
+                <div class="text">
+                    text
+                </div>    
+            </div>
+        </div>
+        
+        <style>
+        .example8 {
+            height:200px;
+        }
+        
+        .example8 .container{
+            position: relative;
+            background-color: yellow;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .example8 .container .box1{
+            position: absolute;
+            background-color: red;
+            height: 50px;
+            width: 50px;
+            left: 10px;
+            top: 10px;
+            z-index: 3;
+        }
+        
+        .example8 .container .box2{
+            position: absolute;
+            background-color: green;
+            height: 50px;
+            width: 50px;
+            left: 20px;
+            top: 20px;
+            z-index: 2;
+        }
+        
+        .example8 .container .box3{
+            position: absolute;
+            background-color: blue;
+            height: 50px;
+            width: 50px;
+            left: 30px;
+            top: 30px;
+            z-index: 1;
+        }    
+        </style>
+        <h3>Z-index</h3>
+        <div class="example example8">
+            <div class="container">
+                <div class="box1">
+                    box1
+                </div>    
+                
+                <div class="box2">
+                    box2
+                </div>    
+                
+                <div class="box3">
+                    box3
+                </div>    
+            </div>
+        </div>
+        
+    </main>
+</body>
+<script src="/js/003-random-text-generator/random-text-generator.js"></script>
+
+</html>

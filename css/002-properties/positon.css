@@ -1,0 +1,42 @@
+.position {
+	position: static; /*no change - default*/
+	position: relative; /* move around default position*/
+	position: absolute; /* fixed position to relative parent*/
+	position: sticky; /* stick to corner when crolling */
+	position: fixed; /* fixed position on view */
+}
+
+.top {
+	top: auto;
+	top: 10px;
+	top: 10%;
+}
+
+.bottom {
+	bottom: auto;
+	bottom: 10px;
+	bottom: 10%;
+}
+
+.left {
+	left: auto;
+	left: -10px;
+	left: 0px;
+	left: 10px;
+	left: 10%;
+}
+
+.right {
+	right: auto;
+	right: 10px;
+	right: 10%;
+}
+
+.z-index {
+	z-index: auto;
+	z-index: 1;
+}
+
+.clip {
+	clip: 
+}
