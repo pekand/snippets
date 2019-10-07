@@ -60,39 +60,38 @@
       }
     }
 
-    body > main {
+    body > .content {
       max-width: 1000px;      
       margin: auto;
     }
         
-    body > main > section {
+    body > .content > main {
       float: left;     
-      width: calc(70% - 65px);
-      padding: 20px;
+      width: calc(70% - 20px);
     }
     
-    body > main > section > article {
+    body > .content > main > article {
       background-color: white;
       padding: 20px;
       margin-bottom: 20px;
     }
     
-    body > main > aside {   
+    body > .content > aside {   
       float: right;
       width: 30%;
       max-width: 400px;
       background-color: #f1f1f1;
     }
     
-    body > main > aside > section {
+    body > .content > aside > .card {
       background-color: white;
       padding: 20px;
       margin-bottom: 20px;
     }
     
     @media screen and (max-width: 800px) {
-      body > main > section, 
-      body > main > aside {   
+      body > .content > main, 
+      body > .content > aside {   
         width: 100%;
         max-width: none;
         padding: 0;
@@ -125,17 +124,35 @@
           <a href="#" class="right">Link</a>
     </nav>
     
-    <main>
-
-        <section>
-            <header>
-                <h2>Non odio euismod lacinia at quis risus</h2>
-            </header>
+    <div class="content">
+        <main>
+            <article>
+                <header>
+                    <h2>Non odio euismod lacinia at quis risus</h2>
+                    <h3> Malesuada nunc, 1. 1. 2019</h3>
+                </header>
                 
+                <section>                 
+                    <h3>Non odio euismod lacinia at quis risus</h3>
+                    <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
+                    <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
+                </section>
+                <figure>
+                  <img src="https://via.placeholder.com/500x250" alt="" >
+                  <figcaption>Aliquam malesuada bibendum</figcaption>
+                </figure>
+                <section>                 
+                    <h3>Non odio euismod lacinia at quis risus</h3>
+                   
+                    <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
+                    <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
+                </section>
+            </article>
+
             <article>
                 <header>
                     <h2>Non odio euismod lacinia at quis risus</h2>
-                    <h3>Title description, Sep 2, 2017</h3>
+                    <h3> Malesuada nunc, 1. 1. 2019</h3>
                 </header>
                 <figure>
                   <img src="https://via.placeholder.com/500x250" alt="" >
@@ -143,32 +160,19 @@
                 </figure>
                 <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
             </article>
-
-            <article>
-                <header>
-                    <h2>Non odio euismod lacinia at quis risus</h2>
-                    <h3>Title description, Sep 2, 2017</h3>
-                </header>
-                <figure>
-                  <img src="https://via.placeholder.com/500x250" alt="" >
-                  <figcaption>Aliquam malesuada bibendum</figcaption>
-                </figure>
-                <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras. Ac auctor augue mauris augue neque. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Ut venenatis tellus in metus. Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Egestas erat imperdiet sed euismod nisi porta.</p>
-            </article>
-
-        </section>
+        </main>
         
         <aside>
-            <section>
-                <header>
-                    <h2>Non odio euismod lacinia at quis risus</h2>
-                    <h3>Title description, Sep 2, 2017</h3>
-                </header>
+            <div class="card">
+                <h2>Non odio euismod lacinia at quis risus</h2>
                 <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras.</p>
-            </section>
+            </div>
+            <div class="card">
+                <h2>Non odio euismod lacinia at quis risus</h2>
+                <p>Et leo duis ut diam quam nulla porttitor massa id. Diam volutpat commodo sed egestas egestas. Ac tortor dignissim convallis aenean. Malesuada nunc vel risus commodo viverra maecenas. Feugiat sed lectus vestibulum mattis ullamcorper velit. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Arcu cursus euismod quis viverra nibh cras.</p>
+            </div>
         </aside>
-        
-    </main>
+    </div>
   
     <footer>
         Copyright 2019
