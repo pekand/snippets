@@ -1,2 +1,40 @@
 .reset-properties-to-initial-state {all:initial;}
 .use-ingherited-properties {all:inherit;}
+
+
+.initial {
+  color: initial; /* default browser value for element */
+}
+
+.inherit {
+  color: inherit;/* inherit from perent */
+}
+
+/*
+	if property is inherited => unset == inherit
+	if property is not inherited => unset == initial
+*/
+.unset {
+  color: unset;
+}
+
+/*
+<style>
+pre {
+	text-color:blue;
+}
+span {
+	text-color:red;
+}
+</style>
+<pre>
+  <span>red</span>
+  <span class="inherit">blue (inherited from perent)</span>
+  <span class="unset">blue (inherited from perent)</span>
+  <span class="initial">black (default browser value)</span>
+</pre>
+*/
+
+.all-unset{
+	all: unset;
+}
