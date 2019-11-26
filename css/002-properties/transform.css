@@ -1,3 +1,67 @@
 transform
 transform-origin
 transform-style
+
+.transform {
+	transform: none;
+	
+	/* transformation defined by metrix */
+	transform: matrix(n,n,n,n,n,n);
+	transform: matrix3d(n,n,n,n,n,n,n,n,n,n,n,n,n,n,n,n);	/* transformation defined by metrix */
+	
+	transform: translate(x,y);
+	transform: translate3d(x,y,z);
+	transform: translateX(x);
+	transform: translateY(y);	
+	transform: translateZ(z);
+	
+	transform: scale(x,y);
+	transform: scale3d(x,y,z);
+	transform: scaleX(x);	
+	transform: scaleY(y);
+	transform: scaleZ(z);
+	
+	transform: rotate(90deg);
+	transform: rotate3d(x,y,z,90deg);
+	transform: rotateX(90deg);
+	transform: rotateY(90deg);
+	transform: rotateZ(90deg);
+	
+	transform: skew(90deg,90deg);
+	transform: skewX(90deg);
+	transform: skewY(90deg);
+	transform: perspective(n);
+}
+
+/***************************************/
+
+.show_back_side {
+	animation:show_back_side 3s infinite;
+	
+	backface-visibility: visible; /* show back of div after rotation */
+	backface-visibility: hidden;
+}
+
+@keyframes show_back_side {
+  from {transform: rotateY(0deg);}
+  to {transform: rotateY(360deg);}
+}
+
+/***************************************/
+
+transform
+
+
+.el-perspective {
+	
+	/* ???? */
+	perspective: none;
+	perspective: 100px;
+
+	/* ???? */
+	perspective-origin: 50% 50%;
+	perspective-origin: 100px 100px;
+	perspective-origin: left;
+	perspective-origin: center;
+	perspective-origin: right;
+}
