@@ -1,6 +1,18 @@
-height
-width
-max-height
-max-width
-min-height
-min-width
+div {
+	height:auto;
+	height:100px
+	
+	
+	width:auto;
+	width:100px;
+	
+	max-height: none; /* none is default */
+	max-height: 10%; /* size of perent block */
+	
+	max-height: 100px;
+	max-width: 100px;
+	
+	min-height: 100px;
+	min-width: 100px;
+}
+

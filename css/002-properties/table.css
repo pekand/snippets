@@ -1,3 +1,20 @@
-caption-side
-empty-cells
-table-layout
+table {
+    border-collapse: separate; /* each cell will display its own borders*/
+    border-collapse: collapse; /* Borders are collapsed into a single border */
+}
+
+table {
+    /* <caption></caption> */
+    caption-side: top; /* place table caption to top of table */
+    caption-side: bottom; /* place table caption to bottom of table */
+}
+
+table {
+    empty-cells: show;
+    empty-cells: hide; /* hide border on epmpty cell in table*/
+}
+
+table {
+    table-layout: auto; /* column size by content (stretch by browser alghotithm )*/
+    table-layout: fixed; /* column has same size as first row */
+}

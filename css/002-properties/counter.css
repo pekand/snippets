@@ -1,2 +1,8 @@
-counter-increment
-counter-reset
+body {
+  counter-reset: mycounter; /* set counter to 0*/
+}
+
+h2::before {
+  counter-increment: mycounter; /* increment counter by 1 */
+  content: "Section " counter(mycounter) ". "; /* add content befor evry h1 */
+}

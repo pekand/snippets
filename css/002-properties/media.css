@@ -1,1 +1,88 @@
-@media
+@media [ not|only [all|print|screen|speech] ] and (mediafeature and|or|not mediafeature) {
+  div {
+  	
+  }
+}
+
+/* 
+
+mediafeatures: 
+
+any-hover	
+any-pointer	
+aspect-ratio
+color
+color-gamut
+color-index	
+grid	
+height	
+hover	
+inverted-colors	
+light-level	
+max-aspect-ratio	
+max-color
+max-color-index
+max-height
+max-monochrome
+max-resolution
+max-width
+min-aspect-ratio
+min-color
+min-color-index
+min-height
+min-monochrome
+min-resolution
+min-width
+monochrome
+orientation
+overflow-block
+overflow-inline	
+pointer	
+resolution
+scan
+scripting
+update
+width
+
+*/
+
+.component__item--modificator {
+    /* default for all */
+}
+
+@media (max-width: 480px) {
+    .component__item--modificator {
+        /* xxs (optional or use dafault) */
+    }
+}
+
+@media (min-width: 480px) {
+    .component__item--modificator {
+      /* xs */
+    }
+}
+
+@media (min-width: 768px) {
+    .component__item--modificator {
+        /* sm */
+    }
+}
+
+@media (min-width: 992px) {
+    .component__item--modificator {
+      /* md */
+    }
+}
+
+@media (min-width: 1240px) {
+    .component__item--modificator {
+      /* lg */
+    }
+}
+
+@media (min-width: 1380px) {
+    .component__item--modificator {
+       /* xlg */
+    }
+}
+

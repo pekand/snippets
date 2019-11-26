@@ -1,5 +1,38 @@
-transition
-transition-delay
-transition-duration
-transition-property
-transition-timing-function
+/* change width on hover */
+div {
+  width: 100px;
+  height: 100px;
+  background: red;
+  transition: width 2s;
+}
+
+div:hover {
+  width: 300px;
+}
+
+/* change width anf height on hover */
+div {
+  width: 100px;
+  height: 100px;
+  background: red;
+  transition: width 2s, height 4s;
+}
+
+div:hover {
+  width: 300px;
+  height: 300px;
+}
+
+transition-delay: 1s
+transition-duration: 1s, 2s;
+transition-property: : width, height;
+
+transition-timing-function: linear;
+transition-timing-function: ease;
+transition-timing-function: ease-in;
+transition-timing-function: ease-out;
+transition-timing-function: ease-in-out;
+transition-timing-function: step-start;
+transition-timing-function: step-end;
+transition-timing-function: steps(number_of_intervals,start|end);
+transition-timing-function: cubic-bezier(n,n,n,n);

@@ -1,4 +1,12 @@
-margin
+/* two  top or  bottom margin collapse to one margin ( higer walue from two margins) */
+margin: 10px;
+margin: 10%;
+margin: 10px 10px; /* top bottom, left right*/
+margin: 10px 10px 10px; /* top, bottom, left and right */
+margin: 10px 10px 10px 10px; /* top, left, bottom, right */
+
+margin: auto; /*center in parent container;*/
+
 margin-bottom
 margin-left
 margin-right

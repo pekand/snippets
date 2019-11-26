@@ -1,33 +1,88 @@
-border
-border-bottom
+div {
+	border: border-width border-style border-color;
+}
+
+border-color: color
+border-color: transparent
+border-color: initial
+border-color: inherit;
+
+border-style: none;
+border-style: hidden;
+border-style: dotted;
+border-style: dashed;
+border-style: solid;
+border-style: double;
+border-style: groove;
+border-style: ridge;
+border-style: inset;
+border-style: outset;
+border-style: initial;
+border-style: inherit;
+
+border-width: medium;
+border-width: thin;
+border-width: thick;
+border-width: 1px;
+border-width: initial;
+border-width: inherit;
+
+border-top: border-width border-style border-color;
+border-top-color
+border-top-style
+border-top-width
+
+border-right: border-width border-style border-color;
+border-right-color
+border-right-style
+border-right-width
+
+border-bottom: border-width border-style border-color;
 border-bottom-color
-border-bottom-left-radius
-border-bottom-right-radius
 border-bottom-style
 border-bottom-width
-border-collapse
-border-color
-border-image
-border-image-outset
-border-image-repeat
-border-image-slice
-border-image-source
-border-image-width
+
 border-left
 border-left-color
 border-left-style
 border-left-width
-border-radius
-border-right
-border-right-color
-border-right-style
-border-right-width
-border-spacing
-border-style
-border-top
-border-top-color
-border-top-left-radius
+
+border-radius: 25px; /* all corners */
+border-radius: 25px 25px; /*  top left and bottom right; top right and bottom left  */
+border-radius: 25px 25px 25px; /* top left; top right ; bottom right; bottom left */
+border-radius: 25%;
+
+border-radius: 2em / 5em;
+/* is equivalent to:
+border-top-left-radius: 2em 5em;
+border-top-right-radius: 2em 5em;
+border-bottom-right-radius: 2em 5em;
+border-bottom-left-radius: 2em 5em; */
+
+border-radius: 2em 1em 4em / 0.5em 3em;
+/* is equivalent to:
+border-top-left-radius: 2em 0.5em;
+border-top-right-radius: 1em 3em;
+border-bottom-right-radius: 4em 0.5em;
+border-bottom-left-radius: 1em 3em; */
+
+border-top-left-radius: 20px; /* top and left */
+border-top-left-radius: 10px 20px; /* top left */
 border-top-right-radius
-border-top-style
-border-top-width
-border-width
+border-bottom-left-radius
+border-bottom-right-radius
+
+/* TODO */
+border-image: source slice width outset repeat
+border-image-source: url(border.png);
+border-image-slice:
+border-image-width
+border-image-outset
+border-image-repeat
+
+
+
+
+border-spacing
+
+

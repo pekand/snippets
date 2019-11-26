@@ -1,11 +1,28 @@
 .el {
-	height: cm;
-	height: mm;
-	height: in; /* inches  1in = 96px = 2.54cm */
-	height: px ; /**/
-	height: pt; /* (1pt = 1/72 of 1in)  */
-	height: pc; /* (1pc = 12 pt)  */
+	/* Absolute length units */
+	height: 1px ; /* Pixels */
 	
-	font-size: 2em;
-	font-size: 1ex;
+	height: 1Q; /*  1Q = 1/40th of 1cm */
+	height: 1mm; /*  1mm = 1/10th of 1cm */ 
+	height: 1cm; /* 1cm = 96px/2.54 */	
+	
+	height: 1in; /* Inches  1in = 2.54cm = 96px */
+	height: 1pc; /* Picas  1pc = 1/16th of 1in  */
+	height: 1pt; /* Points (1pt = 1/72 of 1in)  */
+	
+	/* Relative length units */
+	
+	font-size: 1em; /* Font size of the parent element. */
+	font-size: 1ex; /* x-height of the current element's font. */
+	font-size: 1rem; /* Font size of the root element. */
+	font-size: 1lh; /* Line height of the element. */
+	
+	font-size: 1ch; /* If x,y is size of character "0" in current font then 1ch = x */
+
+	font-size: 1vw; /* If viewport size is x,y then 1vw = x/100 */
+	font-size: 1vh; /* If viewport size is x,y then 1vh = y/100 */
+
+	font-size: 1vmin; /* If viewport size is x,y and x<y then 1vmin = x/100 else 1vmin == y/100 */
+	font-size: 1vmax; /* If viewport size is x,y and x<y then 1vmin = y/100 else 1vmin == x/100 */
+
 }

@@ -1,18 +1,3 @@
-.text-align-center {
-  text-align: center;
-}
-
-.text-align-left {
-  text-align: left;
-}
-
-.text-align-right {
-  text-align: right;
-}
-
-.text-align-justify {
-  text-align: justify;
-}
 
 text-align-last
 text-combine-upright
@@ -28,7 +13,7 @@ text-shadow
 text-transform
 text-underline-position
 
-direction
+
 hanging-punctuation
 hyphens
 letter-spacing

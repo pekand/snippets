@@ -1,1 +1,5 @@
-@import
+/* import css */
+@import "other.css"; 
+@import url("other.css"); 
+@import "printstyle.css" print; /* import for print mediaquerie */
+@import "mobstyle.css" screen and (max-width: 768px);

@@ -1,7 +1,32 @@
-align-content
-align-items
-align-self
+el { /* align inline element in row  on height */
+    vertical-align: 25px;
+    vertical-align: -25px;
+    vertical-align: 10%;
+    vertical-align: -10%;
+    vertical-align: baseline;    
+    vertical-align: sub;
+    vertical-align: super;
+    vertical-align: top;
+    vertical-align: text-top;
+    vertical-align: middle;
+    vertical-align: bottom;
+    vertical-align: text-bottom;
+}
 
-justify-content
+/* align text in row (paragraph) on width */
 
-vertical-align
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-justify {
+  text-align: justify;
+}

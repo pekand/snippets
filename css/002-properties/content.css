@@ -1,1 +1,35 @@
-content
+a::after {
+  content: " (" attr(href) ")";
+}
+
+a::before {
+  content: " (" attr(href) ")";
+}
+
+p::before {
+  content: open-quote; /* insert quote */
+}
+
+p::after {
+  content: close-quote; /* insert quote */
+}
+
+p.hometown::before {
+  content: no-open-quote; /* if open-quote is det then remove open-quote */
+}
+
+p.hometown::after {
+  content: no-close-quote; /* if close-quote is det then remove close-quote */
+}
+
+p::before {
+  content: url(bullet.png); /* insert image */
+}
+
+li::before {
+  content: "•"; 
+}
+
+li:before {
+  content: '\2022'; /* bullet character - https://unicode-table.com/ */
+}

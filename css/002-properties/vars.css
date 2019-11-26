@@ -1,0 +1,7 @@
+:root {
+  --custom-value: red;
+}
+
+#div1 {
+  background-color: var(--custom-value);
+}
