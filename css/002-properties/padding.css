@@ -1,13 +1,14 @@
 
 /* padding is add to element size > div width + padding*/
+div {
+	padding: 10px;
+	padding: 10%;
+	padding: 10px 10px; /* top bottom, left right*/
+	padding: 10px 10px 10px; /* top, bottom, left and right */
+	padding: 10px 10px 10px 10px; /* top, left, bottom, right */
 
-padding: 10px;
-padding: 10%;
-padding: 10px 10px; /* top bottom, left right*/
-padding: 10px 10px 10px; /* top, bottom, left and right */
-padding: 10px 10px 10px 10px; /* top, left, bottom, right */
-
-padding-bottom
-padding-left
-padding-right
-padding-top
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+}

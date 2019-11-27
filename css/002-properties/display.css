@@ -1,2 +1,40 @@
-display
-visibility
+
+div {
+	display: inline; /* <span> */
+	display: inline-block;  /* like span but can set size */
+	display: block;
+	display:none; /* element is removed */
+	
+	display: contents; /* make child element content element of own perent. (transform child to content)*/
+	
+	display: flex;
+	display: inline-flex;
+	
+	display: grid;
+	display: inline-grid;
+		
+	display: list-item; /* <li> */
+	display: run-in; /* displey block element like header h2 inline as first line of paragraph  */
+	
+}
+
+div {
+	display: table; /* <table> */
+	display: inline-table; /* like span but table */
+	display: table-row;	/* <tr> */
+	display: table-cell; /* <td> */
+	display: table-column;/* <col> */
+	
+	display: table-caption; /* <caption> */
+	display: table-header-group; /* <thead> */
+	display: table-row-group; /* <tbody> */
+	display: table-footer-group; /* <tfoot> */
+	
+	display: table-column-group; /* <colgroup> */
+}
+
+div {
+	visibility: visible;
+	visibility: hidden; /* element is hiddden but take space */
+	visibility: collapse; /* affect table (<tr> <tbody> <col> <colgroup>), hide row but not change table structure */
+}

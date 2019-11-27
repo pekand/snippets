@@ -18,3 +18,8 @@ table {
     table-layout: auto; /* column size by content (stretch by browser alghotithm )*/
     table-layout: fixed; /* column has same size as first row */
 }
+
+table {
+    border-spacing: 10px; /*  space around column*/
+    border-spacing: 10px 20px; /*  space around column left and right, top and bottom */
+}

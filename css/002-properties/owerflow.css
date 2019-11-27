@@ -1,6 +1,35 @@
-overflow
-overflow-wrap
-overflow-x
-overflow-y
-resize
-scroll-behavior
+div {
+	overflow: visible;
+	overflow: hidden;
+	overflow: scroll;
+	overflow: auto;
+	
+	overflow-x: visible;
+	overflow-x: hidden;
+	overflow-x: scroll;
+	overflow-x: auto;
+
+	overflow-y: visible;
+	overflow-y: hidden;
+	overflow-y: scroll;
+	overflow-y: auto;
+}
+
+/* TODO */
+div {
+	overflow-wrap;
+}
+
+/* TODO */
+div {
+	resize: none;
+	resize: both;
+	resize: horizontal;
+	resize: vertical;
+}
+
+/* TODO */
+div {
+	scroll-behavior: auto;
+	scroll-behavior: smooth;
+}

@@ -1,23 +1,98 @@
+div {
+	text-indent: 10px;
+	text-indent: 10%;	
+}
 
-text-align-last
-text-combine-upright
-text-decoration
-text-decoration-color
-text-decoration-line
-text-decoration-style
-text-indent
-text-justify
-text-orientation
-text-overflow
-text-shadow
-text-transform
-text-underline-position
+div {
+	text-justify: auto;
+	text-justify: inter-word;
+	text-justify: inter-character;
+	text-justify: none;
+}
+
+div {
+	text-overflow: clip;
+	text-overflow: ellipsis;
+	text-overflow: string;
+}
+
+div {
+	text-shadow: none;
+	text-shadow: h-shadow v-shadow blur-radius color;
+	text-shadow: 2px 2px 8px #FF0000;
+}
+
+div {
+	text-decoration: text-decoration-line text-decoration-color text-decoration-style;
+	text-decoration: none currentcolor solid;
+	
+	text-decoration-line: none;
+	text-decoration-line: underline;
+	text-decoration-line: overline;
+	text-decoration-line: line-through;
+	
+	text-decoration-color: currentColor;
+	
+	text-decoration-style: solid;
+	text-decoration-style: double;
+	text-decoration-style: dotted;
+	text-decoration-style: dashed;
+	text-decoration-style: wavy;
+}
+
+div {
+	text-transform: none;
+	text-transform: capitalize;
+	text-transform: uppercase;
+	text-transform: lowercasel;
+
+	text-underline-position;
+}
 
 
-hanging-punctuation
-hyphens
-letter-spacing
-quotes
-tab-size
-white-space
-writing-mode
+div {
+	white-space: normal;
+	white-space: nowrap;
+	white-space: pre;
+	white-space: pre-line;
+	white-space: pre-wrap;
+}
+
+div {
+	letter-spacing: normal;
+	letter-spacing: 10px;
+}
+
+div {
+	quotes: none;
+	quotes: "„" "“"; /* outside */
+	quotes: "„" "“" "‚" "‘"; /* outside, inside */
+}
+
+div {
+	hyphens: manual;
+	hyphens: none;
+	hyphens: auto;
+}
+
+div {
+	tab-size: 8;  /* number of characters */
+	tab-size: 10px;  
+}
+
+div {
+	hanging-punctuation: none;
+	hanging-punctuation: first;
+	hanging-punctuation: last;
+	hanging-punctuation: allow-end;
+	hanging-punctuation: force-end;
+}
+
+/* TODO */
+div {
+	text-combine-upright: none;
+	text-combine-upright: all;
+
+	text-combine-upright: digits;     
+	text-combine-upright: digits 4;  
+}

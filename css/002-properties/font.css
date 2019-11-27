@@ -1,24 +1,120 @@
-font
-@font-face
-font-family
-font-feature-settings
-@font-feature-values
-font-kerning
-font-language-override
-font-size
-font-size-adjust
-font-stretch
-font-style
-font-synthesis
-font-variant
-font-variant-alternates
-font-variant-caps
-font-variant-east-asian
-font-variant-ligatures
-font-variant-numeric
-font-variant-position
-font-weight
+div {
+	font: font-style font-variant font-weight font-size/line-height font-family;
+	
+	font: caption;
+	font: icon;
+	font: menu;
+	font: message-box;
+	font: small-caption;
+	font: status-bar;
+	
+	font-style:normal;
+	font-style:italic;
+	font-style:oblique;
+	
+	font-variant: normal;
+	font-variant: small-caps;
+	
+	font-weight: normal;
+	font-weight: bold;
+	font-weight: bolder;
+	font-weight: lighter;
+	font-weight: number;
+	font-weight: 100;
+	font-weight: 200;
+	font-weight: 300;
+	font-weight: 400; /* normal */
+	font-weight: 500;
+	font-weight: 600;
+	font-weight: 700; /* bold */
+	font-weight: 800;
+	font-weight: 900;
+	
+	font-size: medium;
+	font-size: xx-small;
+	font-size: x-small;
+	font-size: small;
+	font-size: large;
+	font-size: x-large;
+	font-size: xx-large;
+	font-size: smaller;
+	font-size: larger;
+	font-size: 100;
+	font-size: 200;
+	font-size: 300;
+	font-size: 400; /* normal */
+	font-size: 500;
+	font-size: 600;
+	font-size: 700; /* bold */
+	font-size: 800;
+	font-size: 900;
+	
+	font-family: 'Roboto Mono', monospace; /* family-name generic-family */
 
+	font-kerning: auto;
+	font-kerning: normal;
+	font-kerning: none;
+	
+	font-size-adjust: none;
+	font-size-adjust: number;
+	
+	font-stretch: ultra-condensed;
+	font-stretch: extra-condensed;
+	font-stretch: condensed;
+	font-stretch: semi-condensed;
+	font-stretch: normal;
+	font-stretch: semi-expanded;
+	font-stretch: expanded;
+	font-stretch: extra-expanded;
+	font-stretch: ultra-expanded;
+}
+
+/*
+	@font-face {
+	  [ font-family: <family-name>; ] ||
+	  [ src: <src>; ] ||
+	  [ unicode-range: <unicode-range>; ] ||
+	  [ font-variant: <font-variant>; ] ||
+	  [ font-feature-settings: <font-feature-settings>; ] ||
+	  [ font-variation-settings: <font-variation-settings>; ] ||
+	  [ font-stretch: <font-stretch>; ] ||
+	  [ font-weight: <font-weight>; ] ||
+	  [ font-style: <font-style>; ]
+	}
+*/
+
+@font-face {
+  font-family: fontFamily;
+  src: url(fontfile.ttf); /* TTF/OTF; WOFF; WOFF2; SVG; EOT */
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("OpenSans-Regular-webfont.woff2") format("woff2"),
+       url("OpenSans-Regular-webfont.woff") format("woff");
+}
+
+body { font-family: 'Open Sans', sans-serif; }
+
+/* TODO */
+@font-feature-values Font One {
+  @styleset {
+    nice-style: 12;
+  }
+}
+
+div {
+	font-feature-settings;
+	font-language-override;
+	font-synthesis;
+	
+	font-variant-alternates;
+	font-variant-caps;
+	font-variant-east-asian;
+	font-variant-ligatures;
+	font-variant-numeric;
+	font-variant-position;
+}
 
 /*
 Google fonts https://fonts.google.com/

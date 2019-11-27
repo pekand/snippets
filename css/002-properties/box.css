@@ -1,3 +1,20 @@
-box-decoration-break
-box-shadow
-box-sizing
+/* change how efect is applied to inline box when is break to multiple lines  */
+/* specifies how the background, padding, border, border-image, box-shadow, margin, and clip-path of an element is applied */
+span {
+	box-decoration-break: slice /* efect (for example border) is sliced to multiple lines */
+	box-decoration-break: clone; /* efect (for example border) is applied to evry line as own object */
+}
+
+
+/* add shwadow to box */
+div {
+	box-shadow: none;
+	box-shadow: h-offset v-offset blur spread color;
+	box-shadow: inset;
+}
+
+/* change how padding is add to box */
+div {
+	box-sizing: content-box; /* default, (padding is add to block size) */
+	box-sizing: border-box; /* padding dont add to bloc size (content is pressed by padding) */
+}

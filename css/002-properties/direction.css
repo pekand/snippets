@@ -1,2 +1,23 @@
-direction
-unicode-bidi
+div {
+	direction: ltr; /* text direction from left-to-right */
+	direction: rtl; /* Text direction from right-to-left */
+}
+
+/* overridde text direction (multiple languages in some document) */
+div {
+	unicode-bidi: normal;
+	unicode-bidi: embed;
+	unicode-bidi: bidi-override;
+}
+
+div {
+	writing-mode: horizontal-tb;
+	writing-mode: vertical-rl;
+	writing-mode: vertical-lr;
+	
+	text-orientation: mixed;
+	text-orientation: upright;
+	text-orientation: sideways-right;
+	text-orientation: sideways;
+	text-orientation: use-glyph-orientation;
+}

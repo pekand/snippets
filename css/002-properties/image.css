@@ -1,4 +1,32 @@
-filter
-image-rendering
-object-fit
-object-position
+
+/* TODO */
+div {
+	filter: none;
+	filter: blur();
+	filter: brightness();
+	filter: contrast();
+	filter: drop-shadow();
+	filter: grayscale();
+	filter: hue-rotate();
+	filter: invert();
+	filter: opacity();
+	filter: saturate();
+	filter: sepia();
+	filter: url();
+}
+
+/* TODO */
+div {
+	image-rendering;
+}
+
+/* TODO */
+div {
+	object-position;
+	
+	object-fit: fill;
+	object-fit: contain;
+	object-fit: cover;
+	object-fit: scale-down;
+	object-fit: none;
+}

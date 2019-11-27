@@ -1,4 +1,33 @@
-list-style
-list-style-image
-list-style-position
-list-style-type
+div {
+	list-style: list-style-type list-style-position list-style-image;
+	list-style: disc outside none;
+	
+	list-style-type	: disc;
+	list-style-type	: armenian;
+	list-style-type	: circle;
+	list-style-type	: cjk-ideographic;
+	list-style-type	: decimal;
+	list-style-type	: decimal-leading-zero;
+	list-style-type	: georgian;
+	list-style-type	: hebrew;
+	list-style-type	: hiragana;
+	list-style-type	: hiragana-iroha;
+	list-style-type	: katakana;
+	list-style-type	: katakana-iroha;
+	list-style-type	: lower-alpha;
+	list-style-type	: lower-greek;
+	list-style-type	: lower-latin;
+	list-style-type	: lower-roman;
+	list-style-type	: none;
+	list-style-type	: square;
+	list-style-type	: upper-alpha;
+	list-style-type	: upper-greek;
+	list-style-type	: upper-latin;
+	list-style-type	: upper-roman;
+
+	list-style-position: inside;
+	list-style-position: outside;
+	
+	list-style-image: none;
+	list-style-image: url('bullet.gif');
+}

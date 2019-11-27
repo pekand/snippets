@@ -1,2 +1,7 @@
 line-break
-line-height
+div {
+	line-height: normal;
+	line-height: 1.5; /* multiple current font size */
+	line-height: 16px;
+	line-height: 150%; /* of current font size */
+}

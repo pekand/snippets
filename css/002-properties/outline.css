@@ -1,5 +1,24 @@
-outline
-outline-color
-outline-offset
-outline-style
-outline-width
+div {
+    outline: outline-width outline-style outline-color;
+
+    outline-width: medium;
+    outline-width: thin;
+    outline-width: thick;
+    outline-width: 100px;
+
+    outline-style: none
+    outline-style: hidden;
+    outline-style: dotted;
+    outline-style: dashed;
+    outline-style: solid;
+    outline-style: double;
+    outline-style: groove;
+    outline-style: ridge;
+    outline-style: inset;
+    outline-style: outset;
+
+    outline-color: invert;
+    outline-color: red;
+
+    outline-offset: 100px;
+}

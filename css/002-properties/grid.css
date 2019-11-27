@@ -1,18 +1,70 @@
-grid
-grid-area
-grid-auto-columns
-grid-auto-flow
-grid-auto-rows
-grid-column
-grid-column-end
-grid-column-gap
-grid-column-start
-grid-gap
-grid-row
-grid-row-end
-grid-row-gap
-grid-row-start
-grid-template
-grid-template-areas
-grid-template-columns
-grid-template-rows
+div {
+	grid: none;
+	grid: grid-template-rows / grid-template-columns;
+	
+	grid-template-rows: none;
+	grid-template-rows: auto;
+	grid-template-rows: max-content;
+	grid-template-rows: min-content;
+	grid-template-rows: 100px;
+	
+	grid-template-columns: none;
+	grid-template-columns: auto;
+	grid-template-columns: max-content;
+	grid-template-columns: min-content;
+	grid-template-columns: 100px;
+	
+	grid: grid-template-areas;
+	
+	grid-template-areas: none;
+	grid-template-areas: itemnames;
+	
+	grid:  grid-template-rows / [grid-auto-flow] grid-auto-columns;
+	grid-auto-flow: row;
+	grid-auto-flow: column;
+	grid-auto-flow: dense;
+	grid-auto-flow: row dense;
+	grid-auto-flow: column dense;
+	
+	grid-auto-columns: row;
+	grid-auto-columns:column;
+	grid-auto-columns:dense;
+	grid-auto-columns:row dense;
+	grid-auto-columns:column dense;
+	
+	grid: [grid-auto-flow] grid-auto-rows / grid-template-columns;
+	grid-auto-rows: auto;
+	grid-auto-rows: max-content;
+	grid-auto-rows: min-content;
+	grid-auto-rows: 100px;
+	
+	grid-template: none;
+	grid-template: grid-template-rows / grid-template-columns;
+	grid-template: grid-template-areas;
+	
+	grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end;
+	grid-area: itemname;
+	
+	grid-row: grid-row-start / grid-row-end;
+	
+	grid-column: grid-column-start / grid-column-end;
+	
+	grid-row-start: auto
+	grid-row-start: row-line;
+	grid-column-start: auto;
+	grid-column-start: span n;
+	grid-column-start: column-line;
+	
+	grid-row-end:auto;
+	grid-row-end:row-line;
+	grid-row-end:span n;
+	
+	grid-column-end: auto;
+	grid-column-end: span n;
+	grid-column-end: column-line;
+	
+	grid-gap: grid-row-gap grid-column-gap;
+	grid-column-gap: 100px;
+	grid-row-gap: 100px;
+
+}

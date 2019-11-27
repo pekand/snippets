@@ -1,2 +1,12 @@
-float
-clear
+div {
+	float: none;
+	float: left;
+	float: right;
+}
+
+div {
+	clear: none;
+	clear: left; /* No floating elements allowed on the left side */
+	clear: right; /* No floating elements allowed on the right side */
+	clear: both; /* No floating elements allowed on either the left or the right side */
+}

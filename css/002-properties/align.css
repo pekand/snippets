@@ -30,3 +30,15 @@ el { /* align inline element in row  on height */
 .text-align-justify {
   text-align: justify;
 }
+
+
+/* TODO */
+div {
+  text-align-last: auto;
+  text-align-last: left;
+  text-align-last: right;
+  text-align-last: center;
+  text-align-last: justify;
+  text-align-last: start;
+  text-align-last: end;
+}

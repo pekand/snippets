@@ -1,10 +1,36 @@
-column-count
-column-fill
-column-gap
-column-rule
-column-rule-color
-column-rule-style
-column-rule-width
-column-span
-column-width
-columns
+/* split div to n-columns for text (like newspaper) */
+div {
+	columns: auto;	
+	columns: 3; /* 3 columns */
+	column-count: 3;
+	columns: 200px 3; /* 3 columns, minimal width 100px */
+	column-width: 200px;
+	
+	column-fill: balance; /* how fill content in column */
+	column-fill: auto;
+	
+	column-gap: 10px; /* space between columns */
+	column-gap: normal;
+	
+	/* line betwween columns */
+	column-rule: column-rule-width column-rule-style column-rule-color;
+	column-rule-color: black;
+	column-rule-style: solid;
+	column-rule-width: 10px;
+}
+
+/* span (stretch) element inside box with columns to whole box size (for example caption of block)*/
+h1 {
+	column-span: none; /* element is in first column */
+	column-span: all; /* element is stretched to whole conent */
+}
+
+div {
+   columns: 3;
+   widows: 3; /* minimum number of lines on top of container */
+}
+
+div {
+   columns: 3;
+   orphans: 3; /* minimum number of lines on bottom of container (prevent empty space on bottom of column) */
+}

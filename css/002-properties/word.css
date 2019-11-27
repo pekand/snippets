@@ -1,3 +1,12 @@
-word-break
-word-spacing
-word-wrap
+div {
+	word-break: normal;
+	word-break: break-all;
+	word-break: keep-all;
+	word-break: break-word;
+
+	word-spacing: normal;
+	word-spacing: 10px;
+
+	word-wrap: normal;
+	word-wrap: break-word;
+}
