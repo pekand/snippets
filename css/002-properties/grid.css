@@ -24,7 +24,6 @@
 }
 
 div {
-
     grid:  grid-template-rows / [grid-auto-flow] grid-auto-columns;
     grid-auto-flow: row;
     grid-auto-flow: column;
@@ -69,8 +68,7 @@ div {
     grid-column-end: span n;
     grid-column-end: column-line;
     
-    grid-gap: grid-row-gap grid-column-gap;
+    grid-gap: <grid-row-gap> <grid-column-gap>;
     grid-column-gap: 100px;
     grid-row-gap: 100px;
-
 }

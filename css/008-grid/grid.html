@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Grid</title>
+    
+    <style>
+        .container {
+            background:#7E52A0;
+            margin: 10px 0px;
+        }
+        .container .item {
+            background: lightblue;
+            padding: 10px;;
+        }
+    </style>
+    
+</head>
+
+<body>
+    
+    <main>
+        <h2>display: grid; display: grid; grid-template-columns: auto auto auto;</h2>
+        <style>
+            .container-1 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+            }
+        </style>
+        <div>
+            Lorem ipsum dolor sit amet
+            <div class="container container-1">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+            Lorem ipsum dolor sit amet
+        </div>
+    </main>
+
+    <main>
+        <h2>display: inline-grid; grid-template-columns: auto auto auto;</h2>
+        <style>
+            .container-2 {
+                display: inline-grid;
+                grid-template-columns: auto auto auto;
+            }
+        </style>
+        <div>
+            Lorem ipsum dolor sit amet
+            <div class="container container-2">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+            Lorem ipsum dolor sit amet
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-gap: 20px 50px;</h2>
+        <style>
+            .container-3 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 20px 50px;
+            }
+        </style>
+        <div>
+            <div class="container container-3">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-row-gap: 50px;</h2>
+        <style>
+            .container-4 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-row-gap: 50px;
+            }
+        </style>
+        <div>
+            <div class="container container-4">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>
+    </main>
+
+    <main>
+        <h2>grid-column-gap: 50px;</h2>
+        <style>
+            .container-5 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-column-gap: 50px;
+            }
+        </style>
+        <div>
+            <div class="container container-5">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-column-start: 1; grid-column-end: 3;</h2>
+        <style>
+            .container-6 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-6 .item:nth-of-type(1){
+                grid-column-start: 1;
+                grid-column-end: 3;
+                
+            }
+        </style>
+        <div>
+            <div class="container container-6">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-row-start: 1; grid-row-end: 3;</h2>
+        <style>
+            .container-7 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-7 .item:nth-of-type(1){
+                 grid-row-start: 1;
+                 grid-row-end: 3;
+            }
+        </style>
+        <div>
+            <div class="container container-7">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template-rows: 50px 100px 150px;</h2>
+        <style>
+            .container-8 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+                grid-template-rows: 50px 100px 150px;                
+            }
+        </style>
+        <div>
+            <div class="container container-8">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>
+    </main>
+ 
+    <main>
+        <h2>justify-content: center;</h2>
+        <style>
+            .container-9 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;    
+                justify-content: center;           
+            }
+        </style>
+        <div>
+            <div class="container container-9">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main>
+        <h2>justify-content: start;</h2>
+        <style>
+            .container-10 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;    
+                justify-content: start;           
+            }
+        </style>
+        <div>
+            <div class="container container-10">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>justify-content: end;</h2>
+        <style>
+            .container-11 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;    
+                justify-content: end;           
+            }
+        </style>
+        <div>
+            <div class="container container-11">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>justify-content: space-between;</h2>
+        <style>
+            .container-12 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;    
+                justify-content: space-between;           
+            }
+        </style>
+        <div>
+            <div class="container container-12">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>justify-content: space-around;</h2>
+        <style>
+            .container-13 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;    
+                justify-content: space-around;           
+            }
+        </style>
+        <div>
+            <div class="container container-13">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>justify-content: space-evenly;</h2>
+        <style>
+            .container-14 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;    
+                justify-content: space-evenly;     
+            }
+        </style>
+        <div>
+            <div class="container container-14">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+
+    <main>
+        <h2>justify-content: stretch;</h2>
+        <style>
+            .container-15 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;    
+                justify-content: stretch;     
+            }
+        </style>
+        <div>
+            <div class="container container-15">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-content: normal;</h2>
+        <style>
+            .container-17 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: normal; 
+            }
+        </style>
+        <div>
+            <div class="container container-17">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-content: center;</h2>
+        <style>
+            .container-16 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: center; 
+            }
+        </style>
+        <div>
+            <div class="container container-16">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-content: start;</h2>
+        <style>
+            .container-18 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: start; 
+            }
+        </style>
+        <div>
+            <div class="container container-18">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-content: end;</h2>
+        <style>
+            .container-19 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: end; 
+            }
+        </style>
+        <div>
+            <div class="container container-19">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-content: space-between;</h2>
+        <style>
+            .container-20 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: space-between; 
+            }
+        </style>
+        <div>
+            <div class="container container-20">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main>
+        <h2>align-content: space-around;</h2>
+        <style>
+            .container-21 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: space-around;
+            }
+        </style>
+        <div>
+            <div class="container container-21">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-content: space-evenly;</h2>
+        <style>
+            .container-22 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: space-evenly;
+            }
+        </style>
+        <div>
+            <div class="container container-22">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-content: stretch;</h2>
+        <style>
+            .container-23 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-content: stretch;
+            }
+        </style>
+        <div>
+            <div class="container container-23">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>grid-column: 1 / 3</h2>
+        <style>
+            .container-24 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-24 .item:nth-of-type(1) {
+                grid-column: 1 / 3;
+            }
+        </style>
+        <div>
+            <div class="container container-24">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>grid-column: 1 / span 3;</h2>
+        <style>
+            .container-25 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-25 .item:nth-of-type(1) {
+                grid-column: 1 / span 2;
+            }
+        </style>
+        <div>
+            <div class="container container-25">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>grid-row: 1 / 3;</h2>
+        <style>
+            .container-26 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-26 .item:nth-of-type(1) {
+                grid-row: 1 / 3;
+            }
+        </style>
+        <div>
+            <div class="container container-26">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>grid-row: 1 / span 2;</h2>
+        <style>
+            .container-28 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-28 .item:nth-of-type(1) {
+                grid-row: 1 / span 2;
+            }
+        </style>
+        <div>
+            <div class="container container-28">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>grid-area: 2 / 2 / 4 / 4;</h2>
+        <h3>( start-row ; start-column ; end-row ; end-column)</h3>
+        <style>
+            .container-29 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-29 .item:nth-of-type(5) {
+                grid-area: 2 / 2 / 4 / 4;
+            }
+        </style>
+        <div>
+            <div class="container container-29">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>grid-area: 1 / 2 / span 2 / span 2;</h2>
+        <h3>( start-row ; start-column ; end-row ; end-column)</h3>
+        <style>
+            .container-30 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;
+            }
+            
+            .container-30 .item:nth-of-type(5) {
+                grid-area: 2 / 2 / span 2 / span 2;
+            }
+        </style>
+        <div>
+            <div class="container container-30">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main>
+        <h2>grid-area: header; grid-template-areas:
+                'header header header header header header'
+                'menu main main main right right'
+                'menu footer footer footer footer footer';</h2>
+        <style>
+            
+            
+            .container-31 .item:nth-of-type(1) {
+                grid-area: header;
+            }
+            
+            .container-31 .item:nth-of-type(2) {
+                grid-area: menu;
+            }
+            
+            .container-31 .item:nth-of-type(3) {
+                grid-area: main;
+            }
+            
+            .container-31 .item:nth-of-type(4) {
+                grid-area: right;
+            }
+            
+            .container-31 .item:nth-of-type(5) {
+                grid-area: footer;
+            }
+            
+            .container-31 {
+                display: grid;
+                grid-gap: 10px;                
+                grid-template-areas:
+                'header header header header header header'
+                'menu main main main right right'
+                'menu footer footer footer footer footer';
+            }
+
+        </style>
+        <div>
+            <div class="container container-31">
+                <div class="item">Header</div>
+                <div class="item">Menu</div>
+                <div class="item">Main</div>
+                <div class="item">Right</div>
+                <div class="item">Footer</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main>
+        <h2>grid-area: area; grid-template-areas: 'area area . .' 'area area . .';</h2>
+        <style>
+            .container-32 .item:nth-of-type(1) {
+               grid-area: area;
+            }
+            
+            .container-32 {
+                display: grid;
+                grid-template-areas: 'area area . .' 'area area . .';
+                grid-gap: 10px;
+            }
+        </style>
+        <div>
+            <div class="container container-32">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main>
+        <h2>reorder with grid</h2>
+        <style>
+            .container-33 .item:nth-of-type(1) {
+               grid-area: 2 / 2 / 3 / 3;
+            }
+            
+            .container-33 .item:nth-of-type(2) {
+               grid-area: 2 / 1 / 2 / 2;
+            }
+            
+            
+            .container-33 .item:nth-of-type(3) {
+               grid-area: 1 / 2 / 1 / 3;
+            }
+            
+            .container-33 .item:nth-of-type(4) {
+               grid-area: 1 / 1 / 1 / 2;
+            }
+            
+            .container-33 {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-gap: 10px;
+            }
+        </style>
+        <div>
+            <div class="container container-33">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>reorder with grid  (span version)</h2>
+        <style>
+            .container-34 .item:nth-of-type(1) {
+               grid-area: 2 / 2 / span 1 / span 1;
+            }
+            
+            .container-34 .item:nth-of-type(2) {
+               grid-area: 2 / 1 / span 1 / span 1;
+            }
+            
+            .container-34 .item:nth-of-type(3) {
+               grid-area: 1 / 2 / span 1 / span 1;
+            }
+            
+            .container-34 .item:nth-of-type(4) {
+               grid-area: 1 / 1 / span 1 / span 1;
+            }
+            
+            .container-34 {
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-gap: 10px;
+            }
+        </style>
+        <div>
+            <div class="container container-34">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+            </div>
+        </div>  
+    </main>
+    
+</body>
+</html>
