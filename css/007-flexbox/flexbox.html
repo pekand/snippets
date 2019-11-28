@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Flexbox</title>
+    
+	<style>
+		.container {
+		    background: lightblue;
+		    margin: 10px 0px;
+		}
+		.container .item {
+			background: #AFA83D;
+			color:black;
+			padding: 10px;
+		}
+	</style>
+    
+</head>
+
+<body>
+    <main>
+    	<h2>flex-direction: row; </h2>
+    	<style>
+			.container-1 {
+			    display: flex; 
+			    flex-direction: row; 
+			}
+    	</style>
+    	<div class="container container-1">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    	</div>
+    </main>
+
+	<main>
+		<h2>flex-direction: row-reverse;</h2>
+    	<style>
+			.container-2 {
+			    display: flex; 
+			    flex-direction: row-reverse; 
+			}
+    	</style>
+    	<div class="container container-2">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>flex-direction: column;</h2>
+    	<style>
+			.container-3 {
+			    display: flex; 
+			    flex-direction: column;
+			}
+    	</style>
+    	<div class="container container-3">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>flex-direction: column-reverse;</h2>
+    	<style>
+			.container-4 {
+			    display: flex; 
+			    flex-direction: column-reverse;
+			}
+    	</style>
+    	<div class="container container-4">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>flex-wrap: nowrap;</h2>
+    	<h3>(resize browser) (default)</h3>
+    	<style>
+			.container-5 {
+			    display: flex; 
+			    flex-direction: row;
+			    flex-wrap: nowrap;
+			}
+    	</style>
+    	<div class="container container-5">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>flex-wrap: wrap;</h2>
+    	<h3>(resize browser)</h3>
+    	<style>
+			.container-6 {
+			    display: flex; 
+			    flex-direction: row;
+			    flex-wrap: wrap;
+			}
+    	</style>
+    	<div class="container container-6">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>flex-wrap: wrap-reverse;</h2>
+    	<h3>(resize browser)</h3>
+    	<style>
+			.container-7 {
+			    display: flex; 
+			    flex-direction: row;
+			    flex-wrap: wrap-reverse;
+			}
+    	</style>
+    	<div class="container container-7">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: normal;</h2>
+    	<style>
+			.container-8 {
+			    display: flex; 
+			    flex-direction: row;
+			    flex-wrap: wrap;
+			    justify-content: normal;
+			}
+    	</style>
+    	<div class="container container-8">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: center;</h2>
+    	<style>
+			.container-9 {
+			    display: flex; 
+			    flex-direction: row;
+			    flex-wrap: wrap;
+			    justify-content: center;
+			}
+    	</style>
+    	<div class="container container-9">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+     <main>
+    	<h2>justify-content: flex-start; </h2>
+    	<style>
+			.container-10 {
+			    display: flex; 
+			    flex-direction: row;
+			    flex-wrap: wrap;
+			   justify-content: flex-start; 
+			}
+    	</style>
+    	<div class="container container-10">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: flex-end; </h2>
+    	<style>
+			.container-11 {
+			    display: flex; 
+			    flex-direction: row;
+			    flex-wrap: wrap;
+			   justify-content: flex-end; 
+			}
+    	</style>
+    	<div class="container container-11">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: start;</h2>
+    	<style>
+			.container-12 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			   justify-content: start;  
+			}
+    	</style>
+    	<div class="container container-12">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: end; </h2>
+    	<style>
+			.container-13 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			   justify-content: end; 
+			}
+    	</style>
+    	<div class="container container-13">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2> justify-content: left; </h2>
+    	<style>
+			.container-14 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			    justify-content: left; 
+			}
+    	</style>
+    	<div class="container container-14">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>  justify-content: right;  </h2>
+    	<style>
+			.container-15 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			   justify-content: right; 
+			}
+    	</style>
+    	<div class="container container-15">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: space-between; </h2>
+    	<style>
+			.container-16 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			  justify-content: space-between; 
+			}
+    	</style>
+    	<div class="container container-16">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: space-around;   </h2>
+    	<style>
+			.container-17 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			   justify-content: space-around;  
+			}
+    	</style>
+    	<div class="container container-17">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: space-evenly;</h2>
+    	<style>
+			.container-18 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			   justify-content: space-evenly;
+			}
+    	</style>
+    	<div class="container container-18">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+    	<h2>justify-content: stretch;</h2>
+    	<style>
+			.container-19 {
+			   display: flex; 
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			   justify-content: stretch;
+			}
+    	</style>
+    	<div class="container container-19">
+    		<div class="item">item1</div>
+    		<div class="item">item2</div>
+    		<div class="item">item3</div>
+    		<div class="item">item4</div>
+    		<div class="item">item5</div>
+    		<div class="item">item6</div>
+    		<div class="item">item7</div>
+    		<div class="item">item8</div>
+    		<div class="item">item9</div>
+    		<div class="item">item10</div>
+    	</div>
+    </main>
+    
+    <main>
+	<h2>justify-content: safe center;</h2>
+	<style>
+		.container-20 {
+		   display: flex; 
+		   flex-direction: row;
+		   flex-wrap: wrap;
+		   justify-content: safe center;
+		}
+	</style>
+	<div class="container container-20">
+		<div class="item">item1</div>
+		<div class="item">item2</div>
+		<div class="item">item3</div>
+		<div class="item">item4</div>
+		<div class="item">item5</div>
+		<div class="item">item6</div>
+		<div class="item">item7</div>
+		<div class="item">item8</div>
+		<div class="item">item9</div>
+		<div class="item">item10</div>
+	</div>
+</main>
+
+<main>
+    <h2>justify-content: safe start;</h2>
+    <style>
+        .container-21 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: safe start;
+        }
+    </style>
+    <div class="container container-21">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>justify-content: safe end;</h2>
+    <style>
+        .container-22 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+          justify-content: safe end;
+        }
+    </style>
+    <div class="container container-22">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>justify-content: safe flex-start;</h2>
+    <style>
+        .container-23 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: safe flex-start;
+        }
+    </style>
+    <div class="container container-23">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>justify-content: safe flex-end;</h2>
+    <style>
+        .container-24 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: safe flex-end;
+        }
+    </style>
+    <div class="container container-24">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+
+<main>
+	<h2>justify-content: unsafe center;</h2>
+	<style>
+		.container-25 {
+		   display: flex; 
+		   flex-direction: row;
+		   flex-wrap: wrap;
+		   justify-content: unsafe center;
+		}
+	</style>
+	<div class="container container-25">
+		<div class="item">item1</div>
+		<div class="item">item2</div>
+		<div class="item">item3</div>
+		<div class="item">item4</div>
+		<div class="item">item5</div>
+		<div class="item">item6</div>
+		<div class="item">item7</div>
+		<div class="item">item8</div>
+		<div class="item">item9</div>
+		<div class="item">item10</div>
+	</div>
+</main>
+
+<main>
+    <h2>justify-content: unsafe start;</h2>
+    <style>
+        .container-26 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: unsafe start;
+        }
+    </style>
+    <div class="container container-26">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>justify-content: unsafe end;</h2>
+    <style>
+        .container-27 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+          justify-content: unsafe end;
+        }
+    </style>
+    <div class="container container-27">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>justify-content: unsafe flex-start;</h2>
+    <style>
+        .container-28 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: unsafe flex-start;
+        }
+    </style>
+    <div class="container container-28">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>justify-content: unsafe flex-end;</h2>
+    <style>
+        .container-29 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: unsafe flex-end;
+        }
+    </style>
+    <div class="container container-29">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-items: normal;</h2>
+    <style>
+        .container-30 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: normal;
+        }
+    </style>
+    <div class="container container-30">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-items: stretch;</h2>
+    <style>
+        .container-31 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: stretch;
+        }
+        
+        .container-31 .item {
+
+        }
+    </style>
+    <div class="container container-31">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-items: start; </h2>
+    <style>
+        .container-32 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: start; 
+        }
+    </style>
+    <div class="container container-32">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-items: end; </h2>
+    <style>
+        .container-33 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: end; 
+        }
+    </style>
+    <div class="container container-33">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-items: flex-start; </h2>
+    <style>
+        .container-34 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: flex-start;
+        }
+    </style>
+    <div class="container container-34">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+
+<main>
+    <h2>align-items: flex-end; </h2>
+    <style>
+        .container-35 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: flex-end;
+        }
+    </style>
+    <div class="container container-35">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-items: baseline;</h2>
+    <h3>(depend of font size)</h3>
+    <style>
+        .container-36 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           align-items: baseline;
+        }
+        
+        .container-36 .item-1{
+        	font-size: 10px;
+        }
+        
+        .container-36 .item-2{
+        	font-size: 20px;
+        }
+        
+        .container-36 .item-3{
+        	font-size: 30px;
+        }
+        
+        .container-36 .item-5{
+        	font-size: 40px;
+        }
+        
+        .container-36 .item-6{
+        	font-size: 50px;
+        }
+    </style>
+    <div class="container container-36">
+        <div class="item item-1">item1</div>
+        <div class="item item-2">item2</div>
+        <div class="item item-3">item3</div>
+        <div class="item item-4">item4 item4 item4 item4 item4 item4 item4</div>
+        <div class="item item-5">item5</div>
+        <div class="item item-6">item6</div>
+        <div class="item item-7">item7</div>
+        <div class="item item-8">item8</div>
+        <div class="item item-9">item9</div>
+        <div class="item item-10">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: normal;</h2>
+    <style>
+        .container-37 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: normal;
+        }
+    </style>
+    <div class="container container-37">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: center;</h2>
+    <h3>(affect wrapped line)</h3>
+    <style>
+        .container-38 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: center;
+        }
+    </style>
+    <div class="container container-38">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: start;</h2>
+    <style>
+        .container-39 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: start;
+        }
+    </style>
+    <div class="container container-39">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: end;</h2>
+    <style>
+        .container-40 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: end;
+        }
+    </style>
+    <div class="container container-40">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+
+<main>
+    <h2>align-content: flex-start;</h2>
+    <style>
+        .container-41 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: flex-start;
+        }
+    </style>
+    <div class="container container-41">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+
+<main>
+    <h2>align-content: flex-end; </h2>
+    <style>
+        .container-42 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: flex-end; 
+        }
+    </style>
+    <div class="container container-42">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: baseline;</h2>
+    <h3>(depend of font size)</h3>
+    <style>
+        .container-43 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 500px;
+           align-content: baseline;
+        }
+        
+        .container-43 .item-1{
+        	font-size: 10px;
+        }
+        
+        .container-43 .item-2{
+        	font-size: 20px;
+        }
+        
+        .container-43 .item-3{
+        	font-size: 30px;
+        }
+        
+        .container-43 .item-5{
+        	font-size: 40px;
+        }
+        
+        .container-43 .item-6{
+        	font-size: 50px;
+        }
+    </style>
+    <div class="container container-43">
+        <div class="item item-1">item1</div>
+        <div class="item item-2">item2</div>
+        <div class="item item-3">item3</div>
+        <div class="item item-4">item4 item4 item4 item4 item4 item4 item4</div>
+        <div class="item item-5">item5</div>
+        <div class="item item-6">item6</div>
+        <div class="item item-7">item7</div>
+        <div class="item item-8">item8</div>
+        <div class="item item-9">item9</div>
+        <div class="item item-10">item10</div>
+    </div>
+</main>
+
+
+<main>
+    <h2>align-content: space-between; </h2>
+    <style>
+        .container-44 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: space-between; 
+        }
+    </style>
+    <div class="container container-44">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: space-around;  </h2>
+    <style>
+        .container-45 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: space-around; 
+        }
+    </style>
+    <div class="container container-45">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: space-evenly;</h2>
+    <style>
+        .container-46 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: space-evenly;  
+        }
+    </style>
+    <div class="container container-46">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-content: stretch;   </h2>
+    <style>
+        .container-47 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           width: 400px;
+           align-content: stretch;   
+        }
+    </style>
+    <div class="container container-47">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+
+<main>
+	<h2>flex-grow: 1;</h2>
+	<h3>(split  container (width / 15) each items has relative size to one part)</h3>
+	<style>
+		.container-48 {
+		    display: flex; 
+		    flex-direction: row; 
+		}
+		
+		.container-48 .item:nth-of-type(1){
+		    flex-grow: 1;
+		}
+		
+		.container-48 .item:nth-of-type(2){
+		    flex-grow: 2;
+		}
+		
+		.container-48 .item:nth-of-type(3){
+		    flex-grow: 3;
+		}
+		
+		.container-48 .item:nth-of-type(4){
+		    flex-grow: 4;
+		}
+		
+		.container-48 .item:nth-of-type(5){
+		    flex-grow: 5;
+		}
+	</style>
+	<div class="container container-48">
+		<div class="item">item1</div>
+		<div class="item">item2</div>
+		<div class="item">item3</div>
+		<div class="item">item4</div>
+		<div class="item">item5</div>
+	</div>
+</main>
+
+
+<main>
+	<h2>flex-shrink: 1</h2>
+	<h3>(flex-basis: 300px; is set for items) (if no space left in row (flex-wrap: nowrap;) then flex-shrink determine relative size of shrinked column )</h3>
+	<style>
+		.container-49 {
+		    display: flex; 
+		    flex-direction: row; 
+		    flex-wrap: nowrap;
+		}
+
+		.container-49 .item{
+		    flex-basis: 300px;
+		}
+		
+		.container-49 .item:nth-of-type(1){
+		    flex-shrink: 5;
+		}
+		
+		.container-49 .item:nth-of-type(2){
+		    flex-shrink: 4;
+		}
+		
+		.container-49 .item:nth-of-type(3){
+		    flex-shrink: 3;
+		}
+		
+		.container-49 .item:nth-of-type(4){
+		    flex-shrink: 2;
+		}
+		
+		.container-49 .item:nth-of-type(5){
+		    flex-shrink: 1;
+		}
+	</style>
+	<div class="container container-49">
+		<div class="item">item1</div>
+		<div class="item">item2</div>
+		<div class="item">item3</div>
+		<div class="item">item4</div>
+		<div class="item">item5</div>
+	</div>
+</main>
+
+<main>
+	<h2>flex-basis: 150px; - flex-basis: 350px;</h2>
+	<h3>(maximum item width)</h3>
+	<style>
+		.container-50 {
+		    display: flex; 
+		    flex-direction: row; 
+		}
+
+		.container-50 .item{
+		    flex-basis: 100px;
+		}
+		
+		.container-50 .item:nth-of-type(1){
+		    flex-basis: 150px;
+		}
+		
+		.container-50 .item:nth-of-type(2){
+		    flex-basis: 200px;
+		}
+		
+		.container-50 .item:nth-of-type(3){
+		    flex-basis: 250px;
+		}
+		
+		.container-50 .item:nth-of-type(4){
+		    flex-basis: 300px;
+		}
+		
+		.container-50 .item:nth-of-type(5){
+		    flex-basis: 350px;
+		}
+	</style>
+	<div class="container container-50">
+		<div class="item">item1</div>
+		<div class="item">item2</div>
+		<div class="item">item3</div>
+		<div class="item">item4</div>
+		<div class="item">item5</div>
+	</div>
+</main>
+
+
+<main>
+    <h2>align-self: auto;</h2>
+    <style>
+        .container-51 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: stretch;
+        }
+        
+        .container-51 .item:nth-of-type(3){
+         align-self: auto;
+        }
+    </style>
+    <div class="container container-51">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-self: stretch;</h2>
+    <style>
+        .container-52 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-items: stretch;
+        }
+        
+        .container-52 .item:nth-of-type(3){
+           align-self: stretch;
+        }
+    </style>
+    <div class="container container-52">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-self: center;</h2>
+    <style>
+        .container-53 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-self: center;
+        }
+        
+        .container-53 .item:nth-of-type(3){
+           align-self: center;
+        }
+    </style>
+    <div class="container container-53">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-self: flex-start;</h2>
+    <style>
+        .container-55 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-self: center;
+        }
+        
+        .container-55 .item:nth-of-type(3){
+            align-self: flex-start;
+        }
+    </style>
+    <div class="container container-55">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-self: flex-end;</h2>
+    <style>
+        .container-56 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-self: center;
+        }
+        
+        .container-56 .item:nth-of-type(3){
+            align-self: flex-end;
+        }
+    </style>
+    <div class="container container-56">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+<main>
+    <h2>align-self: baseline;</h2>
+    <style>
+        .container-57 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-self: center;
+        }
+        
+        .container-57 .item:nth-of-type(3){
+        	font-size: 30px;
+            align-self: baseline;
+        }
+    </style>
+    <div class="container container-57">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+
+<main>
+    <h2>order: 0;</h2>
+    <h3>(default value is 0)</h3>
+    <style>
+        .container-58 {
+           display: flex; 
+           flex-direction: row;
+           flex-wrap: wrap;
+           justify-content: flex-start;
+           height: 200px;
+           align-self: center;
+        }
+        
+        .container-58 .item:nth-of-type(1){
+		    order:5;
+		}
+		
+		.container-58 .item:nth-of-type(2){
+		    order:4;
+		}
+		
+		.container-58 .item:nth-of-type(3){
+		    order:2;
+		}
+		
+		.container-58 .item:nth-of-type(4){
+		    order:3;
+		}
+		
+		.container-58 .item:nth-of-type(5){
+		    order:1;
+		}
+    </style>
+    <div class="container container-58">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+        <div class="item">item7</div>
+        <div class="item">item8</div>
+        <div class="item">item9</div>
+        <div class="item">item10</div>
+    </div>
+</main>
+
+</body>
+</html>
