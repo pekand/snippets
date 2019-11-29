@@ -1,1 +1,1 @@
-console.log('script2');
+console.log('script2 executed (external file async in header)');

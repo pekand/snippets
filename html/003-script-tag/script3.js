@@ -1,1 +1,1 @@
-console.log('script3');
+console.log('script3 executed (external file defer in header)');

@@ -1,1 +1,1 @@
-console.log('script6');
+console.log('script6 executed (external file defer in footer)');

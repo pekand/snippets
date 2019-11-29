@@ -16,6 +16,15 @@
         }
     </style>
     
+    <script type="text/javascript" >
+    document.addEventListener("DOMContentLoaded", function(){
+            /* check last unused container number */
+            var i = 0; 
+            while(document.getElementsByClassName('container-'+(++i)).length > 0) {};
+            console.log('container-'+i);
+    });
+    </script>
+    
 </head>
 
 <body>
@@ -1851,5 +1860,8 @@
             </div>
         </div>  
     </main>
+    
+    
+    
 </body>
 </html>

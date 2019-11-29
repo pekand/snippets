@@ -1,1 +1,1 @@
-console.log('script1');
+console.log('script1 executed (external file in header)');

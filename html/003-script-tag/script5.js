@@ -1,1 +1,1 @@
-console.log('script5');
+console.log('script5 executed (external file async in footer)');
