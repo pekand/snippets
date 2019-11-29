@@ -21,7 +21,7 @@
 <body>
     
     <main>
-        <h2>display: grid; display: grid; grid-template-columns: auto auto auto;</h2>
+        <h2>display: grid; grid-template-columns: auto auto auto;</h2>
         <style>
             .container-1 {
                 display: grid;
@@ -225,11 +225,319 @@
     </main>
  
     <main>
+        <h2>place-items: end  end;</h2>
+        <h3>(place-items: ≪align-items≫ / ≪justify-items≫)</h3>
+        <style>
+            .container-51 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;    
+                place-items: end  end;   
+            }
+            
+            .container-51 .item {
+                
+            }
+        </style>
+        <div>
+            <div class="container container-51">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+     <main>
+        <h2>justify-items: center;</h2>
+        <h3>(align cells horizontaly in cell)</h3>
+        <style>
+            .container-41 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;    
+                justify-items: center;           
+            }
+        </style>
+        <div>
+            <div class="container container-41">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main>
+        <h2>justify-items: start;</h2>
+        <h3>(align cells horizontaly in cell)</h3>
+        <style>
+            .container-42 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;    
+                justify-items: start;           
+            }
+        </style>
+        <div>
+            <div class="container container-42">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>justify-items: end;</h2>
+        <h3>(align cells horizontaly in cell)</h3>
+        <style>
+            .container-43 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;    
+                justify-items: end;           
+            }
+        </style>
+        <div>
+            <div class="container container-43">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main> 
+
+    <main>
+        <h2>justify-items: stretch;</h2>
+        <h3>(align cells horizontaly in cell)</h3>
+        <style>
+            .container-45 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;    
+                justify-items: stretch;     
+            }
+        </style>
+        <div>
+            <div class="container container-45">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-items: normal;</h2>
+        <h3>(align cells verticaly in cell)</h3>
+        <style>
+            .container-46 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-items: normal; 
+            }
+        </style>
+        <div>
+            <div class="container container-46">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-items: center;</h2>
+        <h3>(align cells verticaly in cell)</h3>
+        <style>
+            .container-47 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-items: center; 
+            }
+        </style>
+        <div>
+            <div class="container container-47">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-items: start;</h2>
+        <h3>(align cells verticaly  in cell)</h3>
+        <style>
+            .container-48 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-items: start; 
+            }
+        </style>
+        <div>
+            <div class="container container-48">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>align-items: end;</h2>
+        <h3>(align cells verticaly in cell)</h3>
+        <style>
+            .container-49 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-items: end; 
+            }
+        </style>
+        <div>
+            <div class="container container-49">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+        
+    <main>
+        <h2>align-items: stretch;</h2>
+        <h3>(align cells verticaly in cell)</h3>
+        <style>
+            .container-50 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-gap: 10px;   
+                 height: 200px; 
+                align-items: stretch;
+            }
+        </style>
+        <div>
+            <div class="container container-50">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>place-content: end end;</h2>
+        <h3>(place-content: ≪align-content / ≪justify-content)</h3>
+        <style>
+            .container-52 {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
+                grid-gap: 10px;    
+                place-content: end end;   
+            }
+        </style>
+        <div>
+            <div class="container container-52">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
         <h2>justify-content: center;</h2>
+        <h3>(align all items inside container horizontaly)</h3>
         <style>
             .container-9 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;    
                 justify-content: center;           
             }
@@ -252,10 +560,12 @@
     
     <main>
         <h2>justify-content: start;</h2>
+        <h3>(align all items inside container horizontaly)</h3>
         <style>
             .container-10 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;    
                 justify-content: start;           
             }
@@ -277,10 +587,12 @@
     
     <main>
         <h2>justify-content: end;</h2>
+        <h3>(align all items inside container horizontaly)</h3>
         <style>
             .container-11 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;    
                 justify-content: end;           
             }
@@ -302,10 +614,12 @@
     
     <main>
         <h2>justify-content: space-between;</h2>
+        <h3>(align all items inside container horizontaly)</h3>
         <style>
             .container-12 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;    
                 justify-content: space-between;           
             }
@@ -327,10 +641,12 @@
     
     <main>
         <h2>justify-content: space-around;</h2>
+        <h3>(align all items inside container horizontaly)</h3>
         <style>
             .container-13 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;    
                 justify-content: space-around;           
             }
@@ -352,10 +668,12 @@
     
     <main>
         <h2>justify-content: space-evenly;</h2>
+        <h3>(align all items inside container horizontaly)</h3>
         <style>
             .container-14 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;    
                 justify-content: space-evenly;     
             }
@@ -377,10 +695,12 @@
 
     <main>
         <h2>justify-content: stretch;</h2>
+        <h3>(align all items inside container horizontaly)</h3>
         <style>
             .container-15 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;    
                 justify-content: stretch;     
             }
@@ -402,10 +722,12 @@
     
     <main>
         <h2>align-content: normal;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-17 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: normal; 
@@ -428,10 +750,12 @@
     
     <main>
         <h2>align-content: center;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-16 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: center; 
@@ -454,10 +778,12 @@
     
     <main>
         <h2>align-content: start;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-18 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: start; 
@@ -480,10 +806,12 @@
     
     <main>
         <h2>align-content: end;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-19 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: end; 
@@ -506,10 +834,12 @@
     
     <main>
         <h2>align-content: space-between;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-20 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: space-between; 
@@ -533,10 +863,12 @@
     
     <main>
         <h2>align-content: space-around;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-21 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: space-around;
@@ -559,10 +891,12 @@
     
     <main>
         <h2>align-content: space-evenly;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-22 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: space-evenly;
@@ -585,10 +919,12 @@
     
     <main>
         <h2>align-content: stretch;</h2>
+        <h3>(align all items inside container verticaly)</h3>
         <style>
             .container-23 {
                 display: grid;
                 grid-template-columns: auto auto auto;
+                grid-template-rows: 50px 50px 50px;
                 grid-gap: 10px;   
                  height: 200px; 
                 align-content: stretch;
@@ -632,7 +968,6 @@
                 <div class="item">item6</div>
                 <div class="item">item7</div>
                 <div class="item">item8</div>
-                <div class="item">item9</div>
             </div>
         </div>  
     </main>
@@ -660,7 +995,6 @@
                 <div class="item">item6</div>
                 <div class="item">item7</div>
                 <div class="item">item8</div>
-                <div class="item">item9</div>
             </div>
         </div>  
     </main>
@@ -853,7 +1187,7 @@
     
     
     <main>
-        <h2>reorder with grid</h2>
+        <h2>reorder items with grid</h2>
         <style>
             .container-33 .item:nth-of-type(1) {
                grid-area: 2 / 2 / 3 / 3;
@@ -889,7 +1223,7 @@
     </main>
     
     <main>
-        <h2>reorder with grid  (span version)</h2>
+        <h2>reorder items with grid  (span version)</h2>
         <style>
             .container-34 .item:nth-of-type(1) {
                grid-area: 2 / 2 / span 1 / span 1;
@@ -919,6 +1253,342 @@
                 <div class="item">item2</div>
                 <div class="item">item3</div>
                 <div class="item">item4</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main>
+        <h2>grid-template-columns: 1fr 1fr 1fr;</h2>
+        <style>
+            .container-35 {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        </style>
+        <div>
+            <div class="container container-35">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template-columns: repeat(2, 1fr) repeat(2, 2fr);</h2>
+        <style>
+            .container-36 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template-columns: repeat(2, 1fr) repeat(2, 2fr);
+            }
+        </style>
+        <div>
+            <div class="container container-36">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template-columns: minmax(100px, 2fr) 1fr;</h2>
+        <h3> first column size: 100px <= column size <= 2fr </h3>
+        <style>
+            .container-37 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template-columns: minmax(100px, 2fr) 1fr;
+            }
+        </style>
+        <div>
+            <div class="container container-37">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template-columns: fit-content(100px) 1fr;</h2>
+        <h3> first column size: 100px <= column size <= 2fr </h3>
+        <style>
+            .container-38 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template-columns: fit-content(200px) 1fr;
+            }
+        </style>
+        <div>
+            <div class="container container-38">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template-columns: min-content min-content min-content;</h2>
+        <h3>(size like item with minimum size)</h3>
+        <style>
+            .container-55 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template-columns: min-content min-content min-content;
+            }
+        </style>
+        <div>
+            <div class="container container-55">
+                <div class="item">item1</div>
+                <div class="item">item2 item2 item2 item2 item2</div>
+                <div class="item">item3 item3 item3 item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template-columns: max-content max-content max-content; TODO</h2>
+        <h3>(size like item with maximum size)</h3>
+        <style>
+            .container-56 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template-columns: max-content max-content max-content;
+            }
+        </style>
+        <div>
+            <div class="container container-56">
+                <div class="item">item1</div>
+                <div class="item">item2 item2 item2 item2 item2</div>
+                <div class="item">item3 item3 item3 item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template-rows: [row1] 1fr [row2] 1fr [row3] 1fr [rows-end];<br> grid-template-columns: [col1] 1fr [col2] 1fr [col3] 1fr [col4] 1fr [col5] 1fr [cols-end]; </h2>
+        <h3> (nammed columns and rows) (one item can heve multiple names separated by space)</h3>
+        <style>
+            .container-39 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template-rows: [row1] 1fr [row2] 1fr [row3] 1fr [rows-end];
+                grid-template-columns: [col1] 1fr [col2] 1fr [col3] 1fr [col4] 1fr [col5] 1fr [cols-end];
+                
+            }
+        </style>
+        <div>
+            <div class="container container-39">
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                 
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-template: [row1] 1fr [row2] 1fr [row3] 1fr [rows-end] / [col1] 1fr [col2] 1fr [col3] 1fr [col4] 1fr [col5] 1fr [cols-end];</h2>
+        <h3> (nammed columns and rows in one command)</h3>
+        <style>
+            .container-40 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template: [row1] 1fr [row2] 1fr [row3] 1fr [rows-end] / [col1] 1fr [col2] 1fr [col3] 1fr [col4] 1fr [col5] 1fr [cols-end];
+            }
+        </style>
+        <div>
+            <div class="container container-40">
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+                <div class="item">5</div>
+                 
+            </div>
+        </div>
+    </main>
+    
+    
+    <main>
+        <h2>grid-column-start: col1; grid-column-end: col3; grid-row-start: row1; grid-row-end: row3;</h2>
+        <h3>(positioning items to grid based on custom row and column names)</h3>
+        <style>
+            .container-57 {
+                display: grid;
+                grid-gap: 10px 10px;
+                grid-template: [row1] 1fr [row2] 1fr [row3] 1fr [rows-end] / [col1] 1fr [col2] 1fr [col3] 1fr [col4] 1fr [col5] 1fr [cols-end];
+            }
+            
+            .container-57 .item-1 {
+                grid-column-start: col1;
+                grid-column-end: col3;
+                grid-row-start: row1;
+                grid-row-end: row3;
+            }
+            
+            .container-57 .item-2 {
+                grid-column-start: col3;
+                grid-column-end: span 2;
+                grid-row-start: row2;
+                grid-row-end: span 2;
+            }
+            
+            .container-57 .item-3 {
+                grid-column-start: col5;
+                grid-row-start: row1;
+            }
+        </style>
+        <div>
+            <div class="container container-57">
+                <div class="item item-1">1</div>
+                <div class="item item-2">2</div>
+                <div class="item item-3">3</div>
+            </div>
+        </div>
+    </main>
+    
+    <main>
+        <h2>grid-auto-rows: 100px;</h2>
+        <h3>(specify size of not explicitly sized rows)</h3>
+        <style>
+            .container-53 {
+                display: grid;
+                grid-gap: 10px;     
+                grid-template-columns: 50px 50px 1fr;
+                grid-template-rows: 50px 50px;
+                grid-auto-rows: 100px;   
+            }
+        </style>
+        <div>
+            <div class="container container-53">
+                <div class="item">item1</div>
+                <div class="item">item2</div>
+                <div class="item">item3</div>
+                <div class="item">item4</div>
+                <div class="item">item5</div>
+                <div class="item">item6</div>
+                <div class="item">item7</div>
+                <div class="item">item8</div>
+                <div class="item">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main> 
+        <h2>grid-auto-columns: 100px;</h2>
+        <h3>(specify size of not explicitly sized columns)</h3>
+        <style>
+            .container-54 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-areas: "a a";
+                grid-auto-columns: 150px;
+            }
+        </style>
+        <div>
+            <div class="container container-54">
+                <div class="item item-b">item1</div>
+                <div class="item item-b">item2</div>
+                <div class="item item-b">item3</div>
+                <div class="item item-b">item4</div>
+                <div class="item item-b">item5</div>
+                <div class="item item-b">item6</div>
+                <div class="item item-b">item7</div>
+                <div class="item item-b">item8</div>
+                <div class="item item-b">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main> 
+        <h2>place-self: end end;</h2>
+        <h3>place-self: ≪align-self≫ ≪justify-self≫;</h3>
+        <style>
+            .container-58 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: start start;
+            }
+            
+            .container-58 .item-5 {
+                place-self: end end;
+            }
+        </style>
+        <div>
+            <div class="container container-58">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
             </div>
         </div>  
     </main>
