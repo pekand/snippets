@@ -1563,7 +1563,7 @@
     
     <main> 
         <h2>place-self: end end;</h2>
-        <h3>place-self: ≪align-self≫ ≪justify-self≫;</h3>
+        <h3>place-self: ≪align-self≫ ≪justify-self≫; override align-items and justify-items for one item</h3>
         <style>
             .container-58 {
                 display: grid;
@@ -1593,5 +1593,263 @@
         </div>  
     </main>
     
+    
+    <main> 
+        <h2>align-self: start;</h2>
+        <h3>(override align-items)</h3>
+        <style>
+            .container-59 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: center center;
+            }
+            
+            .container-59 .item-5 {
+                align-self: start;
+            }
+        </style>
+        <div>
+            <div class="container container-59">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main> 
+        <h2>align-self: end;</h2>
+        <h3>(override align-items)</h3>
+        <style>
+            .container-59 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: center center;
+            }
+            
+            .container-59 .item-5 {
+                align-self: end;
+            }
+        </style>
+        <div>
+            <div class="container container-59">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main> 
+        <h2>align-self: center;</h2>
+        <h3>(override align-items)</h3>
+        <style>
+            .container-60 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: stretch  stretch;
+            }
+            
+            .container-60 .item-5 {
+                align-self: center;
+            }
+        </style>
+        <div>
+            <div class="container container-60">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main> 
+        <h2>align-self: center;</h2>
+        <h3>(override align-items)</h3>
+        <style>
+            .container-60 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: center center;
+            }
+            
+            .container-60 .item-5 {
+                align-self: stretch;
+            }
+        </style>
+        <div>
+            <div class="container container-60">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    
+    <main> 
+        <h2>justify-self: start ;</h2>
+        <h3>(override justify-items)</h3>
+        <style>
+            .container-61 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: center center;
+            }
+            
+            .container-61 .item-5 {
+                justify-self: start;
+            }
+        </style>
+        <div>
+            <div class="container container-61">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main> 
+        <h2>justify-self: end ;</h2>
+        <h3>(override justify-items)</h3>
+        <style>
+            .container-62 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: center center;
+            }
+            
+            .container-62 .item-5 {
+                justify-self: end;
+            }
+        </style>
+        <div>
+            <div class="container container-62">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main> 
+        <h2>justify-self: center ;</h2>
+        <h3>(override justify-items)</h3>
+        <style>
+            .container-63 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: stretch stretch;
+            }
+            
+            .container-63 .item-5 {
+                justify-self: center ;
+            }
+        </style>
+        <div>
+            <div class="container container-63">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
+    
+    <main> 
+        <h2>justify-self: stretch ;</h2>
+        <h3>(override justify-items)</h3>
+        <style>
+            .container-64 {
+                display: grid;
+                grid-gap: 10px;   
+                grid-template-columns: 100px 100px 100px;
+                grid-template-rows: 100px 100px 100px;
+                
+                place-items: center center;
+            }
+            
+            .container-64 .item-5 {
+                justify-self: stretch ;
+            }
+        </style>
+        <div>
+            <div class="container container-64">
+                <div class="item item-1">item1</div>
+                <div class="item item-2">item2</div>
+                <div class="item item-3">item3</div>
+                <div class="item item-4">item4</div>
+                <div class="item item-5">item5</div>
+                <div class="item item-6">item6</div>
+                <div class="item item-7">item7</div>
+                <div class="item item-8">item8</div>
+                <div class="item item-9">item9</div>
+            </div>
+        </div>  
+    </main>
 </body>
 </html>
