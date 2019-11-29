@@ -1,1 +1,1 @@
-console.log('script1 executed (external file in header)');
+console.log("S script1 executed (external file in header) (readyState: " + document.readyState+")");

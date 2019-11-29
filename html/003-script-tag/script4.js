@@ -1,1 +1,1 @@
-console.log('script4 executed (external file defer in footer)');
+console.log("S script4 executed (external file in footer) (readyState: " + document.readyState+")");

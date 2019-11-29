@@ -4,7 +4,21 @@
     <head>
         <meta charset="utf-8">
         
-        <link rel="stylesheet" href="style1.css" onload="console.log('onload style1.css');">
+        <script>   
+            var t0 = performance.now();
+            
+            function tick() {
+                console.log("@ TICK ("+(performance.now() - t0) +" milliseconds) (readyState: " + document.readyState+")");
+            }
+            
+            tick();
+            console.log("! START (readyState: " + document.readyState+")"); /* loading = the document is loading. */
+            console.log("! HEADER START");
+            var timer = setInterval(tick, 1);
+            
+        </script>    
+         
+        <link rel="stylesheet" href="style1.css" onload="console.log('L onload style1.css');">
         
         <style>
             .style {
@@ -12,52 +26,52 @@
             }
         </style>
         
-        <script>   
-            console.log("start (readyState: " + document.readyState+")"); /* loading = the document is loading. */
+        <script>               
             
+
             function wait() {
-                console.log('wait...');
+                console.log('# wait...');
                 var c = 0; 
                 for (var i = 0; i <= 100; i++) {
-                    for (var j = 0; j <= 10000000; j++) {
+                    for (var j = 0; j <= 9999999; j++) {
                         c = c + 2;
                     }  
                 }
-                console.log("Wait function finished " + c); 
+                console.log("# Wait function finished " + c); 
             }
             
             /* fully loaded HTML, and the DOM tree is built, but external resources like pictures <img> and stylesheets may be not yet loaded*/
             document.addEventListener('DOMContentLoaded', function() {
-                console.log("DOMContentLoaded (readyState: " + document.readyState+")"); /* interactive = the document was fully read */
+                console.log("E DOMContentLoaded (readyState: " + document.readyState+")"); /* interactive = the document was fully read */
             });
             
             window.addEventListener("load", function(){ /* after fully-loaded page */
-                console.log("load 1 (readyState: " + document.readyState+")");
+                console.log("E load 1 (readyState: " + document.readyState+")");
             });
         </script>
         
-        <script src="script1.js" onload="console.log('onload script1.js');"></script> <!-- stop page parsing, fetch, execute, continue parsing -->
-        <script src="script2.js" async onload="console.log('onload script2.js');"></script> <!-- not stop page parsing, fetch (asynchronous), after download stop page parsing, execute , continue parsing -->
-        <script src="script3.js" defer onload="console.log('onload script3.js');"></script> <!-- not stop page parsing, fetch (asynchronous), after page is parsed execute , continue parsing --> 
+        <script src="script1.js" onload="console.log('L onload script1.js');"></script> <!-- stop page parsing, fetch, execute, continue parsing -->
+        <script src="script2.js" async onload="console.log('L onload script2.js');"></script> <!-- not stop page parsing, fetch (asynchronous), after download stop page parsing, execute , continue parsing -->
+        <script src="script3.js" defer onload="console.log('L onload script3.js');"></script> <!-- not stop page parsing, fetch (asynchronous), after page is parsed execute , continue parsing --> 
         <script>
-            console.log('head');
-            
             window.addEventListener("load", function(){
-                console.log("load 2 (readyState: " + document.readyState+")");
+                console.log("E load 2 (readyState: " + document.readyState+")");
             });
+            
+            console.log("! HEADER FINISH");
         </script>
     </head>
 
     <body>
         <script>
-            console.log('page');
+            console.log('! BODY START');
             
             window.addEventListener("load", function(){
-                console.log("load 3 (readyState: " + document.readyState+")");
+                console.log("E load 3 (readyState: " + document.readyState+")");
             });
         </script>
            
-        <img src="https://dummyimage.com/600x400/000/fff" alt="" onload="console.log('onload image1');">     
+        <img src="https://dummyimage.com/600x400/000/fff" alt="" onload="console.log('L onload image1');">     
         
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam scelerisque a magna eget tempor. In tempor augue vel egestas bibendum. Etiam imperdiet, ante bibendum fermentum faucibus, nisi urna hendrerit lorem, viverra hendrerit neque nisi feugiat dui. Pellentesque sit amet ipsum efficitur eros finibus vestibulum at ac est. Duis massa leo, fermentum id est at, eleifend molestie urna. Aenean aliquam metus odio. Sed placerat arcu nisl, eu blandit arcu finibus ut. Vestibulum lacinia diam sit amet velit vestibulum, quis egestas elit ullamcorper. Curabitur finibus augue mi, a eleifend nunc vulputate eget. Praesent cursus dictum turpis faucibus malesuada.
@@ -75,20 +89,24 @@
          wait();
          </script>
         
-        <link rel="stylesheet" href="style2.css" onload="console.log('onload style2.css');">
+        <link rel="stylesheet" href="style2.css" onload="console.log('L onload style2.css');">
         
-        <script src="script4.js" onload="console.log('onload script4.js');"></script>
-        <script src="script5.js" async onload="console.log('onload script5.js');" ></script>
-        <script src="script6.js" defer onload="console.log('onload script6.js');"></script>
+        <script src="script4.js" onload="console.log('L onload script4.js');"></script>
+        <script src="script5.js" async onload="console.log('L onload script5.js');" ></script>
+        <script src="script6.js" defer onload="console.log('L onload script6.js');"></script>
         <script>
             
             
             
             window.addEventListener("load", function(){
-                console.log("load 4 (readyState: " + document.readyState+")"); // complete =  the document was fully read and all resources are loaded too
+                console.log("E load 4 (readyState: " + document.readyState+")"); // complete =  the document was fully read and all resources are loaded too
+                
+                clearInterval(timer);
+                tick();
             });
             
-            console.log("finish (readyState: " + document.readyState+")"); // loading
+            console.log('! BODY FINISH');
+            console.log("! FINISH (readyState: " + document.readyState+")"); // loading
         </script>
     </body>
 
