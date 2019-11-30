@@ -6,15 +6,15 @@
     <title>Unicode Table</title>
     
     <style> 
-	
-.clear {
-	clear: both;
+main {
+	display: grid;
+	grid-template-columns: 0.5fr 10fr 0.5fr;
+	justify-content: justify-content: space-between;
+}	
+main div {
+	grid-column-start: 2;
+    grid-column-end: 3;
 }
-
-.wrapper {
-	margin: 10px auto;
-}
-
 .char {
 	float:left;
 	width: 80px;
@@ -42,16 +42,16 @@
 </head>
 <body>
 	
-    <main><?php 
-echo "<div class='wrapper'>";
+    <main><div><?php 
+
 for($j = 0; $j < 64 ; $j++) {
 
 	for($i = $j*(65536/64); $i < (($j+1)*(65536/64))  ; $i++) {
 		echo "<div class='char'><div class='symbol'>".mb_chr($i, "utf8")."</div> <div class='description' title='$i'>U+".strtoupper(str_pad(dechex($i), 5, "0", STR_PAD_LEFT ))."</div></div>";
 	}
 }
-echo "</div>"; 
-?></main>
+
+?></div></main>
 
     
     
