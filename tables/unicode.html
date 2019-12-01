@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Unicode Table</title>
+    
+    <style> 
+main {
+    display: grid;
+    grid-template-columns: 0.5fr 10fr 0.5fr;
+    justify-content: justify-content: space-between;
+}   
+main div {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.char {
+    float:left;
+    width: 80px;
+    text-align: center;
+    margin: 5px;    
+    background: #dff6f0;
+}
+
+.char .symbol {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 48px;
+    line-height: 60px;
+    height: 60px;
+    background: #bae8e8;
+    color: #272343;
+}
+.char .description {
+    height: 20px;
+    background: #272343;
+    color: #bae8e8;
+}
+
+
+#spinner {
+    background-color: #137b85;
+    position: fixed;
+    top: 300px;
+    left: 0px;
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    border-radius: 0px 25px 25px 0px;
+}
+
+#spinner.hide {
+    animation-name: hidespinner;
+    animation-timing-function:ease-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation-duration: 1s;
+}
+
+@keyframes hidespinner {
+  from {left: 0px;}  
+  to {left: -100px;}
+}
+
+#loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+
+
+</style>
+    
+</head>
+<body>
+    <div id="spinner">
+        <div id="loading"></div>
+    </div>
+    
+    <main>
+        <div id="unicode-table"></div>
+    </main>
+
+
+<script type="text/javascript">
+    
+    function addChar(symbol, description) {
+        var table = document.getElementById("unicode-table");
+
+        var symbolEl = document.createElement("div");
+        symbolEl.setAttribute("class", "symbol");  
+        symbolEl.appendChild(document.createTextNode(symbol));    
+        
+        var descriptionEl = document.createElement("div");
+        descriptionEl.setAttribute("class", "description");  
+        descriptionEl.appendChild(document.createTextNode(description));   
+
+        var char = document.createElement("div");   
+        char.setAttribute("class", "char");  
+        char.appendChild(symbolEl);
+        char.appendChild(descriptionEl);
+
+        table.appendChild(char);
+    }
+    
+    function createUnicodeTable(fromCharacter, toCharacter) {
+        for (var i = fromCharacter; i < toCharacter; i++) {
+            var hex = i.toString(16).padStart(4, "0").toUpperCase();
+            addChar(String.fromCharCode(i), "U+"+hex);
+        }
+    }
+    
+    function hideSpinner() {
+        document.getElementById("spinner").classList.add("hide");
+        setTimeout(function() {  document.getElementById("spinner").style.display = "none"; }, 2000); // hide display and turn off spinner animation after animation is finished
+    }
+    
+    var calculating = false;
+    var lastChar = 0;
+    function tick() {
+        if (calculating) {
+            console.log("already calculating");
+            return;
+        }
+        
+        if (65536 <= lastChar) { /*65536*/
+            console.log("finished");
+            clearInterval(timer);  
+            hideSpinner();
+            return;  
+        }
+        
+        calculating = true;
+
+        var nextLastCharacter = lastChar + 65536/16;
+        console.log("calculating table from "+lastChar+" to "+nextLastCharacter);
+        createUnicodeTable(lastChar, nextLastCharacter);
+        
+        lastChar = nextLastCharacter;
+        calculating = false;
+    }
+    
+
+    var timer = setInterval(tick, 100);
+            
+    
+</script>
+</body>
+</html>
+
+
+
