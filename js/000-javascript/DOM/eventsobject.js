@@ -247,4 +247,3 @@ document.getElementById("id").addEventListener("wheel", function(e){  //WheelEve
     e.deltaMode;
 });
 
-
