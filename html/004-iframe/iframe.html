@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+    <meta charset="utf-8">
+    <title></title>
+    
+    <style>
+    #test{
+        background-color: lightgray;
+        width: 100%;
+        color:red;
+    }
+    </style>
+    
+</head>
+<body>
+	
+    <main>
+        <iframe id="test" frameBorder="0"></iframe>
+    </main>
+
+
+    <script type="text/javascript" >
+        const getGeneratedPageURL = ({ html, css, js }) => {
+          const getBlobURL = (code, type) => {
+            const blob = new Blob([code], { type })
+            return URL.createObjectURL(blob)
+          }
+
+          var cssBlock = "";
+          if (typeof css !== "undefined" && css != "") {
+            cssBlock = '<link rel="stylesheet" type="text/css" href="'+getBlobURL(css, 'text/css')+'" \/>';              
+          }
+          
+          var jsBlock = "";
+          if (typeof js !== "undefined" && js != "") {
+            jsBlock = '<script src="'+getBlobURL(js, 'text/javascript')+'"><\/script>';
+          }
+          
+          var htmlBlock = "";
+          if (typeof html !== "undefined" && html != "") {
+              htmlBlock = html;
+          }
+          
+          const source = '<html><head>'+cssBlock+jsBlock+'</head><body>'+htmlBlock+'</body></html>';
+          
+          console.log(source);
+
+          return getBlobURL(source, 'text/html')
+        }
+
+        const url = getGeneratedPageURL({
+          html: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure ipsa sequi ea rerum minima dolor ratione cumque vero repellendus ipsam earum et nihil eum, porro quasi repellat modi magnam fugit eveniet sapiente doloremque quis error. Modi ducimus repellat, nam laboriosam debitis error tenetur. Sed sequi, temporibus asperiores, molestiae, adipisci ullam debitis modi, eos illum sunt amet. Labore id repellat, hic excepturi dolor pariatur voluptatum facilis obcaecati ex dolore temporibus sequi dolores, in odit, perferendis ad inventore distinctio ab provident dicta!</p>',
+          css: 'body { background: lightblue; }',
+          js: 'console.log("hi")'
+        })
+
+       
+        document.getElementById("test").src = url;
+    </script>
+    
+</body>
+</html>
