@@ -33,8 +33,8 @@ element.hasAttribute()
 element.hasAttributes()
 element.hasChildNodes()
 element.id
-element.innerHTML = '<span>text</span>';
-element.innerText
+element.innerHTML = '<span>text</span>'; // insert tags; get tags
+element.innerText = 'text'; // replece special chars in string; dont insert tags; return text without tags
 element.insertAdjacentElement()
 element.insertAdjacentHTML()
 element.insertAdjacentText()

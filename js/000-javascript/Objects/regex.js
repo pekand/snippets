@@ -12,10 +12,6 @@ pattern.exec()
 pattern.test() 
 pattern.toString()
 
-
-
-
-
 s.match(pattern);
 s.replace(pattern, "value");
 s.search(pattern);
