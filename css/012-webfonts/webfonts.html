@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+    <meta charset="utf-8">
+    <title>Webfonts</title>
+    
+    <style>
+        .box {
+            margin: 10px;
+            padding: 10px;
+            background: lightgray;
+            font-size: 32px;
+        }   
+        
+        .box pre {
+            font-size: 12px;
+        }
+    </style>
+    
+</head>
+<body>
+	
+    <main id="main">
+
+    </main>
+    
+    <div id="sample-header" style="display: none">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </div>
+    
+    <div id="sample-text" style="display: none">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem voluptates ipsam optio obcaecati ea accusantium nam asperiores voluptatibus sapiente veniam qui eveniet saepe, porro eos maiores perspiciatis dicta vitae, libero corrupti in similique nemo eius. Repudiandae voluptatum at quod molestias iusto, asperiores distinctio quisquam dignissimos ratione quaerat nemo molestiae illo accusamus temporibus provident veniam recusandae sequi totam voluptate, deserunt in laudantium quasi? Officiis cupiditate a dignissimos numquam alias fugit voluptas ex deserunt neque non, distinctio repudiandae blanditiis quidem, maiores reiciendis!
+    </div>
+
+    <script type="text/javascript" >
+    var fonts = [
+    
+        //generic
+        {fontFamily:'serif',fontGroup:'generic',system:'generic'},
+        {fontFamily:'sans-serif',fontGroup:'generic',system:'generic'},
+        {fontFamily:'monospace',fontGroup:'generic',system:'generic'},
+        {fontFamily:'cursive',fontGroup:'generic',system:'generic'},
+        {fontFamily:'fantasy',fontGroup:'generic',system:'generic'},
+        {fontFamily:'system-ui',fontGroup:'generic',system:'generic'},
+        {fontFamily:'emoji',fontGroup:'generic',system:'generic'},
+        {fontFamily:'math',fontGroup:'generic',system:'generic'},
+        {fontFamily:'fangsong',fontGroup:'generic',system:'generic'},
+        
+        //common used font families
+        {fontFamily:'Times, "Times New Roman", Georgia, serif',fontGroup:'serif',system:'common used'},
+        {fontFamily:'Verdana, Arial, Helvetica, sans-serif',fontGroup:'sans-serif',system:'common used'},
+        {fontFamily:'"Lucida Console", Courier, monospace',fontGroup:'monospace',system:'common used'},
+        
+        //Sans-serif  (modern, dmartfones tablets)
+        {fontFamily:'"Arial", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Arial Black", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Arial Narrow", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Arial Rounded MT Bold", sans-serif',fontGroup:'',system:'win mac'},
+        {fontFamily:'"Calibri", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Candara", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Century Gothic", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Franklin Gothic Medium", sans-serif',fontGroup:'',system:'win'},
+        {fontFamily:'"Futura", sans-serif',fontGroup:'Sans-serif',system:'mac'},
+        {fontFamily:'"Geneva", sans-serif',fontGroup:'Sans-serif',system:'mac'},
+        {fontFamily:'"Gill Sans", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Helvetica", sans-serif',fontGroup:'Sans-serif',system:'mac'},
+        {fontFamily:'"Impact", sans-serif',fontGroup:'Sans-serif',system:'mac'},
+        {fontFamily:'"Lucida Grande", sans-serif',fontGroup:'Sans-serif',system:'mac'}, 
+        {fontFamily:'"Optima", sans-serif',fontGroup:'Sans-serif',system:'mac'},
+        {fontFamily:'"Segoe UI", sans-serif',fontGroup:'Sans-serif',system:'win'},
+        {fontFamily:'"Tahoma", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Trebuchet MS", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        {fontFamily:'"Verdana", sans-serif',fontGroup:'Sans-serif',system:'win mac'},
+        
+        //serif (newspapers clasic font)
+        {fontFamily:'"Big Caslon", serif',fontGroup:'serif',system:'mac'},
+        {fontFamily:'"Bodoni MT", serif',fontGroup:'serif',system:'win'},
+        {fontFamily:'"Book Antiqua", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Calisto MT", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Cambria", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Didot", serif',fontGroup:'serif',system:'mac'},
+        {fontFamily:'"Garamond", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Georgia", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Goudy Old Style", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Hoefler Text", serif',fontGroup:'serif',system:'mac'},
+        {fontFamily:'"Lucida Bright", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Palatino", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Perpetua", serif',fontGroup:'serif',system:'win'},
+        {fontFamily:'"Rockwell", serif',fontGroup:'serif',system:'win'},
+        {fontFamily:'"Rockwell Extra Bold", serif',fontGroup:'serif',system:'win'},
+        {fontFamily:'"Baskerville", serif',fontGroup:'serif',system:'win mac'},
+        {fontFamily:'"Times New Roman", serif',fontGroup:'serif',system:'win mac'},
+        
+        //monospace
+        {fontFamily:'"Consolas", monospace',fontGroup:'monospace',system:'win mac'},
+        {fontFamily:'"Courier New", monospace',fontGroup:'monospace',system:'win mac'},
+        {fontFamily:'"Lucida Console", monospace',fontGroup:'monospace',system:'win'},
+        {fontFamily:'"Lucida Sans Typewriter", monospace',fontGroup:'monospace',system:'win mac'},
+        {fontFamily:'"Monaco", monospace',fontGroup:'monospace',system:'mac'},
+        {fontFamily:'"Andale Mono", monospace',fontGroup:'monospace',system:'mac'},
+        
+        //fantasy (small amount of text, fensy decorative)
+        {fontFamily:'"Copperplate", fantasy',fontGroup:'fantasy',system:'win mac'},
+        {fontFamily:'"Papyrus", fantasy',fontGroup:'fantasy',system:'win mac'},
+        
+        //cursive
+        {fontFamily:'"Brush Script MT", cursive',fontGroup:'cursive',system:'win mac'},
+    ];
+    
+    var mainElement  = document.getElementById("main");
+    var sampleHeaderElement  = document.getElementById("sample-header");
+    var sampleTextElement  = document.getElementById("sample-text");
+    
+    var counter = 0;
+    for (var i of fonts) {
+        const item = document.createElement("div");
+        item.classList.add("box");
+        item.innerHTML  = "<div style='font-family:"+i.fontFamily+";'><h4>"+sampleHeaderElement.innerHTML+"</h4> <p>" + sampleTextElement.innerHTML+"</p></div><pre style='text-align:right;'>"+i.fontFamily+" ("+i.system+") ("+(++counter)+")</pre>";
+        mainElement.appendChild(item);
+    }
+    
+    
+    </script>
+    
+</body>
+</html>

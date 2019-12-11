@@ -122,8 +122,20 @@ Google fonts https://fonts.google.com/
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
 */
 
+
 p {
     font-family: 'Roboto Mono', monospace;
+    
+    /* generic font families */
+    font-family: serif;
+	font-family: sans-serif;
+	font-family: monospace;
+	font-family: cursive;
+	font-family: fantasy;
+	font-family: system-ui;
+	font-family: emoji;
+	font-family: math;
+	font-family: fangsong;
 }
 
 /* Serif Fonts */

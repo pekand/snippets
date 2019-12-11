@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>css button</title>
+    
+    <style>
+        .button {
+            text-decoration: none;
+            outline: none;
+            border:none;
+            
+            border-radius: 3px;
+            padding: 8px 15px;
+            
+            font-size: 20px;
+            line-height: 20px;
+            font-family: Arial;
+            background-color: #888888;
+            color: #FFFFFF;
+
+            cursor:pointer;
+            text-transform: uppercase;
+        }
+        
+        .button:hover {
+            background-color: #777777
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <main>
+        <div class="container">
+            <div class="box">
+                <a href="#" class="button">button</a>    
+            </div>
+            
+            <div class="box">
+                <button class="button">button</button>    
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript" >
+    
+    </script>
+    
+    <style>
+        body {
+            margin: 0px;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .container {
+            text-align: center; 
+        }
+        
+        .box {
+            margin: 50px;
+        }
+    </style>
+</body>
+</html>
