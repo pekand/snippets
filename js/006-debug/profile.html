@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Profile</title>
+
+
+</head>
+<body>
+    
+    <main>
+        
+    </main>
+
+    
+    <script>
+        console.time();
+        console.time("timer_name");
+    
+        console.profile("profile_name"); // chrome > console > more tools > javascript profiler
+        
+        for (var i = 0; i < 1000; i++) {
+    		console.log("test");
+    	}
+    	
+        
+        console.profileEnd("profile_name");
+        
+        console.timeLog("timer_name"); // middle time count - timer still running
+        
+        console.timeEnd(); // default timer
+        console.timeEnd("timer_name");
+    </script>
+</body>
+</html>

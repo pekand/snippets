@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Create element innerHtml</title>
+    
+<style> 
+
+
+
+</style>
+    
+</head>
+<body>
+
+    
+    <main>
+       <div id="container">
+           
+       </div>
+    </main>
+
+
+<script type="text/javascript">
+    
+    var lastId = 0;
+    function addBox() {
+        var container = document.getElementById("container");
+
+        var nameDiv = document.createElement("div");
+        nameDiv.setAttribute("class", "symbol");  
+        nameDiv.style.fontSize = "32px";
+        nameDiv.appendChild(document.createTextNode("Name"));    
+        
+        var descriptionDiv = document.createElement("div");
+        descriptionDiv.setAttribute("class", "description");  
+        descriptionDiv.appendChild(document.createTextNode("Description"));   
+
+        var box = document.createElement("div"); 
+        
+        box.id = "box"+(++lastId);
+        
+        //class
+        box.setAttribute("class", "box");  
+        box.classList.add("box2");
+        box.classList.remove("box2");
+        box.classList.add("box3");
+        
+        // style
+        box.style.backgroundColor = "lightgray";
+        box.style.float = "left";
+        box.style.margin = "10px";
+        box.style.padding = "10px";
+        
+        // data
+        box.dataset.custom1 = "value1";
+        box.dataset.custom2 = "value2";
+        box.setAttribute("data-custom3", "value4");
+        box.removeAttribute("data-custom2");
+        
+        
+        box.appendChild(nameDiv);
+        box.appendChild(descriptionDiv);
+
+        container.appendChild(box);
+    }
+    
+    addBox();    
+    addBox();
+    addBox();
+    
+    var boxies = document.querySelectorAll(".box"); // find all elements by query
+    for (var box of boxies) {
+        box.style.backgroundColor = "lightgreen";
+    }
+    
+    var box = document.querySelector(".box"); // first element
+    box.style.backgroundColor = "lightblue";
+    
+    document.querySelectorAll(".box");
+    
+    var boxies = document.getElementsByTagName("div");
+    for (var box of boxies) {
+        if (box.id == "box3") {
+          box.style.border = "1px solid black";
+        }
+    }
+    
+    
+    var box1 = document.querySelector("#box3");
+    var firstDiv = box1.querySelector("div");
+    firstDiv.style.border = "1px solid black";
+    
+</script>
+</body>
+</html>
+
+
+

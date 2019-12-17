@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Log</title>
+
+
+</head>
+<body>
+    
+    <main>
+        
+    </main>
+
+    
+    <script>
+        var o1 = {
+            p1: 1,
+            p2: "value"
+        }
+        
+        var o2 = {
+            c: "c",
+            d: "d"
+        }
+        
+        console.clear() // clear console
+        
+        if (window.console) { // cehck if console esists
+            console.log(o1, o2); // view like json
+        }
+        
+        window.console && console.log(o1, o2);
+        
+        console.log(document.body); // view html code structure
+        console.dir(document.body); // view element structure
+        
+        console.dirxml(document.body); // display as tree structure (instead of json like structure)
+        
+    
+        console.group("group_name");        
+        console.info("info level information");        
+        console.warn("warning level information");
+        console.error("error level information");
+        console.debug("debug level information");
+        console.groupEnd();
+        
+        
+        console.table(["a", "b", "c"]); // displey as table
+        
+        console.table([["a", "b", "c"],["a", "b", "c"],["a", "b", "c"]]); // displey as table
+    </script>
+</body>
+</html>

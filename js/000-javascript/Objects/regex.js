@@ -1,4 +1,4 @@
-var pattern = /^*$/g;
+var pattern = /^.*$/g;
 var s = "";
 
 pattern.constructor;
@@ -13,8 +13,12 @@ pattern.test()
 pattern.toString()
 
 s.match(pattern);
+s.matchAll(pattern);
 s.replace(pattern, "value");
 s.search(pattern);
+
+// ^ beggining of string
+// $ end of string
 
 /* Modifiers */
 
@@ -80,3 +84,39 @@ m.groups.group2
 m[0]; // whole string match
 m[1]; // group1 match
 m[2]; // group2 match
+
+// modificator g change resylt of match function
+"aaaa abababab aaaa".match(/(a)(b)/g); // teturn allmatchies on string, dont return groups ["ab", "ab", "ab", "ab"]
+
+"aaaa abababab aaaa".match(/(a)(b)/); // find first match and groups ["ab", "a", "b", index: 5, input: "xxxx abababab xxxx", groups: undefined] (0 is full match 1,2 are groups, index is positions. groups are named groups  )
+
+var matches = "aaaa abababab aaaa".matchAll(/(a)(b)/g); // return iterator for all matchies and groups
+for (const match of matches) {
+  console.log(match);
+}
+
+var regex = RegExp('(a)(b)','i');
+regex.exec("aaaa abababab aaaa"); // result ["ab", "a", "b", index: 5, input: "xxxx abababab xxxx", groups: undefined] 
+
+var regex = RegExp('(a)(b)','i');
+regex.test("aaaa abababab aaaa"); // return true; check if match in string exists
+
+var regex = RegExp('(a)(b)','i');
+regex.toString(); // return "/(a)(b)/i"
+
+//replace groups in string
+'aaaa abababab aaaa'.replace(/(a)(b)/g, " $1$2 ");
+// $$ escape $
+// $& matched string
+// $1-$n matched groups
+// $` insert string whitch is before matched string (from original string not replaced)
+'ababababab'.replace(/(a)(b)/g, " $` "); // return "   ab  abab  ababab  abababab "
+// $' insert string whitch is after matched string
+'ababababab'.replace(/(a)(b)/g, " $' "); // return " abababab  ababab  abab  ab   "
+
+//replace function
+function replacer(match, g1, g2, offset, string) {
+  console.log(match, g1, g2, offset, string);
+  return "replace with";
+}
+'aaaa abababab aaaa'.replace(/(a)(b)/g, replacer);
