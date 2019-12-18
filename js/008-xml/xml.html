@@ -129,7 +129,8 @@
         console.log("replace node", x.cloneDoc(newXmlDoc));
         
         // remove node
-        newXmlDoc.getElementsByTagName("root")[0].removeChild(
+        var parent = newXmlDoc.getElementsByTagName("root")[0];
+        parent.removeChild(
             newXmlDoc.getElementsByTagName("node")[0]
         );
         
@@ -138,13 +139,17 @@
         console.group("parse for");
         var nodes = newXmlDoc.getElementsByTagName("node");
         for (var i = 0; i <nodes.length; i++) {
-          console.log("node id:"+nodes[i].getAttribute('id'));
-          console.log("node tag name text:"+nodes[i].getElementsByTagName("name")[0].textContent);
-          
-          // read attributes from node
-          for (var j = 0; j <nodes[i].attributes.length; j++) {
-              console.log(nodes[i].attributes[j].nodeName + "=" + nodes[i].attributes[j].nodeValue);
-          }
+            if(nodes[i].nodeType != 1) {
+                continue;
+            }
+            
+            console.log("node id:"+nodes[i].getAttribute('id'));
+            console.log("node tag name text:"+nodes[i].getElementsByTagName("name")[0].textContent);
+            
+            // read attributes from node
+            for (var j = 0; j <nodes[i].attributes.length; j++) {
+                console.log(nodes[i].attributes[j].nodeName + "=" + nodes[i].attributes[j].nodeValue);
+            }
         }
         console.groupEnd();
         
