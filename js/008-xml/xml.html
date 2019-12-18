@@ -13,7 +13,7 @@
     
     <main>
     </main>
-
+    <h1>Work with Xml (open console)</h1>  
     <script type="text/javascript" >
         var x = {           
             cloneDoc: function(xmlDoc){
@@ -30,7 +30,7 @@
                 return xmlString;
             },
             
-            unserializeFromString: function(xmlString) {
+            parseFromString: function(xmlString) {
                 var parser = new DOMParser();
                 var parsedXmlDoc = parser.parseFromString(xmlString, "text/xml");
                 return parsedXmlDoc;
@@ -78,7 +78,7 @@
         console.log("serialize xml object to string", xmlString);
 
         // load xml from string
-        var parsedXmlDoc = x.unserializeFromString(xmlString);
+        var parsedXmlDoc = x.parseFromString(xmlString);
         console.log("load xml from string", x.cloneDoc(xmlDoc));
 
         //duplicate xml document
