@@ -110,12 +110,46 @@ console.log(p.shift()); // return 1;  remove and return first item from array
 console.log(p); // return [2, 3, 4]
 
 [1,2,3,4].slice(2); // return [3, 4]
-[1,2,3,4].slice(-2); // return [4]
-[1,2,3,4].slice(2, 4); // return [4]
+[1,2,3,4].slice(-2); // return [3, 4] LENGTH-2
+[1,2,3,4].slice(2, 4); // return [3, 4]
+[1,2,3,4].slice(-4, -2); // [1, 2] LENGTH-4 ... LENGTH-2
+[1,2,3,4].slice(1, -1); // [2, 3]  1 .. LENGTH-1
 
-a.some();
-a.sort();
-a.splice();
-a.toString();
-a.unshift();
-a.valueOf();
+[1,2,3,4].some(x => x>3); // check if same value pass condition
+[1,2,3,4].some(function(e, i, a){console.log(e,i,a, this); return e>3}, {p:1}); // change this 
+
+[4,3,2,1].sort(); // sort elements
+[4,3,2,1].sort(function(a, b){
+	if (a > b) {
+		return 1;
+	} 
+	
+	if (a < b) {
+		return -1;
+	} 
+	
+	return 0;
+});
+
+var p = [1,2,3,4,5];
+p.splice(2, 0, 6, 7); // add elements 6 , 7, (... variable amout of elements) after index 2; change source array 
+console.log(p); // return [1, 2, 6, 7, 3, 4, 5]
+
+var p = [1,2,3,4,5];
+var d = p.splice(2, 2, 6, 7); // remove 2x elements after 2 index and rerurn deleted ements, add elements 6 , 7, (... variable amout of elements) after index 2; change source array 
+console.log(d); // return [3, 4]
+console.log(p); // return [1, 2, 6, 7, 5]
+
+var p = [1,2,3,4,5];
+var d = p.splice(2, 2); // remove 2x elements after 2 index and rerurn deleted ements
+console.log(d); // return [3, 4]
+console.log(p); // return [1, 2, 5]
+
+[1,2,3,4,5].toString(); // return string "1,2,3,4,5"
+
+var p = [1,2,3,4,5];
+var l = p.unshift(6, 7); // add values (6, 7, ... (variable ammount of elements) ) to beggining of array
+console.log(l); // return 7 new length of array
+console.log(p); // return [6, 7, 1, 2, 3, 4, 5]
+
+[1, 2, 3].valueOf(); // return [1, 2, 3]; primitive type of object
