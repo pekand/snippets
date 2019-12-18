@@ -15,59 +15,129 @@
     </main>
 
     <script type="text/javascript" >
-        function response(xhr, success, error){
-            if (xhr.status >= 200 && xhr.status < 300) {
-                success(xhr);
-            } else {
-               error(xhr);
-            }
-        }
-    </script>
-    
-    <script type="text/javascript" >
-        
-        function get(endpoint, data, success, error) {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() {response(xhr, success, error)}
+        var ajax = {           
+            response : function(xhr, success, error) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    if (typeof success === 'function') {
+                        success(xhr); 
+                    }
+                } else {
+                    if (typeof error === 'function') {
+                        error(xhr); 
+                    }
+                }
+            },
             
-            var params = "";
-            for(var key in data){
-                 params += key+"="+encodeURIComponent(data[key])+"&";
-            }
-            params = params.slice(0, -1);
+            progress : function(xhr, e, progress) {
+                if (e.lengthComputable) {
+                    if (typeof progress === 'function') {
+                        progress(xhr, e);
+                    }
+                    console.log("Upload progress:"+e.loaded+  " / " + e.total)
+                }
+            },
             
-            xhr.open('get', endpoint+((params.length>0)?"?"+params:""));
-            xhr.send();
-        }
-   
-        get("json.php", {p1:1,p2:1}, function(xhr) {
-            console.log(xhr);
-            var response = JSON.parse(xhr.response);
-            console.log(response);
-        }, function(xhr) {
-            console.log(xhr);
-        });
-    </script>
-    
-    <script type="text/javascript" >
-        
-        function post(endpoint, data, success, error) {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() {response(xhr, success, error)}
-            xhr.open('post', endpoint);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                       
-            var params = "";
-            for(var key in data){
-                 params += key+"="+encodeURIComponent(data[key])+"&";
-            }
-            
-            params = params.slice(0, -1);
+            call: function(method, endpoint, params, data, success, error, progress) {
+                var self = this;
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function() {self.response(xhr, success, error)}
+                xhr.onprogress = function (e) { self.progress(xhr, e, progress) };
+                
+                var paramsString = "";
+                if (params != null) {
+                    var paramsString = "?";
+                    if (endpoint.includes('?')) {
+                        var paramsString = "&";
+                    }
+                    for(var key in params){
+                         paramsString += key+"="+encodeURIComponent(params[key])+"&";
+                    }
+                    paramsString = paramsString.slice(0, -1);
+                }
 
-            xhr.send(params);
+                xhr.open(method, endpoint+paramsString);
+                
+                var dataRequest = null;
+                
+                if (data instanceof FormData) {
+                    dataRequest = data;
+                } else 
+                if (data != null && method == "post") {
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    
+                    dataRequest = "";
+                    for(var key in data){
+                         dataRequest += key+"="+encodeURIComponent(data[key])+"&";
+                    }
+                    
+                    dataRequest = dataRequest.slice(0, -1);
+                } else                 
+                if (data != null && (method == "put" || method == "delete")) {
+                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");    
+                    dataRequest = JSON.stringify(data);
+                }
+
+                xhr.send(dataRequest);
+            },
+            
+            get: function(endpoint, params, success, error, progress) {
+                this.call('get', endpoint, params, null, success, error, progress);
+            },
+            
+            put: function(endpoint, params, data, success, error, progress) {
+                this.call('put', endpoint, params, data, success, error, progress);
+            },
+            
+            post: function(endpoint, params, data, success, error, progress) {
+                this.call('post', endpoint, params, data, success, error, progress);
+            },
+            
+            delete: function(endpoint, params, data, success, error, progress) {
+                this.call('delete', endpoint, params, data, success, error, progress);
+            },
+            
+            json: function(endpoint, data, success, error, progress) {
+                var self = this;
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function() {self.response(xhr, success, error)}
+                xhr.open('post', endpoint);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");    
+                xhr.send(JSON.stringify(data));
+            },
+            
+            xml: function(endpoint, xmlDoc, success, error, progress) {
+                var self = this;
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function() {self.response(xhr, success, error)}
+                xhr.open('post', endpoint);
+                xhr.setRequestHeader('Content-Type', 'text/xml');
+                var serializer = new XMLSerializer();
+                var xmlString = serializer.serializeToString(xmlDoc);
+                xhr.send(xmlString);
+            },
+            
+            form: function(form, endpoint, success, error, progress) {
+                var self = this;
+                var formData = new FormData(form);
+                this.call('post', endpoint, null, formData, success, error, progress);
+            }
         }
-   
-        post("json.php", {o:1,o2:2,o3:"custom data"}, function(xhr) {
+    </script>
+    
+    <script type="text/javascript" >
+        ajax.get("json.php", {p1:1,p2:1}, function(xhr) {
+            console.log(xhr);
+            console.log("response headers: "+xhr.getAllResponseHeaders());
+            console.log("response date: "+xhr.getResponseHeader('date'));
+            var response = JSON.parse(xhr.response);
+            console.log(response);
+        }, function(xhr) {
+            console.log(xhr);
+        });
+    </script>
+    
+    <script type="text/javascript" >
+        ajax.put("json.php", {id:1}, {o:1,o2:2,o3:"custom data"}, function(xhr) {
             console.log(xhr);
             var response = JSON.parse(xhr.response);
             console.log(response);
@@ -77,53 +147,119 @@
     </script>
     
     <script type="text/javascript" >
-        
-        function json(endpoint, data, success, error) {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() {response(xhr, success, error)}
-            xhr.open('post', endpoint);
-            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");    
-            xhr.send(JSON.stringify(data));
-        }
-   
-        json("json.php", {o:1,o2:2,o3:"custom data"}, function(xhr) {
+        ajax.post("json.php", {o:1,o2:2,o3:"custom data"}, {data:1}, function(xhr) {
             console.log(xhr);
             var response = JSON.parse(xhr.response);
             console.log(response);
+        }, function(xhr) {
+            console.log(xhr);
+        });
+    </script>
+    
+    <script type="text/javascript" >
+        ajax.delete("json.php", {p1:1,p2:1}, null, function(xhr) {
+            console.log(xhr);
+            var response = JSON.parse(xhr.response);
+            console.log(response);
+        }, function(xhr) {
+            console.log(xhr);
+        });
+    </script>
+    
+    <script type="text/javascript" >
+        ajax.json("json.php", {o:1,o2:2,o3:"custom data"}, function(xhr) {
+            console.log(xhr);
+            var response = JSON.parse(xhr.response);
+            console.log(response);
+        }, function(xhr) {
+            console.log(xhr);
+        });
+    </script>
+    
+    <script type="text/javascript" >
+        // get response as xml
+        
+        var xmlDoc = document.implementation.createDocument(null, 'root');
+        var root = xmlDoc.childNodes[0]; // get root node
+        
+        //create node
+        var node = xmlDoc.createElement("node");
+        node.setAttribute("id", "1");
+        node.setAttribute("data", "1");
+        root.appendChild(node);
+
+        // create sub node
+        var nodeName = xmlDoc.createElement("name");
+        var textNode = xmlDoc.createTextNode("node text");
+        nodeName.appendChild(textNode);
+        node.appendChild(nodeName);
+        
+        ajax.xml("data.xml", xmlDoc, function(xhr) {
+            console.log(xhr);
+            var xmlDoc = xhr.responseXML; 
+            var notes = xmlDoc.getElementsByTagName("note");
+            for (i = 0; i <notes.length; i++) {
+                console.log(notes[i].getElementsByTagName("content")[0].getAttribute("attrib"));
+                console.log(notes[i].getElementsByTagName("content")[0].childNodes[0].nodeValue);
+            }
         }, function(xhr) {
             console.log(xhr);
         });
     </script>
     
     <form id="form" action="post" enctype="multipart/form-data" onsubmit="return submitForm(this);">
-        <input name="input1" type="text" value="test"><br>
+        <input name="input1" type="text"><br>
         <textarea name="text1" cols="30" rows="10"></textarea><br>
         <input name="file1" type="file" /><br>
         <input type="submit">
     </form>
     
-    <script type="text/javascript" >
-        
-        function form(form, endpoint, success, error) {
-            var formData = new FormData(form);
-            
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() {response(xhr, success, error)}
-            xhr.open('post', endpoint, true);   
-            xhr.send(formData);
-        }
+    <script type="text/javascript" >  
    
-    function submitForm(el) {
-        form(el, "json.php", function(xhr) {
-            console.log(xhr);
-            var response = JSON.parse(xhr.response);
-            console.log(response);
-        }, function(xhr) {
-            console.log(xhr);
-        });
-        
-        return false;
-    }
+        function submitForm(el) {
+            ajax.form(el, "json.php", function(xhr) {
+                console.log(xhr);
+                var response = JSON.parse(xhr.response);
+                console.log(response);
+            }, function(xhr) {
+                console.log(xhr);
+            });
+            
+            return false;
+        }
+    </script>
+    <br><br><br>
+    <form id="formFileUpload" action="post" enctype="multipart/form-data" onsubmit="return false;">
+        <input id="file2" name="file2" type="file" onchange="formFileUpload();"><br>
+        <input type="submit" onclick="formFileUpload()">
+    </form>
+    
+    <progress id="file2progress" max="100" value="0"> </progress>
+    <textarea id="file2content"></textarea>
+    
+    <script type="text/javascript" >  
+   
+        function formFileUpload() {
+
+            if (document.getElementById("file2").value == "") {
+                return;
+            }            
+            document.getElementById("file2progress").value = 0;
+            
+            var form = document.getElementById("formFileUpload");
+            ajax.form(form, "json.php", function(xhr) {
+                console.log(xhr);
+                var response = JSON.parse(xhr.response);
+                console.log(response);
+                document.getElementById("file2content").value = response.files.file2.content;
+            }, function(xhr) {
+                console.log(xhr);
+            }, function(xhr, e) {
+                document.getElementById("file2progress").value = e.loaded / e.total * 100;
+            });
+            
+            return false;
+        }
     </script>
 </body>
 </html>

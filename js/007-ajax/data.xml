@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notes>
+    <note>
+        <content attrib="attrib1" >text1</content>
+    </note>
+    <note>
+        <content attrib="attrib1">text2</content>
+    </note>
+</notes>
