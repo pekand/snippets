@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Xml</title>
+    
+    <style>
+    </style>
+    
+</head>
+<body>
+    
+    <main>
+    </main>
+
+    <script type="text/javascript" >
+        var x = {           
+            cloneDoc: function(xmlDoc){
+                var newXmlDoc = xmlDoc.implementation.createDocument(xmlDoc.namespaceURI,null,null);
+                var newNode = newXmlDoc.importNode(xmlDoc.documentElement,true);
+                newXmlDoc.appendChild(newNode);
+                
+                return newXmlDoc;
+            },
+   
+            serializeToString: function(xmlDoc) {
+                var serializer = new XMLSerializer();
+                var xmlString = serializer.serializeToString(xmlDoc);
+                return xmlString;
+            },
+            
+            unserializeFromString: function(xmlString) {
+                var parser = new DOMParser();
+                var parsedXmlDoc = parser.parseFromString(xmlString, "text/xml");
+                return parsedXmlDoc;
+            }
+        }
+         
+        var xmlDoc = document.implementation.createDocument(null, 'root');
+
+        var root = xmlDoc.childNodes[0]; // get root node
+
+        //create attribute as object
+        versionAttrib = xmlDoc.createAttribute("version");
+        versionAttrib.nodeValue = "1.0";
+        root.setAttributeNode(versionAttrib);
+        
+        //create node
+        var node = xmlDoc.createElement("node");
+        node.setAttribute("id", "1");
+        node.setAttribute("data", "1");
+        root.appendChild(node);
+
+        // create sub node
+        var nodeName = xmlDoc.createElement("name");
+        var textNode = xmlDoc.createTextNode("node text");
+        nodeName.appendChild(textNode);
+        node.appendChild(nodeName);
+        
+        // create node with cdata
+        var dataNode = xmlDoc.createElement("data");        
+        var cdata = xmlDoc.createCDATASection("aaaa & bbb");
+        dataNode.appendChild(cdata);
+        node.appendChild(dataNode);
+
+        // get cdata from node
+        console.log("Get cdata: ", dataNode.childNodes[0].nodeValue);
+        
+        // create comment
+        var comment = xmlDoc.createComment("comment");
+        node.appendChild(comment);
+
+        console.log("create comment", x.cloneDoc(xmlDoc)); // xml object is in console show as reference to same object  
+        
+        // serialize xml object to string
+        var xmlString = x.serializeToString(xmlDoc);
+        console.log("serialize xml object to string", xmlString);
+
+        // load xml from string
+        var parsedXmlDoc = x.unserializeFromString(xmlString);
+        console.log("load xml from string", x.cloneDoc(xmlDoc));
+
+        //duplicate xml document
+        var newXmlDoc = x.cloneDoc(xmlDoc);
+        
+        console.log("duplicate xml document", x.cloneDoc(newXmlDoc));
+        
+        //copy node
+        var newNode = newXmlDoc.getElementsByTagName("node")[0].cloneNode(true);    
+        newNode.setAttribute('id', 2);
+        newXmlDoc.getElementsByTagName("root")[0].appendChild(newNode);
+        
+        console.log("copy node", x.cloneDoc(newXmlDoc));
+        
+        //copy node and insertBefore
+        var newNode2 = newXmlDoc.getElementsByTagName("node")[0].cloneNode(true);    
+        newNode2.setAttribute('id', 3);
+        newXmlDoc.documentElement.insertBefore(newNode2, newNode);
+    
+        console.log("copy node and insertBefore", x.cloneDoc(newXmlDoc));
+
+        // insert text to text node
+        newNode2.getElementsByTagName("name")[0].childNodes[0].textContent='new content'; // change content
+        newNode2.getElementsByTagName("name")[0].childNodes[0].insertData(0,"   Added text: "); // append content to character index 0
+        
+        newNode2.getElementsByTagName("name")[0].childNodes[0].replaceData(0,2,"Replace text:"); // replace start index, length
+                
+        console.log("change and append and replace content", x.cloneDoc(newXmlDoc));
+        
+        // remove attribute
+        newXmlDoc.getElementsByTagName("node")[0].removeAttribute("id");
+        
+        // remove attribute      
+        var node = newXmlDoc.getElementsByTagName("node")[0];
+        if(node.hasAttribute("data")) {
+            var attrib = node.getAttributeNode("data");
+            node.removeAttributeNode(attrib);
+        }
+
+        console.log("remove attribute", x.cloneDoc(newXmlDoc));
+        
+        //replace node
+        var oldNode = newXmlDoc.getElementsByTagName("node")[0];
+        var newNode = oldNode.cloneNode(true);    
+        newNode.setAttribute('id', 4);
+        newXmlDoc.getElementsByTagName("root")[0].replaceChild(newNode,oldNode);
+        
+        console.log("replace node", x.cloneDoc(newXmlDoc));
+        
+        // remove node
+        newXmlDoc.getElementsByTagName("root")[0].removeChild(
+            newXmlDoc.getElementsByTagName("node")[0]
+        );
+        
+        console.log("remove node", x.cloneDoc(newXmlDoc));
+        
+        console.group("parse for");
+        var nodes = newXmlDoc.getElementsByTagName("node");
+        for (var i = 0; i <nodes.length; i++) {
+          console.log("node id:"+nodes[i].getAttribute('id'));
+          console.log("node tag name text:"+nodes[i].getElementsByTagName("name")[0].textContent);
+          
+          // read attributes from node
+          for (var j = 0; j <nodes[i].attributes.length; j++) {
+              console.log(nodes[i].attributes[j].nodeName + "=" + nodes[i].attributes[j].nodeValue);
+          }
+        }
+        console.groupEnd();
+        
+        console.group("parse while");        
+        var node = newXmlDoc.getElementsByTagName("root")[0].firstChild;
+        while(node != null) {
+          console.log("node attribute id:"+node.getAttribute('id'));
+          console.log("node attribute id:"+node.attributes.getNamedItem("id").nodeValue);
+          console.log("node name:"+node.nodeName);
+          console.log("node value:"+node.nodeValue);
+          console.log("node type:"+node.nodeType);
+          console.log("node tag name text:"+node.getElementsByTagName("name")[0].textContent);
+          
+          node = node.nextSibling
+        }
+        console.groupEnd();
+        
+        
+        console.group("parse while reverse");        
+        var node = newXmlDoc.getElementsByTagName("root")[0].lastChild;
+        while(node != null) {
+          console.log("node attribute id:"+node.getAttribute('id'));
+          node = node.previousSibling
+        }
+        console.groupEnd();
+        
+    </script>
+    
+</body>
+</html>
+
