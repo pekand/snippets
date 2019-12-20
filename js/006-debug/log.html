@@ -13,19 +13,118 @@
         
     </main>
 
+   <script> // tools functions
+        function getXmlDoc(){
+            var xmlDoc = document.implementation.createDocument(null, 'root');
+            var root = xmlDoc.childNodes[0]; // get root node
+            
+            //create node
+            var node = xmlDoc.createElement("node");
+            node.setAttribute("id", "1");
+            node.setAttribute("data", "1");
+            root.appendChild(node);
+
+            // create sub node
+            var nodeName = xmlDoc.createElement("name");
+            var textNode = xmlDoc.createTextNode("node text");
+            nodeName.appendChild(textNode);
+            node.appendChild(nodeName);
+            
+            return xmlDoc;
+        }
+    </script>
     
     <script>
+        console.clear() // clear console
+        
         var o1 = {
             p1: 1,
             p2: "value"
         }
         
         var o2 = {
-            c: "c",
-            d: "d"
+            p1: "c",
+            p2: "d"
         }
+            
+        console.log("Text with placeholders: %% %s %d %o %O %.4d %f %.3f", "value", 1, o1, o2, 5, 1.12345, 1.12345);
         
-        console.clear() // clear console
+        console.log("Apply css to %cCustom message css", "font-weight:400; color: yellow; background-color: red;padding: 50px");
+        
+        /*
+            background 
+            border
+            border-radius
+            box-decoration-break
+            box-shadow
+            clear
+            float
+            color
+            cursor
+            display
+            font 
+            line-height
+            margin
+            outline 
+            padding
+            text-* 
+            text-transform
+            white-space
+            word-spacing
+            word-break
+            writing-mode
+        */
+        
+        console.log("Display variables with names:", {o1,o2});
+            
+        console.group("log vs dir");               
+            
+            console.log(document.body);
+            console.dir(document.body);
+
+        console.groupEnd();
+        
+        console.group("display object");               
+            
+            console.log("log:", o1); // out value is affected by parameter change
+            console.log("dir:");
+            console.dir(o1);
+            console.dirxml("dirxml:", o1);
+            
+            console.log("Object to JSON:", JSON.stringify(o1))
+            console.log("Clone object with json:", JSON.parse(JSON.stringify(o1)));
+            
+            o1.p1 = 2;
+            
+            console.log("log:", o1); // object has in console current state not actual state
+            console.log("dir:");
+            console.dir(o1);
+            console.dirxml("dirxml:", o1);
+
+        console.groupEnd();
+        
+        
+        var xmlDoc = getXmlDoc();
+        
+        console.group("display xml object");               
+            
+            console.log("log", xmlDoc); // out value is affected by parameter change
+            console.log("dir");
+            console.dir(xmlDoc);
+            console.dirxml("dirxml", xmlDoc);
+            
+            console.log("Object to JSON:", JSON.stringify(xmlDoc))
+            console.log("Clone object with json:", JSON.parse(JSON.stringify(xmlDoc)));
+            
+            o1.p1 = 2;
+            
+            console.log("log", xmlDoc); // object has in console current state not actual state
+            console.log("dir");
+            console.dir(xmlDoc);
+            console.dirxml("dirxml", xmlDoc);
+
+        console.groupEnd();
+        
         
         if (window.console) { // cehck if console esists
             console.log(o1, o2); // view like json
@@ -50,6 +149,10 @@
         console.table(["a", "b", "c"]); // displey as table
         
         console.table([["a", "b", "c"],["a", "b", "c"],["a", "b", "c"]]); // displey as table
+        
+        console.table([o1, o2]);
     </script>
+    
+     
 </body>
 </html>
