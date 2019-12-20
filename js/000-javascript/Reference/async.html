@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Sync/away</title>
+    
+    <style>
+    </style>
+    
+</head>
+<body>
+    
+    <main>
+    </main>
+
+    <script type="text/javascript" >
+        // finction create promise witch return random number after 1 second
+        function random() {
+            return new Promise(function(resolve) {
+                setTimeout(function(){
+                    resolve(Math.random());
+                }, 1000);
+            });
+        }
+    </script>
+    
+    <script type="text/javascript" >
+        // executin of multiple promiesies inside async function one by one
+        async function test1() { // return Promise
+            console.log("TEST1: Execution test1 start");
+            console.time("TEST1: test1_finish");
+            
+            var a = await random(); // create promies and wait for finish (pause)
+            var b = await random(); // wait for a finish and then create promise 
+            var c = await random(); // wait for b finish and then create promise
+            
+            console.log("TEST1: test1 results:", a, b, c);
+            console.timeEnd("TEST1: test1_finish"); // 3 sec
+            console.log("TEST1: Execution test1 finish");
+        }
+        
+        console.time("TEST1: test1_call");
+        console.log("TEST1: Call test1");
+        
+        test1().then(function(params){
+            console.log('TEST1: test1 all finished');
+        })
+        
+        console.timeEnd("TEST1: test1_call");
+        console.log("TEST1: Call test1 finish");
+    </script>
+    
+    <script type="text/javascript" >
+        // parallel executin of multiple promiesies inside async function
+        var test2 = async () => {
+            console.time("TEST2: test2_finish");
+            var a = random(); 
+            var b = random();
+            var c = random();
+            
+            var result = await Promise.all([a,b,c]); // wait for all promiesses to finish
+            
+            console.log("TEST2: test2 results:", result[0], result[1], result[2]);
+            console.timeEnd("TEST2: test2_finish"); // 3 sec
+        }
+        
+        console.time("TEST2: test2_call");
+        test2();
+        console.timeEnd("TEST2: test2_call");
+    </script>
+    
+    
+    <script type="text/javascript" >
+        // promise witch send error after 1 second
+        function randomError(m) {
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    reject(new Error('TEST3: Error: ' + m));
+                }, 1000);
+            });
+        }
+    </script>
+    
+    <script type="text/javascript" >
+        // example catch error
+        async function test3() { // return promise
+            try {
+                var a = random(); 
+                var b = randomError("2");
+                var c = randomError("3");
+                
+                var result = await Promise.all([a,b,c]); // all or nothink , one error brak all Promisies
+                
+                console.log("TEST3: results:", result[0], result[1], result[2]);
+            } catch (e) {
+                console.log(e);
+                throw e;
+            }
+        }
+    
+        test3()
+        .catch(function(error){ // catch retrowed exception
+            console.log(error);
+        });
+
+    </script>
+       
+    <script type="text/javascript" >
+        // example for and if with async function
+        
+        function delay(m) {
+            return new Promise(resolve => {
+                console.log("delay start");
+                setTimeout(() => {resolve(m)}, 1000);
+            });
+        }
+        
+        // await with for
+        
+        var a = ['a','b','c'];
+        var m = a.map(v => delay(v)); // create array of promiessies (promiesiess already run now)
+        
+        console.log("map created");
+        
+        // await with for
+        async function test4() {  
+            console.time("TEST4: finish");  
+            for await (var i of m) { // wait for finish all promieses
+                console.log(i);
+            }
+            console.timeEnd("TEST4: finish"); // in 1s (all promiesses executed in once)
+        }
+        
+        test4(); // create function, witch create promiese, witch wait for all created promiesses finish
+        
+        // await with if
+        async function test5() {  
+            console.time("TEST5: finish");  
+            if (await delay("message") == "message") {
+                console.log("TEST5: condition pass");
+            }
+            console.timeEnd("TEST5: finish"); // in 1s
+        }
+        
+        test5(); // create function, witch create promiese, witch wait for delay finish
+    </script>
+    
+    
+    <script>
+        // example promis created inside async function (promise inside promise)
+        async function test6() {           
+            let promise = new Promise(resolve => {
+              setTimeout(function() {
+                resolve(Math.random())
+              }, 1000)
+            });
+
+            var result = await promise;
+            
+            return result;
+        }
+        
+        test6().then(function(i){
+            console.log("TEST6: finish: "+i);
+        });
+    </script>
+    
+    <script>
+        // example return resolve value
+        async function test7() {
+            return Promise.resolve("result");
+        }
+        
+        test7().then(function(i){
+            console.log("TEST7: finish: "+i);
+        });
+    </script>
+    
+    <script>
+        // example return error from async function
+        async function test8() {
+            return Promise.reject(new Error("message"));
+        }
+        
+        test8().then(function(i){
+            console.log("TEST8: finish: "+i);
+        }).catch(function(e){
+            console.log("TEST8: error: "+e);
+        });
+    </script>
+    
+    <script>
+        // example throww exception from async function
+        async function test9() {
+            throw new Error("error mesage");
+        }
+        
+        test9().then(function(i){
+            console.log("TEST9: finish: "+i);
+        }).catch(function(e){
+            console.log("TEST9: error: "+e);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Promises</title>
+   
+    
+</head>
+<body>
+    
+    <main>
+        <h1>Promises</h1>
+    </main>
+
+    <script>        
+        let promise1 = new Promise(function(resolve) {
+            console.log('promise1 created');
+            setTimeout(() => resolve({}), 2000);
+        });
+        
+        promise1.then(function(params){
+            console.log('promise1 done');
+        });
+       
+    </script>
+    
+    <script>
+        let promise2 = new Promise(function(resolve, reject) {
+            console.log('promise2 created');
+            setTimeout(() => reject({}), 2000);
+        });
+        
+        promise2.then(function(params){
+            console.log('promise2 done');
+        },function(params){
+            console.log('promise2 error');
+        });
+       
+    </script>
+    
+    <script>
+        let promise3 = new Promise(function(resolve, reject) {
+            console.log('promise3 created');
+            setTimeout(() => reject(new Error('Error')), 2000);
+        });
+        
+        promise3.then(function(params){
+            console.log('promise2 done');
+        })
+        .catch(function(error){
+            console.log('promise2 error');
+        });
+        
+        promise3.then(function(params){
+            console.log('promise2 handler2 done');
+        })
+        .catch(function(error){ // evry then must have error catch function (can be empty or in catch part)
+            console.log('promise2 handler2 error');
+        });
+    </script>
+    
+     <script>
+        let promise4 = new Promise(function(resolve) {
+            console.log('promise4 created');
+            setTimeout(() => resolve({}), 2000);
+        });
+        
+        promise4.then(function(params){
+            console.log('promise4 done');
+        })
+        .finally(function(){
+            console.log('promise4 finall');
+        });
+    </script>
+    
+    <script>        
+        let promise5 = new Promise(function(resolve) {
+            resolve(1); // only first function is resolved
+            resolve(2); // is ignored
+            console.log("promise5 finish");
+        });
+        
+        promise5.then(function(params) {
+            console.log('promise5 done' + params);
+        });
+       
+    </script>
+    
+    <script>
+        
+        // setTimeout is not part of javascript but browder
+        // 1. javascript run in event loop (waiting for browser message, ui events, clicks, timer)
+        // 2. javascript take message and assigned function and add it to call stack
+        // 3. javascript has own micro-task queue (job queue) with bigger priority as message queue (contain promissies)
+        // after finish jobs teke mesage from queue (while(true){} block javascript engine completly because newer never code from call stack)
+        //https://blog.bitsrc.io/understanding-asynchronous-javascript-the-event-loop-74cd408419ff
+        setTimeout(() => { 
+          console.log('setTimeout finish'); // call after promise
+        }, 0);
+        
+        // Promise has bigger priority as set timeout (Promise is in micro-task queue (job queue) with bigger prioriti then mesage queue)
+        new Promise((resolve, reject) => {
+            resolve('Promise6 resolved');
+        }).then(res => console.log(res));
+    </script>
+    
+    <script>
+        function loadScript(src) {
+          return new Promise(function(resolve, reject) {
+            console.log('Load Script executor start');
+            let script = document.createElement('script');
+            script.src = src;
+
+            script.onload = function(){
+                resolve(script);
+            };
+            
+            script.onerror = function() {
+                reject(new Error('Script load error for '+ src));
+            };
+
+            document.head.append(script);
+
+            console.log('Load Script executor finish');
+          });
+        }
+
+        loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js")
+        .then(function(script){
+            console.log("Script is loaded: "+script.src);
+        })
+        .catch(function(error){            
+            console.log('Script is not loaded: '+error.message);
+        })
+        .finally(function(){
+            console.log("Script load finally");
+        });
+
+    </script>
+    
+    <script>
+        function delay(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        delay(3000).then(() => console.log('delay finish'));
+    </script>
+</body>
+</html>
