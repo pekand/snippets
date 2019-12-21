@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Reload</title>
+    
+    <style>
+    </style>
+    
+</head>
+<body>
+    
+    <main>
+
+    </main>
+
+    <script type="text/javascript" >       
+        window.addEventListener('beforeunload', function(event) {
+          event.preventDefault();
+          event.returnValue = true;
+          return true;
+        });
+    </script>
+    
+</body>
+</html>

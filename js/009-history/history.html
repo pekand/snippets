@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>History</title>
+    
+    <style>
+    </style>
+    
+</head>
+<body>
+    
+    <main>
+        <button onclick="ps()">pushState</button>
+        <button onclick="rs()">replaceState</button>
+    </main>
+
+    <script type="text/javascript" >
+        
+        window.onpopstate = function (event) {
+          if (event.state) {
+            console.log(event.state);
+          } else {
+            console.log("page loaded"); // first state0
+          }
+        }
+
+        function ps() {
+            let state = { 'state': 1, type: 'push' }
+            let title = '';
+            let url = '#state1';
+
+            history.pushState(state, title, url);
+        }
+        
+        function rs() {
+            let state = { 'state': 2, type: 'replace' }
+            let title = '';
+            let url = '#state2';
+
+            history.replaceState(state, title, url);
+        }
+    </script>
+    
+</body>
+</html>
