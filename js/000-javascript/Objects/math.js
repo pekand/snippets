@@ -25,7 +25,7 @@ Math.log(x);
 Math.max(x, y, z, ..., n);
 Math.min(x, y, z, ..., n);
 Math.pow(x, y);
-Math.random();
+Math.random(); /* 0<= x < 1 */
 Math.round(x);
 Math.sin(x);
 Math.sinh(x);
@@ -33,3 +33,7 @@ Math.sqrt(x);
 Math.tan(x);
 Math.tanh(x);
 Math.trunc(x);
+
+function getRandomArbitrary(min, max) { // min <= x < max
+  return Math.random() * (max - min) + min;
+}
