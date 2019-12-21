@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Reload</title>
+    
+    <style>
+    </style>
+    
+</head>
+<body>
+    
+    <main>
+        <button onclick="state1()">state1</button>
+        <button onclick="state2()">state2</button>
+    </main>
+
+    <script type="text/javascript" >
+        function processState(state) {
+            console.log("process: "+state);
+        }
+        
+        window.addEventListener('hashchange', function() { 
+          console.log(window.location.hash);
+          processState(window.location.hash);
+        }, false);
+                
+        if (window.location.hash == "") { // default state
+           window.location.hash = "state0";           
+        }
+            
+        function state1() {
+            window.location.hash = "state1";
+        }
+        
+        function state2() {
+            window.location.hash = "state2";
+        }
+     
+    </script>
+    
+</body>
+</html>
