@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Random</title>
+    
+    <style>
+    </style>
+    
+</head>
+<body>
+    
+    <main>
+    </main>
+
+    
+    
+    <script type="text/javascript" >
+
+        function getRandomInt(min, max) {
+          return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1)) + Math.ceil(min);
+        }
+
+        function getCryptoRandomInteger() {
+            return crypto.getRandomValues(new Uint32Array(1))[0];
+        }
+        
+        function getCryptoRandomInt(min, max) {
+            return crypto.getRandomValues(new Uint32Array(1))[0] % (max - min + 1) + min;
+        }
+        
+        let state0 = getCryptoRandomInteger();
+        let state1 = getCryptoRandomInteger();
+        function xorshift() {
+            let s1 = state0; 
+            let s0 = state1; 
+            state0 = s0;  
+
+            s1 ^= s1 << 23;
+            s1 ^= s1 >> 17;
+            s1 ^= s0;
+            s1 ^= s0 >> 26;
+            state1 = s1;
+
+           return state0 + state1;
+        }
+        
+        function getXorSiftRandomInt(min, max) {
+            return min+(max-min+1)*xorshift()/2**32|0;
+        }
+
+    </script>
+
+    <script type="text/javascript" >
+        console.group("pseudo random generator"); 
+        console.time();
+        var c = [];
+        var r;
+        
+        for(var i = 0;i<20;i++) {
+            c[i] = 0;
+        }
+        
+        for(var i = 0;i<10000;i++) {
+            r = getRandomInt(1, 10);           
+            c[r]++;
+        }
+        
+        console.log(c);
+        console.timeEnd();
+        console.groupEnd(); 
+    </script>
+      
+    <script>
+        
+        
+        
+    </script>
+    
+    <script type="text/javascript" >
+
+        console.group("crypto random generator"); 
+        console.time();
+        var c = [];
+        var r;
+        
+        for(var i = 0;i<20;i++) {
+            c[i] = 0;
+        }
+        
+        for(var i = 0;i<10000;i++) {
+            r = getCryptoRandomInt(1, 10);           
+            c[r]++;
+        }
+        
+        console.log(c);
+        console.timeEnd();
+        console.groupEnd(); 
+    </script>
+    
+    <script>
+        console.group("crypto random generator 10 random numbers"); 
+        console.time();
+        var a = new Uint32Array(10);
+        window.crypto.getRandomValues(a);
+
+        console.log(a);
+        
+        console.timeEnd();
+        console.groupEnd(); 
+    </script>
+    
+    
+    <script>
+        console.group("crypto random string generator"); 
+        console.time();
+        
+        function randomCryptoString(len, charset) {
+            var charset = charset || "abcdefghijklmnopqrstuvwzABCDEFGHIJKLMNOPQRSTUVWZ0123456789";
+            var a = new Uint32Array(len);
+            window.crypto.getRandomValues(a);
+            var res = "";
+            a.forEach(function(v){
+                res = res + charset[v % charset.length];
+            });
+            return res;
+        }
+        
+        
+        console.log(randomCryptoString(128));
+        
+        console.timeEnd();
+        console.groupEnd(); 
+    </script>
+    
+    <script>
+        console.group("random string generator"); 
+        console.time();
+        
+        function randomString(len, charset) {
+            var charset = charset || "abcdefghijklmnopqrstuvwzABCDEFGHIJKLMNOPQRSTUVWZ0123456789";
+            var res = "";
+            for(var i = 0; i< len; i++){
+                var r = Math.floor(Math.random() * charset.length);
+                res = res + charset[r];
+            }
+            return res;
+        }
+
+        console.log(randomString(128));
+        
+        console.timeEnd();
+        console.groupEnd(); 
+    </script>
+    
+</body>
+</html>
