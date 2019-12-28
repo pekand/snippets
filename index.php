@@ -13,7 +13,7 @@
 	
     <main>
         
-        <h1>html</h1>
+        <a href="/html"><h1>html</h1></a>
         <table>
             <tr>
                 <td>
@@ -47,7 +47,7 @@
 
         </table>
         
-        <h1>css</h1>
+        <a href="/css"><h1>css</h1></a>
         <table>
             <tr>
                 <td>
@@ -124,7 +124,7 @@
         </table>
 
 
-        <h1>js</h1>
+        <a href="/js"><h1>js</h1></a>
         <table>
             <tr>
                 <td>
@@ -151,7 +151,7 @@
             </tr>
         </table>
         
-        <h1>php</h1>
+        <a href="/php"><h1>php</h1></a>
         <table>
             <tr>
                 <td>
@@ -161,7 +161,7 @@
 
         </table>
         
-        <h1>csharp</h1>
+        <a href="/csharp"><h1>csharp</h1></a>
         <table>
             <tr>
                 <td>
