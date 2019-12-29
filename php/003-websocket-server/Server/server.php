@@ -1,6 +1,6 @@
 <?php
 
-class SocketServer  { 
+class SocketServer {
     protected $address = null;
     protected $port = null;
     
@@ -51,6 +51,24 @@ class SocketServer  {
         return bin2hex(openssl_random_pseudo_bytes(32));
     }
     
+    private $pingMessage = "";
+    
+    public function setPingMesasge($message) { 
+        $this->pingMessage = $message;
+    }
+    
+    public function getPingMesasge() { 
+        return $this->pingMessage;
+    }
+    
+    public function ping($client) {
+        if (false === @$this->sendData($client['ref'], $this->pingMessage)) {          
+            return false;
+        }
+        
+        return true;
+    }
+    
     public function listenToSocket($acceptClientEvent = null, $readFromClientEvent = null, $clientDisconectEvent = null) {
         while(true)
         {
@@ -63,13 +81,11 @@ class SocketServer  {
                     $clientData = [
                         'uid' => $uid,
                         'ref' => $client,
-                        'buf' => "",
-                        'lastframe' => null,
                         'lastActivityTime' => microtime(true),
                     ];
                     
                     $data = "";
-                    while ($buf = @socket_read($client, 1024)) {
+                    while ($buf = @socket_read($client, 1024)) {                        
                         $data .= $buf;
                     }
 
@@ -93,15 +109,15 @@ class SocketServer  {
 
                     if ($data === "") {
                         if (isset($client['lastActivityTime']) && microtime(true) - $client['lastActivityTime'] > $this->keepLiveInterval) {
-                            if (false === @$this->sendData($client['ref'], $this->mesage('ping'))) { //todo
-                                
+                            
+                            if (!$this->ping($client)) {
                                 if (is_callable($clientDisconectEvent)) {
                                     call_user_func_array($clientDisconectEvent, [&$clientData]);
                                 }
                                 
                                 $this->close($client);
                             }
-                            
+
                             $this->clients[$key]['lastActivityTime'] = microtime(true);
                         }
                     
@@ -124,8 +140,11 @@ class SocketServer  {
 class WebSocketServerBase extends SocketServer {
     public function __construct($address, $port) {
         parent::__construct($address, $port);
+        
+        $this->setPingMesasge($this->mesage('ping'));
     }
     
+    //convert byte array string to binnary representation array "A" -> "01000001"
     protected  function str2bin($s) { 
         $res = "";
         for($i = 0;  $i < strlen($s); $i++) {
@@ -137,8 +156,31 @@ class WebSocketServerBase extends SocketServer {
         return $res;
     }
     
-    protected function mesage($m) { // todo
-        return chr(129) . chr(strlen($m)) . $m;
+    //convert int to binnary string representation  65 -> "01000001"
+    protected function toBin($d, $pad) { 
+        return str_pad(decbin($d), $pad, "0", STR_PAD_LEFT);
+    }
+    
+    // convert binnary representation as string to byte array string "01000001" -> "A"
+    function bin2str($s) {  
+        $r = "";
+        $c = 0;
+        $cnt = 1;
+        for ($i = 0; $i < strlen($s); $i++) {
+            
+            $c = ($c + ($s[$i] == "1" ? 1 : 0));
+            
+            if ($cnt == 8) {
+                $r .= chr($c);          
+                $c = 0;
+                $cnt = 0;
+            }
+            
+            $c = $c << 1;   
+
+            $cnt++;
+        }
+        return $r;
     }
     
     protected function createConnectHeader($data) {
@@ -155,117 +197,148 @@ class WebSocketServerBase extends SocketServer {
         
         return $headers;
     }
-}
- 
-class WebSocketServer extends WebSocketServerBase {
     
-    public function __construct($address, $port) {
-        parent::__construct($address, $port);
+    protected function mesage($m) { // todo
+        
+        $len = strlen($m);
+        $lenext = "";
+        if ($len > 2**16) {
+            $len = 127;
+            $lenext = $this->toBin(strlen($m), 8*8);
+        } else if ($len > 125) {
+            $len = 126;
+            $lenext = strlen($m);
+            $lenext = $this->toBin(strlen($m), 8*2);
+        }
+        
+        $maskingkey = openssl_random_pseudo_bytes(4);
+        
+        $maskedData = "";
+        for ($i = 0; $i<strlen($m); $i++) {
+            $maskedData .= $m[$i] ^ $maskingkey[$i % 4];
+        }
+        
+        $opcode = 1; 
+        
+        $frame = [
+            'fin' => '1',
+            'rsv1' => '0',
+            'rsv2' => '0',
+            'rsv3' => '0',
+            'opcode'=> $this->toBin($opcode, 4),
+            'mask' => '0',
+            'len' => $this->toBin($len, 7),
+            'lenext' => $lenext,
+        ];
+        
+        $b = "";
+        foreach ($frame as $v) {
+            $b .= $v;
+        }
+
+        return $this->bin2str($b).$m;
     }
-       
+
     // rfc6455 The WebSocket Protocol 
     // https://tools.ietf.org/html/rfc6455
-    private function proccessRequest(&$client) // TODO last frame remove from client
+    protected function proccessRequest($lastFrame, &$data) // TODO last frame remove from client
     {
-        $buf = &$client['buf'];
-        
         // proccess additional data
-        if ($client['lastframe'] != null && 
-            $client['lastframe']['lenext'] > 0 && 
-            $client['lastframe']['lenext'] < strlen($client['lastframe']['payloaddata'])
+        if ($lastFrame != null && 
+            $lastFrame['lenext'] > 0 && 
+            $lastFrame['lenext'] < strlen($lastFrame['payloaddata'])
         ) {
-            $frame = $client['lastframe'];
+            $frame = $lastFrame;
 
             $frame['payloaddata'] = "";
             
-            $remainingLength = $client['lastframe']['lenext'] - strlen($client['lastframe']['payloaddata']);
-            $data = substr($buf, 0, $remainingLength);
-            $buf = substr($buf, $remainingLength);
+            $remainingLength = $frame['lenext'] - strlen($frame['payloaddata']);
+            $data = substr($data, 0, $remainingLength);
+            $data = substr($data, $remainingLength);
             
             if ($frame['mask']) {
-                for ($i = 0; $i<strlen($buf); $i++)
+                for ($i = 0; $i<strlen($data); $i++)
                     $frame['payloaddata'] .= $data[$i] ^ $frame['maskingkey'][$i % 4];
             } else {
                 $frame['payloaddata'] .= $data;
             }
 
-            if($lastFrame['lenext'] == strlen($frame['payloaddata'])) {
+            if($frame['lenext'] == strlen($frame['payloaddata'])) {
                 $frame['full'] == true;
-                
-                return $frame;
             }
 
-            return null;
+            return $frame;
         }
 
 
         $frame = [];
 
-        $b1 = $this->str2bin($buf[0]);
+        $b1 = $this->str2bin($data[0]);
         $frame['fin'] = $b1[0] == '1';
         $frame['rsv1'] = $b1[1] == '1';
         $frame['rsv2'] = $b1[2] == '1';
         $frame['rsv3'] = $b1[3] == '1';
         $frame['opcode'] = bindec(substr($b1, 4, 4));
 
-        $b2 = $this->str2bin($buf[1]);
+        $b2 = $this->str2bin($data[1]);
         $frame['mask'] = $b2[0] == '1';
-        $frame['len'] = $frame['mask'] ? ord($buf[1]) & 127 : ord($bytes[1]);
+        $frame['len'] = $frame['mask'] ? ord($data[1]) & 127 : ord($data[1]);
 
         $frame['lenext'] = 0;
         if ($frame['len']===126) {
             $frame['lenext'] = bindec(
-                $this->str2bin($buf[2]).
-                $this->str2bin($buf[3])
+                $this->str2bin($data[2]).
+                $this->str2bin($data[3])
             );
         } elseif ($frame['len']===127) {
             $frame['lenext'] = bindec(
-                $this->str2bin($buf[2]).
-                $this->str2bin($buf[3]).
-                $this->str2bin($buf[4]).
-                $this->str2bin($buf[5]).
-                $this->str2bin($buf[6]).
-                $this->str2bin($buf[7]).
-                $this->str2bin($buf[8]).
-                $this->str2bin($buf[9])
+                $this->str2bin($data[2]).
+                $this->str2bin($data[3]).
+                $this->str2bin($data[4]).
+                $this->str2bin($data[5]).
+                $this->str2bin($data[6]).
+                $this->str2bin($data[7]).
+                $this->str2bin($data[8]).
+                $this->str2bin($data[9])
             );
         }
 
         if ($frame['len']===126) {
-            $frame['maskingkey'] = substr($buf, 4, 4);
+            $frame['maskingkey'] = substr($data, 4, 4);
         } elseif ($frame['len']===127) {
-            $frame['maskingkey'] = substr($buf, 10, 4);
+            $frame['maskingkey'] = substr($data, 10, 4);
         } else {
-            $frame['maskingkey'] = substr($buf, 2, 4);
+            $frame['maskingkey'] = substr($data, 2, 4);
         }
 
         $frame['payloaddata'] = "";
         if ($frame['mask']) {
             if ($frame['len']===126){
-                $coded_data = substr($buf, 8, $frame['lenext']);
-                $buf = substr($buf, $frame['lenext']);
+                $coded_data = substr($data, 8, $frame['lenext']);
+                $buf = substr($data, $frame['lenext']);
             } elseif ($frame['len']===127) {
-                $coded_data = substr($buf, 14, $frame['lenext']);
-                $buf = substr($buf, $frame['lenext']);
+                $coded_data = substr($data, 14, $frame['lenext']);
+                $data = substr($data, $frame['lenext']);
             } else {
-                $coded_data = substr($buf, 6, $frame['len']);
-                $buf = substr($buf, $frame['len']);
+                $coded_data = substr($data, 6, $frame['len']);
+                $data = substr($data, $frame['len']);
             }
 
-            for ($i = 0; $i<strlen($coded_data); $i++)
+            for ($i = 0; $i<strlen($coded_data); $i++) {
                 $frame['payloaddata'] .= $coded_data[$i] ^ $frame['maskingkey'][$i % 4];
+            }
         }
         else
         {
             if ($frame['len']===126) {
-                $frame['payloaddata'] = substr($buf, 4, $frame['lenext']);
-                $buf = substr($buf, $frame['lenext']);
+                $frame['payloaddata'] = substr($data, 4, $frame['lenext']);
+                $data = substr($data, $frame['lenext']);
             } elseif ($frame['len']===127) {
-                $frame['payloaddata'] = substr($buf, 10, $frame['lenext']);
-                $buf = substr($buf, $frame['lenext']);
+                $frame['payloaddata'] = substr($data, 10, $frame['lenext']);
+                $data = substr($data, $frame['lenext']);
             } else {
-                $frame['payloaddata'] = substr($buf, 2, $frame['len']);
-                $buf = substr($buf, $frame['len']);
+                $frame['payloaddata'] = substr($data, 2, $frame['len']);
+                $data = substr($data, $frame['len']);
             }
         }
 
@@ -277,14 +350,19 @@ class WebSocketServer extends WebSocketServerBase {
         }
 
         $client['lastframe'] = $frame;
-        
-        if ($frame['full']) {
-            return $frame;
-        }
-        
-        return null;
+
+        return $frame;
     }
+}
+ 
+class WebSocketServer extends WebSocketServerBase {
     
+    private $frames = [];
+    
+    public function __construct($address, $port) {
+        parent::__construct($address, $port);
+    }
+
     public function sendMessage($client, $message){ 
         return $this->sendData($client['ref'], $this->mesage($message));
     }
@@ -306,25 +384,33 @@ class WebSocketServer extends WebSocketServerBase {
                 
                 $this->sendData($client['ref'], $headers);
                 
+                $this->frames[$client['uid']] = null;
+                
                 $server = $this;
                 if (isset($this->clientConnectedEvent) && is_callable($this->clientConnectedEvent)) {
                     call_user_func_array($this->clientConnectedEvent, [&$server, &$client]);
                 }
             },
             function (&$client, &$data) {
+            
+                $lastFrame = $this->frames[$client['uid']];
                 
-                $client['buf'] .= $data;
-                
-                $frame = $this->proccessRequest($client); // todo until data exists in buffer
-                
-                if ($frame == null) {
-                    return;
-                }
-                
-                $server = $this;
-                if (isset($this->getFrameEvent) && is_callable($this->getFrameEvent)) {
-                    $request = $frame['payloaddata'];
-                    call_user_func_array($this->getFrameEvent, [&$server, &$client, $request]);
+                while(strlen($data) > 0) {
+                    $frame = $this->proccessRequest($lastFrame, $data);
+                    
+                    if ($frame == null) {
+                        return;
+                    }
+
+                    $server = $this;
+                    if ($frame['full'] && isset($this->getFrameEvent) && is_callable($this->getFrameEvent)) {
+                        $request = $frame['payloaddata'];
+                        call_user_func_array($this->getFrameEvent, [&$server, &$client, $request]);
+                    }
+                    
+                    $lastFrame = $frame;
+                    
+                    $this->frames[$client['uid']] = $lastFrame;
                 }
             },
             function(&$client) {
@@ -343,19 +429,16 @@ echo "WAITING...\n";
 $server = new WebSocketServer('0.0.0.0', 8080);
 
 $server->clientConnected(function($server, $client) {
-     echo "({$client['ref']}) CLIENT CONNECTED\n";
+     echo "({$client['uid']}) CLIENT CONNECTED\n";
 });
 
 $server->clientDisconnected(function($server, $client) { // TODO process message from server after close tab in browser
-     echo "({$client['ref']}) CLIENT DISCONNECTED\n";
+     echo "({$client['uid']}) CLIENT DISCONNECTED\n";
 });
 
 $server->listen(function(&$server, &$client, $request) {   
     echo "({$client['uid']}) request: $request\n";
-    
-    var_dump($client['lastframe']);
-    var_dump($client['buf']);
-    
+       
     if ($request == "now") {
         $contentBody = 'T' . time();
         $server->sendMessage($client, $contentBody);
