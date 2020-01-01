@@ -184,11 +184,17 @@ class WebSocketServerBase extends SocketServer {
     }
     
     protected function createConnectHeader($data) {
+        print_r($data);
         preg_match('#Sec-WebSocket-Key: (.*)\r\n#', $data, $matches);
-        $key = base64_encode(pack(
-            'H*',
-            sha1($matches[1] . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
-        ));
+        
+        $key = "";
+        if (isset($matches[1])) {
+            $key = base64_encode(pack(
+                'H*',
+                sha1($matches[1] . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
+            ));
+        }
+        
         $headers = "HTTP/1.1 101 Switching Protocols\r\n";
         $headers .= "Upgrade: websocket\r\n";
         $headers .= "Connection: Upgrade\r\n";
