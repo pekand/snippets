@@ -32,7 +32,7 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
         $this->sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         
         if(!@socket_connect($this->sock, '127.0.0.1', 8080)) {
-             echo "CONNECTION TO SERVER FAILED:\n";
+             echo "ERROR: UNABLE CONNECT TO SERVER\n";
              $this->sock = null;
              return;
         }
@@ -118,10 +118,10 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
     }
     
     protected function message($m) { // todo
-        
+
         $len = strlen($m);
         $lenext = "";
-        if ($len > 2**16) {
+        if ($len >= 2**16) {
             $len = 127;
             $lenext = $this->toBin(strlen($m), 8*8);
         } else if ($len > 125) {
@@ -129,16 +129,16 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
             $lenext = strlen($m);
             $lenext = $this->toBin(strlen($m), 8*2);
         }
-        
+
         $maskingkey = openssl_random_pseudo_bytes(4);
-        
+
         $maskedData = "";
         for ($i = 0; $i<strlen($m); $i++) {
             $maskedData .= $m[$i] ^ $maskingkey[$i % 4];
         }
-        
+
         $opcode = 1; 
-        
+
         $frame = [
             'fin' => '1',
             'rsv1' => '0',
@@ -149,18 +149,18 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
             'len' => $this->toBin($len, 7),
             'lenext' => $lenext,
         ];
-        
+
         $b = "";
         foreach ($frame as $v) {
             $b .= $v;
         }
-        
+
         $maskingkey = openssl_random_pseudo_bytes(4);
 
         $messageMasked = "";
         for ($i = 0; $i<strlen($m); $i++)
             $messageMasked .= $m[$i] ^ $maskingkey[$i % 4];
-                
+
         return $this->bin2str($b).$maskingkey.$messageMasked;
     }
     
@@ -174,11 +174,11 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
             $frame = $lastFrame;
 
             $frame['payloaddata'] = "";
-            
+
             $remainingLength = $frame['lenext'] - strlen($frame['payloaddata']);
             $data = substr($data, 0, $remainingLength);
             $data = substr($data, $remainingLength);
-            
+
             if ($frame['mask']) {
                 for ($i = 0; $i<strlen($data); $i++)
                     $frame['payloaddata'] .= $data[$i] ^ $frame['maskingkey'][$i % 4];
@@ -283,33 +283,29 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
         if ($this->sock == null) {
             return;
         }
-        
-        echo "REQUEST TO SERVER: $msg\n";
+
         $frame = $this->message($msg);
         @socket_write($this->sock, $frame, strlen($frame));
         
         $buf = null;
         $data = "";
 
-            if (false === ($buf = @socket_read($this->sock, 2048))) {
-                echo "READ ERROR: " . socket_strerror(socket_last_error($this->sock)) . "\n";
+        if (false === ($buf = @socket_read($this->sock, 2048))) {
+            echo "READ ERROR: " . socket_strerror(socket_last_error($this->sock)) . "\n";
+        }  
 
-            }  
-                var_dump($buf);
-            $data .= $buf;
+        $data .= $buf;
 
-        
         $this->lastFrame = $this->proccessResponse($this->lastFrame, $data);
                     
         $response = "";
         if ($this->lastFrame != null && $this->lastFrame['full']) {
             $response = $this->lastFrame['payloaddata'];
             $this->lastFrame = null;
+            return $response;
         }
         
-        echo "RESPONSE FROM SERVER: '$response'.\n";
-        
-        echo "---\n";
+        return null;
     }
     
     public function listen() {
@@ -318,7 +314,6 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
         }
         
         while(true) {
-            
             
             if (false === ($buf = @socket_read($this->sock, 2048, MSG_WAITALL))) {
                 echo "READ ERROR: " . socket_strerror(socket_last_error($this->sock)) . "\n";
@@ -334,7 +329,7 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
                     $this->lastFrame = null;
                 }
                 
-                echo "RESPONSE FROM SERVER: '$response'.\n";
+                echo "REQUEST FROM SERVER: '$response'.\n";
             }
 
             usleep(50000);
@@ -347,8 +342,12 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
 $client = new WebsocketClient();
 $client->connect();
 
-$lenght10 = "ABBBBBBBBC";
-        
+$lenght125 = "";
+for($i=0;$i<125-2;$i++) {
+    $lenght125 .= "B";
+}
+$lenght125 = "A".$lenght125."C";    
+
 $lenght126 = "";
 for($i=0;$i<126-2;$i++) {
     $lenght126 .= "B";
@@ -367,15 +366,39 @@ for($i=0;$i<256-2;$i++) {
 }
 $lenght256 = "A".$lenght256."C";
 
+$lenghtBIG = "";
+for($i=0;$i<2**16-3;$i++) {
+    $lenghtBIG .= "B";
+}
+$lenghtBIG = "A".$lenghtBIG."C";
+
+$lenghtHUGE = "";
+for($i=0;$i<2**16-2;$i++) {
+    $lenghtHUGE .= "B";
+}
+$lenghtHUGE = "A".$lenghtHUGE."C";
+
+
+$lenghtExtraHUGE = "";
+for($i=0;$i<2**17-2;$i++) {
+    $lenghtExtraHUGE .= "B";
+}
+$lenghtExtraHUGE = "A".$lenghtExtraHUGE."C";
+
 $messages = array(
-    $lenght10,
+    $lenght125,
     $lenght126,
-    //$lenght127,
-    //$lenght256
+    $lenght127,
+    $lenght256,
+    $lenghtBIG,
+    $lenghtHUGE,
+    $lenghtExtraHUGE
 );
 
 foreach($messages as $msg) { 
-    $client->sendMessage($msg);
+    echo "MESSAGE TO SERVER (".strlen($msg).")".(strlen($msg) > 1000 ? substr($msg, 0, 100)."...".substr($msg, -100) : $msg)."\n";
+    $response = $client->sendMessage($msg);    
+    echo "RESPONSE FROM SERVER (".strlen($response).")".(strlen($response) > 1000 ? substr($response, 0, 100)."...".substr($response, -100) : $response)."\n";
 }
         
 $client->listen();

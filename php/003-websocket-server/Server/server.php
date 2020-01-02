@@ -1,17 +1,23 @@
 <?php
 
-class SocketServer {
-    protected $address = null;
-    protected $port = null;
+class SocketServer {   
     
-    protected $socket = null;
+    private $socket = null;
     
     private $clients = [];
+       
+    protected $options = [ 
+        'ip'=> '0.0.0.0', 
+        'port' => 8080,
+        'waitInterval' => 50000, // event loop wait cicle (in ms)
+        'keepLiveInterval' => 5 // ping client (in s)
+    ];
     
-    private $waitInterval = 50000;
-    private $keepLiveInterval = 5;
+    private $pingMessage = "";
     
-    public function __construct($address = '0.0.0.0', $port = 8080) {
+    public function __construct($options = []) {
+        
+        $this->options = array_merge($this->options, $options);
         
         if(!extension_loaded("sockets")) {
             die("php sockets module is required and not loaded!!");
@@ -20,38 +26,45 @@ class SocketServer {
         if(!extension_loaded("openssl")) {
             die("php openssl extension is required and not loaded!!");
         }
-        
-        $this->address = $address;
-        $this->port = $port;
-    }
-    
-    public function close($client) {
-       socket_close($client['ref']);
-       unset($this->clients[$client['uid']]);
-    }
-    
-    public function bindSocket() {
-        $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        if(!@socket_bind($this->socket, $this->address, $this->port)){
-            $errorcode = socket_last_error();
-            $errormsg = socket_strerror($errorcode);
-            die("Couldn't create socket: [$errorcode] $errormsg");
-        };
-        socket_listen($this->socket);
-        socket_set_nonblock($this->socket);
-
-        return $this;
-    }
-    
-    public function sendData($client, $data) {
-        return socket_write($client, $data, strlen($data));
     }
     
     public function uid() {
         return bin2hex(openssl_random_pseudo_bytes(32));
     }
     
-    private $pingMessage = "";
+    public function afterSocketServerError($afterSocketServerErrorEvent = null) {
+        $this->afterSocketServerErrorEvent = $afterSocketServerErrorEvent;
+        return $this;
+    }
+    
+    public function bindSocket() {        
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if(!@socket_bind($socket, $this->options['ip'], $this->options['port'])){
+            $errorcode = socket_last_error();
+            $errormsg = socket_strerror($errorcode);
+            
+            if (isset($this->afterSocketServerErrorEvent) && is_callable($this->afterSocketServerErrorEvent)) {
+                call_user_func_array($this->afterSocketServerErrorEvent, [$errorcode, $errormsg]);
+            }
+        } else {
+            if(!socket_listen($socket)) {
+                if (isset($this->afterSocketServerErrorEvent) && is_callable($this->afterSocketServerErrorEvent)) {
+                    call_user_func_array($this->afterSocketServerErrorEvent, [$errorcode, $errormsg]);
+                }
+                                
+            } else {
+                $this->socket = $socket;
+                socket_set_nonblock($this->socket);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function close($client) {
+       socket_close($client['ref']);
+       unset($this->clients[$client['uid']]);
+    }
     
     public function setPingMesasge($message) { 
         $this->pingMessage = $message;
@@ -62,14 +75,51 @@ class SocketServer {
     }
     
     public function ping($client) {
-        if (false === @$this->sendData($client['ref'], $this->pingMessage)) {          
+        if (false === @$this->sendData($client, $this->pingMessage)) {          
             return false;
         }
         
         return true;
     }
     
-    public function listenToSocket($acceptClientEvent = null, $readFromClientEvent = null, $clientDisconectEvent = null) {
+    public function afterSocketError($afterSocketErrorEvent = null) {
+        $this->afterSocketErrorEvent = $afterSocketErrorEvent;
+        return $this;
+    }
+    
+    public function sendData($client, $data) {
+        $result = @socket_write($client['ref'], $data, strlen($data));
+        
+        if ($result === false) {
+            $errorcode = socket_last_error();
+            $errormsg = socket_strerror($errorcode);
+
+            if (isset($this->afterSocketErrorEvent) && is_callable($this->afterSocketErrorEvent)) {
+                call_user_func_array($this->afterSocketErrorEvent, [&$client, $errorcode, $errormsg]);
+            }
+            
+            return false;
+        }
+        
+        return true;
+    }
+
+    public function acceptClient($acceptClientEvent = null) {
+        $this->acceptClientEvent = $acceptClientEvent;
+        return $this;
+    }
+    
+    public function clientDisconnected($clientDisconnectedEvent = null) {
+        $this->clientDisconnectedEvent = $clientDisconnectedEvent;
+        return $this;
+    }
+
+    public function listenToSocket($readFromClientEvent = null) {
+        
+        if (!$this->socket){
+            return;
+        }
+        
         while(true)
         {
             if(($client = socket_accept($this->socket)) !== false)
@@ -89,8 +139,8 @@ class SocketServer {
                         $data .= $buf;
                     }
 
-                    if (is_callable($acceptClientEvent)) {
-                        call_user_func_array($acceptClientEvent, [&$clientData, &$data]);
+                    if (isset($this->acceptClientEvent) && is_callable($this->acceptClientEvent)) {
+                        call_user_func_array($this->acceptClientEvent, [&$clientData, &$data]);
                     }
 
                     $this->clients[$uid] = $clientData;
@@ -108,11 +158,11 @@ class SocketServer {
                     }
 
                     if ($data === "") {
-                        if (isset($client['lastActivityTime']) && microtime(true) - $client['lastActivityTime'] > $this->keepLiveInterval) {
+                        if (isset($client['lastActivityTime']) && microtime(true) - $client['lastActivityTime'] > $this->options['keepLiveInterval']) {
                             
                             if (!$this->ping($client)) {
-                                if (is_callable($clientDisconectEvent)) {
-                                    call_user_func_array($clientDisconectEvent, [&$clientData]);
+                                if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
+                                    call_user_func_array($this->clientDisconnectedEvent, [&$clientData]);
                                 }
                                 
                                 $this->close($client);
@@ -132,16 +182,13 @@ class SocketServer {
                 }
             }
             
-            usleep($this->waitInterval);
+            usleep($this->options['waitInterval']);
         }
     }
 }
 
-class WebSocketServerBase extends SocketServer {
-    public function __construct($address, $port) {
-        parent::__construct($address, $port);
-        
-        $this->setPingMesasge($this->mesage('ping'));
+class WebSocketServerBase {
+    public function __construct($options) {
     }
     
     //convert byte array string to binnary representation array "A" -> "01000001"
@@ -184,7 +231,6 @@ class WebSocketServerBase extends SocketServer {
     }
     
     protected function createConnectHeader($data) {
-        print_r($data);
         preg_match('#Sec-WebSocket-Key: (.*)\r\n#', $data, $matches);
         
         $key = "";
@@ -208,7 +254,7 @@ class WebSocketServerBase extends SocketServer {
         
         $len = strlen($m);
         $lenext = "";
-        if ($len > 2**16) {
+        if ($len >= 2**16) {
             $len = 127;
             $lenext = $this->toBin(strlen($m), 8*8);
         } else if ($len > 125) {
@@ -321,7 +367,7 @@ class WebSocketServerBase extends SocketServer {
         if ($frame['mask']) {
             if ($frame['len']===126){
                 $coded_data = substr($data, 8, $frame['lenext']);
-                $buf = substr($data, $frame['lenext']);
+                $data = substr($data, $frame['lenext']);
             } elseif ($frame['len']===127) {
                 $coded_data = substr($data, 14, $frame['lenext']);
                 $data = substr($data, $frame['lenext']);
@@ -365,30 +411,52 @@ class WebSocketServer extends WebSocketServerBase {
     
     private $frames = [];
     
-    public function __construct($address, $port) {
-        parent::__construct($address, $port);
+    private $socketServer = null; 
+    
+    public function __construct($options) {
+        $this->socketServer = new SocketServer($options);
+        $this->socketServer->setPingMesasge($this->mesage('ping'));
     }
 
-    public function sendMessage($client, $message){ 
-        return $this->sendData($client['ref'], $this->mesage($message));
+    public function afterError($afterError){ 
+        $this->afterError = $afterError;
+        return $this;
+    }
+    
+    public function afterServerError($afterServerError){ 
+        $this->afterServerError = $afterServerError;
+        return $this;
     }
     
     public function clientConnected($clientConnectedEvent){ 
         $this->clientConnectedEvent = $clientConnectedEvent;
+        return $this;
     }
     
     public function clientDisconnected($clientDisconectEvent){ 
         $this->clientDisconectEvent = $clientDisconectEvent;
+        return $this;
+    }
+    
+    public function sendMessage($client, $message){ 
+        return $this->socketServer->sendData($client, $this->mesage($message));
     }
     
     public function listen($getFrameEvent) {
         $this->getFrameEvent = $getFrameEvent;
         
-        $this->bindSocket()->listenToSocket(
-            function (&$client, &$data) {
+        $this->socketServer
+            ->afterSocketServerError($this->afterServerError) // server cause error
+            ->afterSocketError(function(&$client, $code, $mesage) { // client cause error
+                $server = $this;
+                if (isset($this->afterError) && is_callable($this->afterError)) {
+                    call_user_func_array($this->afterError, [&$server, &$client, $code, $mesage]);
+                }
+            })
+            ->acceptClient(function (&$client, &$data) { // client connected
                 $headers = $this->createConnectHeader($data);
                 
-                $this->sendData($client['ref'], $headers);
+                $this->socketServer->sendData($client, $headers);
                 
                 $this->frames[$client['uid']] = null;
                 
@@ -396,43 +464,58 @@ class WebSocketServer extends WebSocketServerBase {
                 if (isset($this->clientConnectedEvent) && is_callable($this->clientConnectedEvent)) {
                     call_user_func_array($this->clientConnectedEvent, [&$server, &$client]);
                 }
-            },
-            function (&$client, &$data) {
-            
-                $lastFrame = $this->frames[$client['uid']];
-                
-                while(strlen($data) > 0) {
-                    $frame = $this->proccessRequest($lastFrame, $data);
-                    
-                    if ($frame == null) {
-                        return;
-                    }
-
-                    $server = $this;
-                    if ($frame['full'] && isset($this->getFrameEvent) && is_callable($this->getFrameEvent)) {
-                        $request = $frame['payloaddata'];
-                        call_user_func_array($this->getFrameEvent, [&$server, &$client, $request]);
-                    }
-                    
-                    $lastFrame = $frame;
-                    
-                    $this->frames[$client['uid']] = $lastFrame;
-                }
-            },
-            function(&$client) {
+            })
+            ->clientDisconnected(function(&$client) { // client disconected
                 $server = $this;
                 if (isset($this->clientDisconectEvent) && is_callable($this->clientDisconectEvent)) {
                     call_user_func_array($this->clientDisconectEvent, [&$server, &$client]);
                 }
-            }
-        );
+            })
+            ->bindSocket()
+            ->listenToSocket(
+                function (&$client, &$data) { // client send request
+                
+                    $lastFrame = $this->frames[$client['uid']];
+                    
+                    while(strlen($data) > 0) {
+                        $frame = $this->proccessRequest($lastFrame, $data);
+                        $this->frames[$client['uid']] = $frame;
+                        
+                        if ($frame == null) {
+                            return;
+                        }
+
+                        $server = $this;
+                        if ($frame['full'] && isset($this->getFrameEvent) && is_callable($this->getFrameEvent)) {
+                            $request = $frame['payloaddata'];
+                            call_user_func_array($this->getFrameEvent, [&$server, &$client, $request]);
+                            $this->frames[$client['uid']] = null;
+                        }
+                    }
+                }
+            );
     }
 }
 
 echo "WEBSOCKET SERVER\n";
 echo "WAITING...\n";
 
-$server = new WebSocketServer('0.0.0.0', 8080);
+$server = new WebSocketServer([
+    'ip' => '0.0.0.0',
+    'port' => 8080
+]);
+
+$server->afterError(function($server, $client, $code, $message) {
+     echo "({$client['uid']}) ERROR ($code): $message\n";
+     
+     if ($code = 10053) { // client disconected
+       
+     }
+});
+
+$server->afterServerError(function($code, $message) {
+     echo "SERVER ERROR ($code): $message\n";
+});
 
 $server->clientConnected(function($server, $client) {
      echo "({$client['uid']}) CLIENT CONNECTED\n";
@@ -443,8 +526,13 @@ $server->clientDisconnected(function($server, $client) { // TODO process message
 });
 
 $server->listen(function(&$server, &$client, $request) {   
-    echo "({$client['uid']}) request: $request\n";
-       
+
+    if(strlen($request)<1000) {
+        echo "({$client['uid']}) REQUEST FROM CLIENT (".strlen($request)."): $request\n";
+    } else {
+        echo "({$client['uid']}) REQUEST FROM CLIENT (".strlen($request)."): ".substr($request, 0, 100)."...".substr($request, -100)."\n";
+    }
+        
     if ($request == "now") {
         $contentBody = 'T' . time();
         $server->sendMessage($client, $contentBody);
@@ -453,7 +541,10 @@ $server->listen(function(&$server, &$client, $request) {
     } else if ($request == "close") {
         $server->close($client);    
     } else {
-        $server->sendMessage($client, $request);    
+        $response = "ok recived: ".strlen($request)." chars";
+        echo "({$client['uid']}) RESPONSE FROM SERVER: $response\n";
+
+        $server->sendMessage($client, $response);    
     }
 });
 
