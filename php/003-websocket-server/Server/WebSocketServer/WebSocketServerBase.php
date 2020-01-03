@@ -1,63 +1,8 @@
-<?php   
+<?php
 
-class WebsocketClient
-{
-    protected $address = null;
-    protected $port = null;
-    
-    private $sock = null;
-    
-    public function __construct($address = '0.0.0.0', $port = 8080) {
-        $this->address = $address;
-        $this->port = $port;
-    }
-    
-    public function getHeader() {
-            $header = "GET / HTTP/1.1
-Connection: Upgrade
-Pragma: no-cache
-Cache-Control: no-cache
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36
-Upgrade: websocket
-Sec-WebSocket-Version: 13
-Accept-Encoding: gzip, deflate
-Accept-Language: en-US,en;q=0.9,sk;q=0.8,und;q=0.7,la;q=0.6,fr;q=0.5
-Sec-WebSocket-Key: vQBa+DW32bHjI3m5+Omfxg==
-Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
+namespace WebSocketServer;
 
-        return $header;
-    }
-    
-    public function connect() {
-        $this->sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        
-        if(!@socket_connect($this->sock, '127.0.0.1', 8080)) {
-             echo "ERROR: UNABLE CONNECT TO SERVER\n";
-             $this->sock = null;
-             return;
-        }
-
-        $headers = $this->getHeader();
-        
-        echo "SEND HEADERS: $headers\n";
-        @socket_write($this->sock, $headers, strlen($headers));
-            
-        if (false === ($buf = @socket_read($this->sock, 2048, MSG_WAITALL))) {
-            echo "READ ERROR: " . socket_strerror(socket_last_error($this->sock)) . "\n";
-        }  
-            
-        echo "RESPONSE TO HEADERS FROM SERVER : '$buf'.\n";
-        echo "---\n";
-    }
-    
-    public function close() {
-        if ($this->sock == null) {
-            return;
-        }
-        
-        @socket_close($this->sock);
-    }
-    
+class WebSocketServerBase {   
     //convert byte array string to binnary representation array "A" -> "01000001"
     protected  function str2bin($s) { 
         $res = "";
@@ -117,54 +62,51 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
         return $headers;
     }
     
-    protected function message($m) { // todo
-
-        $len = strlen($m);
+    protected function mesage($message, $opcode = 1, $mask = false) { // todo
+        
+        $len = strlen($message);
         $lenext = "";
         if ($len >= 2**16) {
             $len = 127;
-            $lenext = $this->toBin(strlen($m), 8*8);
+            $lenext = $this->toBin(strlen($message), 8*8);
         } else if ($len > 125) {
             $len = 126;
-            $lenext = strlen($m);
-            $lenext = $this->toBin(strlen($m), 8*2);
+            $lenext = strlen($message);
+            $lenext = $this->toBin(strlen($message), 8*2);
         }
-
-        $maskingkey = openssl_random_pseudo_bytes(4);
-
-        $maskedData = "";
-        for ($i = 0; $i<strlen($m); $i++) {
-            $maskedData .= $m[$i] ^ $maskingkey[$i % 4];
-        }
-
-        $opcode = 1; 
-
+                
         $frame = [
             'fin' => '1',
             'rsv1' => '0',
             'rsv2' => '0',
             'rsv3' => '0',
             'opcode'=> $this->toBin($opcode, 4),
-            'mask' => '1',
+            'mask' => $mask ? '1' : '0',
             'len' => $this->toBin($len, 7),
             'lenext' => $lenext,
         ];
-
-        $b = "";
+        
+        $frameHeader = "";
         foreach ($frame as $v) {
-            $b .= $v;
+            $frameHeader .= $v;
         }
 
-        $maskingkey = openssl_random_pseudo_bytes(4);
+        if($mask) {
+            $maskingkey = openssl_random_pseudo_bytes(4);
 
-        $messageMasked = "";
-        for ($i = 0; $i<strlen($m); $i++)
-            $messageMasked .= $m[$i] ^ $maskingkey[$i % 4];
+            $messageMasked = "";
+            for ($i = 0; $i<strlen($m); $i++)
+                $messageMasked .= $message[$i] ^ $maskingkey[$i % 4];
 
-        return $this->bin2str($b).$maskingkey.$messageMasked;
+            return $this->bin2str($frameHeader).$maskingkey.$messageMasked;
+        }
+        
+        return $this->bin2str($frameHeader).$message;
     }
-    
-    protected function proccessResponse($lastFrame, &$data) // TODO last frame remove from client
+
+    // rfc6455 The WebSocket Protocol 
+    // https://tools.ietf.org/html/rfc6455
+    protected function proccessRequest($lastFrame, &$data) // TODO last frame remove from client
     {
         // proccess additional data
         if ($lastFrame != null && 
@@ -174,11 +116,11 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
             $frame = $lastFrame;
 
             $frame['payloaddata'] = "";
-
+            
             $remainingLength = $frame['lenext'] - strlen($frame['payloaddata']);
             $data = substr($data, 0, $remainingLength);
             $data = substr($data, $remainingLength);
-
+            
             if ($frame['mask']) {
                 for ($i = 0; $i<strlen($data); $i++)
                     $frame['payloaddata'] .= $data[$i] ^ $frame['maskingkey'][$i % 4];
@@ -193,9 +135,12 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
             return $frame;
         }
 
-
         $frame = [];
 
+        if(strlen($data)<2) { //header is too short
+            return null; 
+        }
+        
         $b1 = $this->str2bin($data[0]);
         $frame['fin'] = $b1[0] == '1';
         $frame['rsv1'] = $b1[1] == '1';
@@ -209,11 +154,20 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
 
         $frame['lenext'] = 0;
         if ($frame['len']===126) {
+            
+            if(strlen($data)<4) { // header is too short wait for additional data
+                return null; 
+            }
+        
             $frame['lenext'] = bindec(
                 $this->str2bin($data[2]).
                 $this->str2bin($data[3])
             );
         } elseif ($frame['len']===127) {
+            if(strlen($data)<10) { // header is too short wait for additional data
+                return null; 
+            }
+            
             $frame['lenext'] = bindec(
                 $this->str2bin($data[2]).
                 $this->str2bin($data[3]).
@@ -226,19 +180,31 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
             );
         }
 
-        if ($frame['len']===126) {
-            $frame['maskingkey'] = substr($data, 4, 4);
-        } elseif ($frame['len']===127) {
-            $frame['maskingkey'] = substr($data, 10, 4);
-        } else {
-            $frame['maskingkey'] = substr($data, 2, 4);
-        }
-
         $frame['payloaddata'] = "";
         if ($frame['mask']) {
+            if ($frame['len']===126) {
+                if(strlen($data)<8) { // header is too short wait for additional data
+                    return null; 
+                }
+            
+                $frame['maskingkey'] = substr($data, 4, 4);
+            } elseif ($frame['len']===127) {
+                if(strlen($data)<12) { // header is too short wait for additional data
+                    return null; 
+                }
+                
+                $frame['maskingkey'] = substr($data, 10, 4);
+            } else {
+                if(strlen($data)<6) { // header is too short wait for additional data
+                    return null; 
+                }
+                
+                $frame['maskingkey'] = substr($data, 2, 4);
+            }
+        
             if ($frame['len']===126){
                 $coded_data = substr($data, 8, $frame['lenext']);
-                $buf = substr($data, $frame['lenext']);
+                $data = substr($data, $frame['lenext']);
             } elseif ($frame['len']===127) {
                 $coded_data = substr($data, 14, $frame['lenext']);
                 $data = substr($data, $frame['lenext']);
@@ -276,96 +242,4 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
 
         return $frame;
     }
-    
-    public $lastFrame = null;
-    
-    public function sendMessage($msg) {
-        if ($this->sock == null) {
-            return;
-        }
-
-        $frame = $this->message($msg);
-        @socket_write($this->sock, $frame, strlen($frame));
-        
-        $buf = null;
-        $data = "";
-
-        if (false === ($buf = @socket_read($this->sock, 2048))) {
-            echo "READ ERROR: " . socket_strerror(socket_last_error($this->sock)) . "\n";
-        }  
-
-        $data .= $buf;
-
-        $this->lastFrame = $this->proccessResponse($this->lastFrame, $data);
-                    
-        $response = "";
-        if ($this->lastFrame != null && $this->lastFrame['full']) {
-            $response = $this->lastFrame['payloaddata'];
-            $this->lastFrame = null;
-            return $response;
-        }
-        
-        return null;
-    }
-    
-    public function listen() {
-        if ($this->sock == null) {
-            return;
-        }
-        
-        while(true) {
-            
-            if (false === ($buf = @socket_read($this->sock, 2048, MSG_WAITALL))) {
-                echo "READ ERROR: " . socket_strerror(socket_last_error($this->sock)) . "\n";
-                break;
-            } 
-            
-            if(strlen($buf)>0) {
-                $this->lastFrame = $this->proccessResponse($this->lastFrame, $buf);
-            
-                $response = "";
-                if ($this->lastFrame != null && $this->lastFrame['full']) {
-                    $response = $this->lastFrame['payloaddata'];
-                    $this->lastFrame = null;
-                }
-                
-                echo "REQUEST FROM SERVER: '$response'.\n";
-            }
-
-            usleep(50000);
-        }
-    }
 }
-    
-
-function buildTestMessage($length) {
-    $message = "";
-    for($i=0;$i<$length-2;$i++) {
-        $message .= "M";
-    }
-    $message = "S".$message."E";  
-    
-    return $message;
-}
-    
-$client = new WebsocketClient();
-$client->connect();
-
-$messages = array(
-    buildTestMessage(125),
-    buildTestMessage(126),
-    buildTestMessage(127),
-    buildTestMessage(256),
-    buildTestMessage(2**16-1),
-    buildTestMessage(2**16),
-    buildTestMessage(2**17),
-);
-
-foreach($messages as $msg) { 
-    echo "MESSAGE TO SERVER (".strlen($msg).")".(strlen($msg) > 1000 ? substr($msg, 0, 100)."...".substr($msg, -100) : $msg)."\n";
-    $response = $client->sendMessage($msg);    
-    echo "RESPONSE FROM SERVER (".strlen($response).")".(strlen($response) > 1000 ? substr($response, 0, 100)."...".substr($response, -100) : $response)."\n";
-}
-        
-$client->listen();
-$client->close();

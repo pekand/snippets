@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title></title>
+    <title>WebSocket Client</title>
     
     <style>
     </style>
@@ -18,7 +18,7 @@
         var waitTime = 1000;
         var conn;
         function startWebsocket() {
-            conn = new WebSocket('ws://snippets.loc:8080');
+            conn = new WebSocket('ws://127.0.0.1:8080');
             
             conn.onopen = function(e) {
                 console.log("Connection established!");
@@ -28,6 +28,10 @@
 
             conn.onmessage = function(e) {
                 console.log("Mesage from server:"+e.data);
+                
+                if(e.data == "PING"){
+                    conn.send('PONG');
+                }
             };
             
             conn.onopen = function() {
@@ -41,6 +45,12 @@
             conn.onerror = function(error) {
                 console.log(`Error: ${error.message}`);
             };
+            
+            window.addEventListener("beforeunload", function (e) {
+                if (conn.readyState !== WebSocket.CLOSED) {
+                   conn.close("1", "Fuck off!!");
+                }
+            });
         }
 
         startWebsocket();
