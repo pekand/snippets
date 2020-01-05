@@ -1,0 +1,1 @@
+https://www.sitepoint.com/a-crash-course-of-changes-to-exception-handling-in-php-7/
