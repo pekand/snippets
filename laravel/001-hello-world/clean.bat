@@ -1,2 +1,2 @@
 cd blog
-rm -rf vendor
+rm -rf vendor node_modules
