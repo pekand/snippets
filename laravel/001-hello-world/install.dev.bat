@@ -1,5 +1,5 @@
 cd blog
 composer install
 npm install
-npm run production
+npm run dev
 pause
