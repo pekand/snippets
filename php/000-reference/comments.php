@@ -1,0 +1,9 @@
+<?php 
+
+// line
+
+# line
+
+/*
+    block
+*/
