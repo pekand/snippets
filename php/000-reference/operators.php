@@ -7,7 +7,7 @@
 (true xor true);
 (!true);
 
-
+/*
 non-associative    clone new                                                clone and new
 right              **                                                       arithmetic
 right              ++ -- ~ (int) (float) (string) (array) (object) (bool) @ types and increment/decrement
@@ -31,3 +31,4 @@ right              yield                                                    yiel
 left               and                                                      logical
 left               xor                                                      logical
 left               or                                                       logical
+*/
