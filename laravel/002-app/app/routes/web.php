@@ -8,10 +8,17 @@ Route::get('/', function () {
     return view('welcome', ['links' => $links]);
 });
 
+Route::get('/login',array('as'=>'login',function(){
+    return view('login');
+}));
+
+Route::get('/register',array('as'=>'register',function(){
+    return view('login');
+}));
 
 Route::get('/submit', function () {
     return view('submit');
-});
+})->middleware('auth');
 
 Route::post('/submit', function (Request $request) {
     $data = $request->validate([
@@ -23,4 +30,4 @@ Route::post('/submit', function (Request $request) {
     $link = tap(new App\Link($data))->save();
 
     return redirect('/');
-});
+})->middleware('auth');
