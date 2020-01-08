@@ -4,10 +4,14 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
+
 
 class SubmitLinksTest extends TestCase
 {
+    use RefreshDatabase;
+    
     /** @test */
     function guest_can_submit_a_new_link() {
         $response = $this->post('/submit', [
