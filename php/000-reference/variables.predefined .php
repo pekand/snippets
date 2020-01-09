@@ -1,4 +1,9 @@
 <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 echo "<pre>";
 
 echo "<h1>\$GLOBALS</h1>";
@@ -13,10 +18,6 @@ echo "<h1>\$_FILES</h1>";
 print_r($_FILES);
 echo "<h1>\$_REQUEST</h1>";
 print_r($_REQUEST);
-
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
 
 echo "<h1>\$_SESSION</h1>";
 $_SESSION["test"]="test";
