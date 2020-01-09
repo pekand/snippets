@@ -62,7 +62,7 @@ class WebSocketServerBase {
         return $headers;
     }
     
-    protected function mesage($message, $opcode = 1, $mask = false) { // todo
+    protected function mesage($message, $opcode = 1, $mask = false) {
         
         $len = strlen($message);
         $lenext = "";
@@ -106,7 +106,7 @@ class WebSocketServerBase {
 
     // rfc6455 The WebSocket Protocol 
     // https://tools.ietf.org/html/rfc6455
-    protected function proccessRequest($lastFrame, &$data) // TODO last frame remove from client
+    protected function proccessRequest($lastFrame, &$data)
     {
         // proccess additional data
         if ($lastFrame != null && 

@@ -117,7 +117,7 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
         return $headers;
     }
     
-    protected function message($m) { // todo
+    protected function message($m) {
 
         $len = strlen($m);
         $lenext = "";
@@ -164,7 +164,7 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
         return $this->bin2str($b).$maskingkey.$messageMasked;
     }
     
-    protected function proccessResponse($lastFrame, &$data) // TODO last frame remove from client
+    protected function proccessResponse($lastFrame, &$data)
     {
         // proccess additional data
         if ($lastFrame != null && 

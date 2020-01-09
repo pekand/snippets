@@ -25,13 +25,14 @@ $server->afterClientError(function($server, $client, $code, $message) {
 
 $server->clientConnected(function($server, $client) {
      echo "({$client['uid']}) CLIENT CONNECTED\n";
+     return true;
 });
 
-$server->clientDisconnected(function($server, $client) { // TODO process message from server after close tab in browser
+$server->clientDisconnected(function($server, $client) {
      echo "({$client['uid']}) CLIENT DISCONNECTED\n";
 });
 
-$server->listen(function(&$server, &$client, $request) {   
+$server->listen(function($server, $client, $request) {   
     if(strlen($request)<1000) {
         echo "({$client['uid']}) REQUEST FROM CLIENT (".strlen($request)."): $request\n";
     } else {

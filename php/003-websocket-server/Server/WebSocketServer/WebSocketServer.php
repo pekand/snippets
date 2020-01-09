@@ -34,8 +34,12 @@ class WebSocketServer extends WebSocketServerBase {
         return $this;
     }
     
-    public function sendMessage($client, $message){ 
+    public function sendMessage(&$client, $message){ 
         return $this->socketServer->sendData($client, $this->mesage($message));
+    }
+    
+    public function close(&$client) {
+       $this->socketServer->close($client);
     }
     
     public function listen($getFrameEvent) {
@@ -46,19 +50,20 @@ class WebSocketServer extends WebSocketServerBase {
             ->afterClientError(function(&$client, $code, $mesage) { // client cause error
                 $server = $this;
 
-                if ($code == 10053) { // client disconected
-                    $this->socketServer->close($client);
-                    
-                    $server = $this;
-                    if (isset($this->clientDisconectEvent) && is_callable($this->clientDisconectEvent)) {
-                        call_user_func_array($this->clientDisconectEvent, [&$server, &$client]);
-                    }
-                }
+                
      
                 if (isset($this->afterClientError) && is_callable($this->afterClientError)) {
                     call_user_func_array($this->afterClientError, [&$server, &$client, $code, $mesage]);
                 }
                 
+                if ($code == 10053) { // client disconected
+                    $server = $this;
+                    if (isset($this->clientDisconectEvent) && is_callable($this->clientDisconectEvent)) {
+                        call_user_func_array($this->clientDisconectEvent, [&$server, &$client]);
+                    }
+                    
+                    $this->socketServer->close($client);
+                }
                 
             })
             ->acceptClient(function (&$client, &$data) { // client connected
@@ -70,8 +75,10 @@ class WebSocketServer extends WebSocketServerBase {
                 
                 $server = $this;
                 if (isset($this->clientConnectedEvent) && is_callable($this->clientConnectedEvent)) {
-                    call_user_func_array($this->clientConnectedEvent, [&$server, &$client]);
+                   return call_user_func_array($this->clientConnectedEvent, [&$server, &$client]);
                 }
+                
+                return true;
             })
             ->clientDisconnected(function(&$client) { // client disconected
                 $server = $this;
@@ -86,8 +93,7 @@ class WebSocketServer extends WebSocketServerBase {
             ->listenToSocket(
                 function (&$client, &$data) { // client send request
 
-                    while(strlen($data) > 0) {
-var_dump($data);                        
+                    while(strlen($data) > 0) {                       
                         $lastFrame = $this->frames[$client['uid']];
                         $frame = $this->proccessRequest($lastFrame, $data);
                         $this->frames[$client['uid']] = $frame;
@@ -95,7 +101,6 @@ var_dump($data);
                         if ($frame == null) {
                             return;
                         }
-var_dump($frame);
 
                         $server = $this;
                         if ($frame['full'] && isset($this->getFrameEvent) && is_callable($this->getFrameEvent)) {

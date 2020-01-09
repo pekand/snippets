@@ -30,7 +30,7 @@ class SocketServer {
     }
     
     public function uid() {
-        return bin2hex(openssl_random_pseudo_bytes(32));
+        return bin2hex(openssl_random_pseudo_bytes(16));
     }
     
     public function afterServerError($afterServerErrorEvent = null) {
@@ -65,7 +65,7 @@ class SocketServer {
         return $this;
     }
     
-    public function close($client) {
+    public function close(&$client) {
        socket_close($client['ref']);
        unset($this->clients[$client['uid']]);
     }
@@ -75,7 +75,7 @@ class SocketServer {
         return $this;
     }
     
-    public function sendData($client, $data) {
+    public function sendData(&$client, $data) {
         $result = @socket_write($client['ref'], $data, strlen($data));
         
         if ($result === false) {
@@ -115,36 +115,44 @@ class SocketServer {
         
         while(true)
         {
-            if(($client = socket_accept($this->socket)) !== false)
+            if(($newClient = socket_accept($this->socket)) !== false)
             {
-                if(is_resource($client)) {
+                if(is_resource($newClient)) {
                     
                     $uid = $this->uid();
                     
                     $clientData = [
                         'uid' => $uid,
-                        'ref' => $client,
+                        'ref' => $newClient,
                         'lastActivityTime' => microtime(true),
+                        'ping' => false,
                     ];
                     
                     $data = "";
-                    while ($buf = @socket_read($client, 1024)) {                        
+                    while ($buf = @socket_read($newClient, 1024)) {                        
                         $data .= $buf;
                     }
 
                     if (isset($this->acceptClientEvent) && is_callable($this->acceptClientEvent)) {
-                        call_user_func_array($this->acceptClientEvent, [&$clientData, &$data]);
+                        $acceptNewClient = call_user_func_array($this->acceptClientEvent, [&$clientData, &$data]);
                     }
 
-                    $this->clients[$uid] = $clientData;
-                    
-                    socket_set_nonblock($client);
+                    if ($acceptNewClient) {
+                        $this->clients[$uid] = $clientData;
+                        socket_set_nonblock($newClient);
+                    } else {
+                        socket_close($newClient);
+                    }
                 }
             }
-            
-            if (count($this->clients)) {
-                foreach ($this->clients AS $key => $client) {
 
+            if (count($this->clients)) {
+                foreach ($this->clients as $key => &$client) {
+
+                    if (!is_array($client)) {
+                        continue;
+                    }
+                    
                     $data = "";
                     while ($buf = @socket_read($client['ref'], 1024)) {
                         $data .= $buf;
@@ -152,14 +160,15 @@ class SocketServer {
 
                     if ($data === "") {
                         if (isset($this->buildPingEvent) && is_callable($this->buildPingEvent)) {
-                            if(microtime(true) - $client['lastActivityTime'] > $this->options['keepLiveInterval']) { // check if client still listening
+                            if($client['ping'] == false &&  microtime(true) - $client['lastActivityTime'] > $this->options['keepLiveInterval']) { // check if client still listening
                                 call_user_func_array($this->buildPingEvent, [&$client]);
+                                $client['ping'] = true;
                             }
                         }
                         
                         if(microtime(true) - $client['lastActivityTime'] > $this->options['keepLiveInterval'] + $this->options['killInterval']) { // check if client still listening
                             if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                call_user_func_array($this->clientDisconnectedEvent, [&$clientData]);
+                                call_user_func_array($this->clientDisconnectedEvent, [&$client]);
                             }
                             
                             $this->close($client);
@@ -168,7 +177,8 @@ class SocketServer {
                         continue;
                     }
 
-                    $this->clients[$key]['lastActivityTime'] = microtime(true);
+                    $client['lastActivityTime'] = microtime(true);
+                    $client['ping'] = false;
                     
                     if (is_callable($readFromClientEvent)) {
                         call_user_func_array($readFromClientEvent, [&$client, &$data]);
