@@ -1,0 +1,13 @@
+{
+    "debugMode": true,
+    "gmail":
+    {
+        "username": "",
+        "password": ""
+    },
+    "mail":
+    {
+        "from": "",
+        "to": ""
+    }
+}
