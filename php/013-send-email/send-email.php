@@ -4,8 +4,11 @@
 setup gmail account for less csecure apps: https://myaccount.google.com/lesssecureapps
 */
 
+
 include __DIR__.'/vendor/autoload.php';
 
+//https://github.com/PHPMailer/PHPMailer
+//https://packagist.org/packages/phpmailer/phpmailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;

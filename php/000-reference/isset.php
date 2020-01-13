@@ -2,6 +2,7 @@
 
 echo "<pre>";
 
+// isset === is declared and is not null
 if (!isset($var)) {
     echo "is not set\n";
 }
