@@ -36,7 +36,7 @@ class Brand1Product2 extends AbstractProduct2 {
     }
 }
 
-class Brand2Product2 extends AbstractProduct1 {
+class Brand2Product2 extends AbstractProduct2 {
     private $name = "Brand2 Product2";
     
     function getName() {
