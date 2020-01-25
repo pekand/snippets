@@ -1,0 +1,6 @@
+composer require --dev phpdocumentor/phpdocumentor:dev-master
+composer require --dev symfony/dotenv
+
+https://graphviz.gitlab.io/_pages/Download/Download_windows.html
+
+.\vendor\bin\phpdoc.bat -d ./src -t ./docs/api
