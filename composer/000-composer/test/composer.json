@@ -1,0 +1,13 @@
+{
+    "name": "vendor/name",
+    "description": "test packae",
+    "type": "project",
+    "authors": [
+        {
+            "name": "me",
+            "email": "me@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

@@ -1,0 +1,19 @@
+{
+    "name": "vendor/name",
+    "description": "test packae",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "me",
+            "email": "me@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",    
+    "require": {
+        "monolog/monolog": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {"Lib\\": "src/"}
+    }
+}
