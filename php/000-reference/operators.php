@@ -1,21 +1,14 @@
 <?php
 
-$v1 = 1;
-$v2 = 1;
-$value = $v1 ?? $v2;
-
-if (isset($v1) && $v1 !== null) {
-	$value = $v1;
-} else {
-	$value = $v2;
-}
-
 (true && true);
 (true || true);
 (true and true);
 (true or true);
 (true xor true);
 (!true);
+
+
+
 
 /*
 non-associative    clone new                                                clone and new

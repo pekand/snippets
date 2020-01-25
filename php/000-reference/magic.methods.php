@@ -159,6 +159,40 @@ if(isset($o->param)){
 
 echo "<hr>";
 
+class ClassCloneSubObject {
+    public $p = 1;
+    
+    function __construct($v) {
+        $this->p = $v;
+    }
+}
+
+class ClassClone {
+    public $o1 = null;
+    public $o2 = null;
+    
+    public function __construct() {
+        $this->o1 = new ClassCloneSubObject(1);
+        $this->o2 = new ClassCloneSubObject(1);
+    }
+    
+    public function __clone()
+    {
+        $this->o1 = clone $this->o1; // deep copy
+    }
+}
+
+$o = new ClassClone();
+$c = clone $o;
+print_r($o);print_r($c);
+
+$c->o1->p = 3; // $o1 is clonned affect only $c
+$c->o2->p = 4; // $o2 is not clonned affect only $c and $o
+
+print_r($o);print_r($c);
+
+echo "<hr>";
+
 class ClassDebug {
     public $a = 1; // hidden
     public function __debugInfo()
