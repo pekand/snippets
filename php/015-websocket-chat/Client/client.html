@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>WebSocket Client</title>
+    
+    <style>
+    body {
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(22,121,9,0.8491771708683473) 35%, rgba(0,212,255,1) 100%);
+    }
+
+    .chatbox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    </style>
+    
+    <style>
+        
+        .chatbox {
+            width: 300px;
+            height: 400px;
+
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+        }
+        
+        .chatbox__header{
+            height: 35px;
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            border-top-left-radius:20px;
+            border-top-right-radius:20px;
+        }
+        
+        .chatbox__messages {           
+            height: 330px;
+            color: rgba(255, 255, 255, 0.5);
+            overflow-y: scroll;
+        }
+    
+        
+        .chatbox__footer {
+            height: 35px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom-left-radius:20px;
+            border-bottom-right-radius:20px;
+        }
+        
+        .chatbox__message-input {
+            width: 210px;
+            outline: none;
+            box-shadow: none;
+            border: none;
+            margin-left:20px;
+            margin-top:10px;
+            background: rgba(0, 0, 0, 0);
+        }
+        
+        .chatbox__submit {
+            border: none;
+            background: #1d7745;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+    </style>
+    
+    <style> 
+        .chatbox__messages::-webkit-scrollbar{
+            width: 10px;
+        }
+
+        .chatbox__messages::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+
+        .chatbox__messages::-webkit-scrollbar-thumb {
+            background-color: black;
+            border: 0px solid;
+        }
+    </style>
+    
+    <style>
+        .chatbox__message {
+            margin: 10px;
+            padding: 10px;
+        }
+        
+        .chatbox__message {
+            max-width: 200px;
+            position: relative;
+            background: #00aabb;
+            border-radius: .4em;
+        }
+
+        .chatbox__message:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-left-color: #00aabb;
+            border-right: 0;
+            border-bottom: 0;
+            margin-top: -10px;
+            margin-right: -20px;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    
+    <main class="bg">
+       
+       <div class="chatbox">
+           <div class="chatbox__header">
+               <div class="chatbox__title">Mesasges</div>
+           </div>
+           <div  class="chatbox__messages">
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+                <div class="chatbox__message"><div class="chatbox__message__text">Message1</div></div>
+           </div>
+           <div class="chatbox__footer">
+            <input class="chatbox__message-input" id="message" type="text" placeholder="Message">
+            <button class="chatbox__submit" id="message-button">Send</button>   
+           </div>
+       </div>
+    </main>
+
+    <script type="text/javascript" >
+        var conn;
+        
+        function startWebsocket() {
+            conn = new WebSocket('ws://127.0.0.1:8080');
+            
+            conn.onmessage = function(e) {
+                console.log("Mesage from server:"+e.data);
+            
+                var data = JSON.parse(e.data);
+                
+                console.log(data);
+                
+                if (data.operation == 'ping') {                   
+                    conn.send(JSON.stringify({operation:"pong"}));
+                }
+            };
+            
+            conn.onopen = function() {
+                console.log("Connection is open...");  
+            };
+
+            conn.onclose = function() { 
+                console.log("Connection is closed..."); 
+            };
+           
+            conn.onerror = function(error) {
+                console.log(`Error: ${error.message}`);
+            };
+            
+            window.addEventListener("beforeunload", function (e) {
+                if (conn.readyState !== WebSocket.CLOSED) {
+                   conn.close("1", "Fuck off!!");
+                }
+            });
+        }
+
+        startWebsocket();
+        
+        setInterval(function(){
+            if (conn.readyState === WebSocket.CLOSED) {
+               startWebsocket();
+            }
+        }, 1000);
+        
+        document.getElementById("message-button").addEventListener("click", function(){ 
+            
+            var data = {
+                operation:"sendMessageToOperator",
+                message:document.getElementById('message').value
+            }
+            
+            conn.send(JSON.stringify(data));
+        });
+    </script>
+    
+</body>
+</html>
+
