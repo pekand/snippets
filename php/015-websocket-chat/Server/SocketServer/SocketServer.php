@@ -79,15 +79,15 @@ class SocketServer {
        return null;
     }
     
-    public function closeClient(&$client) {
+    public function closeClient($clientUid) {
         
-        if (isset($client['ref']) && $client['ref'] !== null){
-            socket_close($client['ref']);
-            $client['ref'] = null;
-        }
+        if (isset($this->clients[$clientUid])) {
+            if ($this->clients[$clientUid]['ref'] !== null){
+                socket_close($this->clients[$clientUid]['ref']);
+                $this->clients[$clientUid]['ref'] = null;
+            }        
         
-        if (isset($this->clients[$client['uid']])) {
-            unset($this->clients[$client['uid']]);
+            unset($this->clients[$clientUid]);
         }
     }
     
@@ -96,28 +96,28 @@ class SocketServer {
         return $this;
     }
     
-    public function sendData(&$client, $data) {
+    public function sendData($clientUid, $data) {
         
-        if (!$client['live']) {
+        if (!$this->clients[$clientUid]['live']) {
             return false;
         }
         
-        $result = @socket_write($client['ref'], $data, strlen($data));
+        $result = @socket_write($this->clients[$clientUid]['ref'], $data, strlen($data));
         
         if ($result === false) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 
             if ($errorcode == 10053) { // client disconected
-                $client['live'] = false;
+                $this->clients[$clientUid]['live'] = false;
                 if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                     call_user_func_array($this->clientDisconnectedEvent, [&$client, 'CLIENT_UNEXPECTEDLY_CLOSED_SOCKET']);
+                     call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_UNEXPECTEDLY_CLOSED_SOCKET']);
                 }
                 
-                $this->closeClient($client);         
+                $this->closeClient($clientUid);         
             } else {
                 if (isset($this->afterClientErrorEvent) && is_callable($this->afterClientErrorEvent)) {
-                    call_user_func_array($this->afterClientErrorEvent, [&$client, $errorcode, $errormsg]);
+                    call_user_func_array($this->afterClientErrorEvent, [$clientUid, $errorcode, $errormsg]);
                 }
             }
             
@@ -154,10 +154,10 @@ class SocketServer {
             {
                 if(is_resource($ref)) {
                     
-                    $uid = $this->uid();
+                    $clientUid =  $this->uid();
                     
-                    $client = [
-                        'uid' => $uid,
+                    $this->clients[$clientUid] = [
+                        'uid' => $clientUid,
                         'ref' => $ref,
                         'created' => microtime(true),
                         'live' => true,
@@ -177,135 +177,143 @@ class SocketServer {
                     ];
                     
                     $data = "";
-                    while ($buf = @socket_read($client['ref'], 1024)) {                        
+                    while ($buf = @socket_read($this->clients[$clientUid]['ref'], 1024)) {                        
                         $data .= $buf;
                         
-                        if($client['maxClientHeaderLength'] !== false && $client['maxClientHeaderLength'] < strlen($data)) {                              
+                        if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($data)) {                              
                             break;
                         }
                     }
                     
-                    if($client['maxClientHeaderLength'] !== false && $client['maxClientHeaderLength'] < strlen($data)) {
+                    if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($data)) {
                         if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                             call_user_func_array($this->clientDisconnectedEvent, [&$client, 'CLIENT_HEADER_IS_TOO_BIG']);
+                             call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_HEADER_IS_TOO_BIG']);
                         }
                         
-                        $this->closeClient($client);
+                        $this->closeClient($clientUid);
                         break;
                     } else {
                         $acceptedNewClient = true;
                         if (isset($this->acceptClientEvent) && is_callable($this->acceptClientEvent)) {
-                            $acceptedNewClient = call_user_func_array($this->acceptClientEvent, [&$client, &$data]);
+                            $acceptedNewClient = call_user_func_array($this->acceptClientEvent, [$clientUid, &$data]);
                         }
 
                         if ($acceptedNewClient) {
-                            $this->clients[$uid] = $client;
-                            socket_set_nonblock($client['ref']);
+                            socket_set_nonblock($this->clients[$clientUid]['ref']);
                             
                             if ($this->options['maxClientsCount'] != 0 && count($this->clients) > $this->options['maxClientsCount']) {
                                 if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                     call_user_func_array($this->clientDisconnectedEvent, [&$client, 'SERVER_IS_FULL']);
+                                     call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'SERVER_IS_FULL']);
                                 }
                                 
-                                $this->closeClient($client);
+                                $this->closeClient($clientUid);
                             }
                             
                         } else {
-                            $this->closeClient($client);
+                            $this->closeClient($clientUid);
                         }
                     }
                 }
             }
 
             if (count($this->clients)) {
-                foreach ($this->clients as $key => &$client) {
+                
+                $cientUids = [];
+                foreach ($this->clients as $client) {
+                    $cientUids[] = $client['uid'];
+                }
+                
+                foreach ($cientUids as $clientUid) {
 
-                    if (!is_array($client) || $client['ref'] === null) {
+                    if (!is_array($this->clients[$clientUid]) || $this->clients[$clientUid]['ref'] === null) {
                         continue;
                     }
                     
                     $data = "";
-                    while ($buf = @socket_read($client['ref'], 1024)) {
+                    while ($buf = @socket_read($this->clients[$clientUid]['ref'], 1024)) {
                         $data .= $buf;
                         
-                        if($client['maxClientRequestLength'] !== false) {
-                            if ($client['maxClientRequestLength'] < strlen($data)) {
-                                if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                     call_user_func_array($this->clientDisconnectedEvent, [&$client, 'CLIENT_REQUEST_IS_TOO_BIG']);
-                                }
-                                
-                                $this->closeClient($client);
-                                continue 2;
-                            } 
+                        if($this->clients[$clientUid]['maxClientRequestLength'] !== false && $this->clients[$clientUid]['maxClientRequestLength'] < strlen($data)) {
+                            break; 
                         }
                     }
+                    
+                    if($this->clients[$clientUid]['maxClientRequestLength'] !== false && $this->clients[$clientUid]['maxClientRequestLength'] < strlen($data)) {
+                        if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
+                             call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_REQUEST_IS_TOO_BIG']);
+                        }
+                        
+                        $this->closeClient($clientUid);
+                        continue; 
+                    }
+                        
 
                     if ($data === "") {
                         if (isset($this->buildPingEvent) && is_callable($this->buildPingEvent)) {
-                            if($client['ping'] == false &&  microtime(true) - $client['lastActivityTime'] > $this->options['clientInactivityInterval']) { // check if client still listening
-                                call_user_func_array($this->buildPingEvent, [&$client]);
-                                $client['ping'] = true;
+                            if($this->clients[$clientUid]['ping'] == false &&  microtime(true) - $this->clients[$clientUid]['lastActivityTime'] > $this->options['clientInactivityInterval']) { // check if client still listening
+                                call_user_func_array($this->buildPingEvent, [$clientUid]);
+                                $this->clients[$clientUid]['ping'] = true;
                             }
                         }
                         
-                        if(microtime(true) - $client['lastActivityTime'] > $this->options['clientInactivityInterval'] + $this->options['maxClientInactivityInterval']) { // check if client still listening
+                        if(microtime(true) - $this->clients[$clientUid]['lastActivityTime'] > $this->options['clientInactivityInterval'] + $this->options['maxClientInactivityInterval']) { // check if client still listening
                             if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                call_user_func_array($this->clientDisconnectedEvent, [&$client, 'CLIENT_NOT_RESPONDING_TO_PING']);
+                                call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_NOT_RESPONDING_TO_PING']);
                             }
                             
-                            $this->closeClient($client);
+                            $this->closeClient($clientUid);
                         }
                         
                         
-                        if($client['maxClientLiveTime'] > 0 && microtime(true) - $client['created'] > $client['maxClientLiveTime']) {
+                        if($this->clients[$clientUid]['maxClientLiveTime'] > 0 && microtime(true) - $this->clients[$clientUid]['created'] > $this->clients[$clientUid]['maxClientLiveTime']) {
                             if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                 call_user_func_array($this->clientDisconnectedEvent, [&$client, 'CLIENT_LIVE_TO_LONG']);
+                                 call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_LIVE_TO_LONG']);
                             }
                             
-                            $this->closeClient($client);
+                            $this->closeClient($clientUid);
                         }
 
                         continue;
                     }
 
-                    $client['lastActivityTime'] = microtime(true);
-                    $client['ping'] = false;  
+                    $this->clients[$clientUid]['lastActivityTime'] = microtime(true);
+                    $this->clients[$clientUid]['ping'] = false;  
 
-                    if($client['maxClientRequestCount'] !== false) {
-                        if ($client['maxClientRequestCount'] <= 0) {
+                    if($this->clients[$clientUid]['maxClientRequestCount'] !== false) {
+                        if ($this->clients[$clientUid]['maxClientRequestCount'] <= 0) {
                             if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                 call_user_func_array($this->clientDisconnectedEvent, [&$client, 'CLIENT_HAS_TOO_MANY_REQUESTS']);
+                                 call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_HAS_TOO_MANY_REQUESTS']);
                             }
                             
-                            $this->closeClient($client);
+                            $this->closeClient($clientUid);
                             continue;
                         }  else {
-                            $client['maxClientRequestCount']--;
+                            $this->clients[$clientUid]['maxClientRequestCount']--;
                         }
                     }
                     
-                    if($client['maxClientRequestPerMinuteCount'] !== false) {
-                        if ($client['maxClientRequestPerMinuteCount'] <= $client['requestPerMinuteCount']) {
+                    if($this->clients[$clientUid]['maxClientRequestPerMinuteCount'] !== false) {
+                        if ($this->clients[$clientUid]['maxClientRequestPerMinuteCount'] <= $this->clients[$clientUid]['requestPerMinuteCount']) {
                             if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                 call_user_func_array($this->clientDisconnectedEvent, [&$client, 'CLIENT_HAS_TOO_MANY_REQUESTS_PER_MINUTE']);
+                                 call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_HAS_TOO_MANY_REQUESTS_PER_MINUTE']);
                             }
                             
-                            $this->closeClient($client);
+                            $this->closeClient($clientUid);
                             continue;
                         }
                         
-                        if(microtime(true) - $client['requestPerMinuteInterval'] >= 60) {
-                            $client['requestPerMinuteInterval'] = microtime(true);
-                             $client['requestPerMinuteCount'] = 0;
+                        if(microtime(true) - $this->clients[$clientUid]['requestPerMinuteInterval'] >= 60) {
+                            $this->clients[$clientUid]['requestPerMinuteInterval'] = microtime(true);
+                            $this->clients[$clientUid]['requestPerMinuteCount'] = 0;
                         }
                         
-                        $client['requestPerMinuteCount']++;
+                        $this->clients[$clientUid]['requestPerMinuteCount']++;
                     }
 
-                    $client['requestCount']++;
+                    $this->clients[$clientUid]['requestCount']++;
  
                     if (is_callable($readFromClientEvent)) {
-                        call_user_func_array($readFromClientEvent, [&$client, &$data]);
+                        call_user_func_array($readFromClientEvent, [$clientUid, &$data]);
                     }
                 }
             }

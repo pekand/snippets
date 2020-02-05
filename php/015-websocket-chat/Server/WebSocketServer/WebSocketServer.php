@@ -39,34 +39,30 @@ class WebSocketServer extends WebSocketServerBase {
         return $this;
     }
     
-    public function afterSendMesage($afterSendMesage) { 
-        $this->afterSendMesage = $afterSendMesage;
+    public function beforeSendMesage($beforeSendMesage) { 
+        $this->beforeSendMesage = $beforeSendMesage;
         return $this;
     }
     
-    public function sendMessage(&$client, $message){ 
-        if ($client == null) {
-            return;
-        }
-        
-        if (isset($this->afterSendMesage) && is_callable($this->afterSendMesage)) {
-            call_user_func_array($this->afterSendMesage, [&$server, &$client, $message]);
+    public function sendMessage($clientUid, $message){ 
+        if (isset($this->beforeSendMesage) && is_callable($this->beforeSendMesage)) {
+            call_user_func_array($this->beforeSendMesage, [&$server, $clientUid, $message]);
         }
                 
-        return $this->socketServer->sendData($client, $this->mesage($message));
+        return $this->socketServer->sendData($clientUid, $this->mesage($message));
     }
     
-    public function getClient($uid) {      
-       return $this->socketServer->getClient($uid);
+    public function getClient($clientUid) {      
+       return $this->socketServer->getClient($clientUid);
     }
         
-    public function closeClient(&$client) {
+    public function closeClient($clientUid) {
 
-        if (isset($this->frames[$client['uid']])) {
-            unset($this->frames[$client['uid']]);
+        if (isset($this->frames[$clientUid])) {
+            unset($this->frames[$clientUid]);
         }
        
-       $this->socketServer->closeClient($client);
+       $this->socketServer->closeClient($clientUid);
     }
     
     public function listen($getFrameEvent) {
@@ -74,50 +70,50 @@ class WebSocketServer extends WebSocketServerBase {
         
         $this->socketServer
             ->afterServerError($this->afterServerError) // server cause error
-            ->afterClientError(function(&$client, $code, $mesage) { // client cause error
+            ->afterClientError(function($clientUid, $code, $mesage) { // client cause error
                 $server = $this;
                 if (isset($this->afterClientError) && is_callable($this->afterClientError)) {
-                    call_user_func_array($this->afterClientError, [&$server, &$client, $code, $mesage]);
+                    call_user_func_array($this->afterClientError, [&$server, $clientUid, $code, $mesage]);
                 }
             })
-            ->acceptClient(function (&$client, &$data) { // client connected
+            ->acceptClient(function ($clientUid, &$data) { // client connected
                 $headers = $this->createConnectHeader($data);
                 
-                $this->socketServer->sendData($client, $headers);
+                $this->socketServer->sendData($clientUid, $headers);
                 
-                $this->frames[$client['uid']] = null;
+                $this->frames[$clientUid] = null;
                 
                 $server = $this;
                 if (isset($this->clientConnectedEvent) && is_callable($this->clientConnectedEvent)) {
-                   return call_user_func_array($this->clientConnectedEvent, [&$server, &$client]);
+                   return call_user_func_array($this->clientConnectedEvent, [&$server, $clientUid]);
                 }
                 
                 return true;
             })
-            ->clientDisconnected(function(&$client, $reason) { // client disconected
+            ->clientDisconnected(function($clientUid, $reason) { // client disconected
                 $server = $this;
                 if (isset($this->clientDisconectEvent) && is_callable($this->clientDisconectEvent)) {
-                    call_user_func_array($this->clientDisconectEvent, [&$server, &$client, $reason]);
+                    call_user_func_array($this->clientDisconectEvent, [&$server, $clientUid, $reason]);
                 }
                 
-                $this->socketServer->sendData($client, $this->mesage("", 8));
-                $this->closeClient($client);
+                $this->socketServer->sendData($clientUid, $this->mesage("", 8));
+                $this->closeClient($clientUid);
             })
-            ->buildPing(function(&$client) {
+            ->buildPing(function($clientUid) {
                 
                 $server = $this;
                 if (isset($this->buildPing) && is_callable($this->buildPing)) {
-                    $message =  call_user_func_array($this->buildPing, [&$server, &$client]);
+                    $message =  call_user_func_array($this->buildPing, [&$server, $clientUid]);
                 }
             })
             ->bindSocket()
             ->listenToSocket(
-                function (&$client, &$data) { // client send request
+                function ($clientUid, &$data) { // client send request
 
                     while(strlen($data) > 0) {                       
-                        $lastFrame = $this->frames[$client['uid']];
+                        $lastFrame = $this->frames[$clientUid];
                         $frame = $this->proccessRequest($lastFrame, $data);
-                        $this->frames[$client['uid']] = $frame;
+                        $this->frames[$clientUid] = $frame;
                         
                         if ($frame == null) {
                             return;
@@ -132,22 +128,22 @@ class WebSocketServer extends WebSocketServerBase {
                         if ($frame['opcode'] == 8) { // denotes a connection close 
                             $server = $this;
                             if (isset($this->clientDisconectEvent) && is_callable($this->clientDisconectEvent)) {
-                                call_user_func_array($this->clientDisconectEvent, [&$server, &$client, 'CLIENT_CLOSE_CONNECTION']);
+                                call_user_func_array($this->clientDisconectEvent, [&$server, $clientUid, 'CLIENT_CLOSE_CONNECTION']);
                             }
                             
-                            $this->closeClient($client);
+                            $this->closeClient($clientUid);
                             return;
                         }
                         
                         if ($frame['opcode'] == 9) { // denotes a ping
-                            $this->socketServer->sendData($client, $this->mesage("", 10));
+                            $this->socketServer->sendData($clientUid, $this->mesage("", 10));
                             return;
                         }
                     
                         if (isset($this->getFrameEvent) && is_callable($this->getFrameEvent)) {
                             $request = $frame['payloaddata'];
-                            call_user_func_array($this->getFrameEvent, [&$server, &$client, $request]);
-                            $this->frames[$client['uid']] = null;
+                            call_user_func_array($this->getFrameEvent, [&$server, $clientUid, $request]);
+                            $this->frames[$clientUid] = null;
                         }
                     }
                 }
