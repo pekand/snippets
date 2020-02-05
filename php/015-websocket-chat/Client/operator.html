@@ -3,154 +3,21 @@
 <head>
     
     <meta charset="utf-8">
-    <title>WebSocket Operator</title>
-    
-    <style>
-    </style>
-    
+    <title>WebSocket Client</title>
+    <link rel="stylesheet" href="assets/css/body.css">
+    <link rel="stylesheet" href="assets/css/chatbox.css">
+    <link rel="stylesheet" href="assets/css/bounce.css">
+    <script defer src="assets/js/tools.js"></script>
+    <script defer src="assets/js/websocket.js"></script>
+    <script defer src="assets/js/chatbox.js"></script>
+    <script defer src="assets/js/operator.js"></script>    
 </head>
 <body>
-    
     <main>
-        <button id="ping-button">Ping</button><br>
-        <button id="login-button">Login</button><br>
-        <button id="logout-button">Logout</button><br>
-        <button id="uid-button">Get Uid</button><br>
-        <button id="clients-button">Clients</button><br>
-        <button id="broadcast-button">Broadcast</button><br>
-        <br>
-        <input type="text" id="client" placeholeder="Client"> <input type="text" id="message" placeholeder="Mesage"><button id="message-button">Submit</button><br>
-        <textarea id="messages" cols="30" rows="10"></textarea>
+       
+       <div id="chats"></div>
+       
     </main>
-
-    <script type="text/javascript" >
-        var conn;
-        var uid = null;
-        
-        function startWebsocket() {
-            conn = new WebSocket('ws://127.0.0.1:8080');
-            
-            conn.onmessage = function(e) {
-                console.log("Mesage from server:"+e.data);
-            
-                var data = JSON.parse(e.data);
-                
-                console.log(data);
-                
-                if (data.operation == 'ping') {                   
-                    conn.send(JSON.stringify({operation:"pong"}));
-                }
-                
-                if (data.operation == 'uid') {
-                    uid = data.uid;
-                }
-            };
-            
-            conn.onopen = function() {
-                console.log("Connection is open...");  
-                
-                var data = {
-                    operation:"getUid"
-                }
-                
-                conn.send(JSON.stringify(data));
-            };
-
-            conn.onclose = function() { 
-                console.log("Connection is closed..."); 
-                 uid = null;
-            };
-           
-            conn.onerror = function(error) {
-                console.log(`Error: ${error.message}`);
-            };
-            
-            window.addEventListener("beforeunload", function (e) {
-                if (conn.readyState !== WebSocket.CLOSED) {
-                   conn.close("1", "Fuck off!!");
-                }
-            });
-        }
-
-        startWebsocket();
-        
-        setInterval(function(){
-            if (conn.readyState === WebSocket.CLOSED) {
-               startWebsocket();
-            }
-        }, 1000);
-    </script>
-    
-    <script>
-        document.getElementById("login-button").addEventListener("click", function(){ 
-            
-            var data = {
-                operation:"login",
-                token:"password"
-            }
-            
-            conn.send(JSON.stringify(data));
-        });
-        
-        document.getElementById("logout-button").addEventListener("click", function(){ 
-            
-            var data = {
-                operation:"logout"
-            }
-            
-            conn.send(JSON.stringify(data));
-        });
-        
-        document.getElementById("broadcast-button").addEventListener("click", function(){ 
-            
-            var data = {
-                operation:"broadcast",
-                message:"test"
-            }
-            
-            conn.send(JSON.stringify(data));
-        });
-        
-        document.getElementById("uid-button").addEventListener("click", function(){ 
-            
-            var data = {
-                operation:"getUid"
-            }
-            
-            conn.send(JSON.stringify(data));
-        });
-        
-        document.getElementById("clients-button").addEventListener("click", function(){ 
-            
-            var data = {
-                operation:"getClients"
-            }
-            
-            conn.send(JSON.stringify(data));
-        });
-        
-        document.getElementById("message-button").addEventListener("click", function(){ 
-            
-            var data = {
-                operation:"sendMessage",
-                to:document.getElementById('client').value,
-                message:document.getElementById('message').value
-            }
-            
-            conn.send(JSON.stringify(data));
-        });
-        
-        document.getElementById("ping-button").addEventListener("click", function(){ 
-            
-            var data = {
-                operation:"ping"
-            }
-            
-            conn.send(JSON.stringify(data));
-        });
-        
-        
-    </script>
 </body>
 </html>
 

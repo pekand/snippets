@@ -177,12 +177,15 @@ $server->listen(function($server, $clientUid, $request) {
             Log::write("({$clientUid}) Operator accepted");
             ServerState::addOperator($clientUid);  
             
+            $server->sendMessage($clientUid, json_encode(['operation'=>'loginSuccess'])); 
+              
             foreach (ServerState::getOperators() as $operatorUid => $value) { 
                 Log::write("({$clientUid}) Operator login notification {$operatorUid}");
                 $server->sendMessage($operatorUid , json_encode(['operation'=>'operatorLogin', 'operator'=> $clientUid])); 
             }        
         } else {
             Log::write("({$clientUid}) Operator rejected");
+            $server->sendMessage($clientUid, json_encode(['operation'=>'loginFailed']));   
         }
     }
     

@@ -7,21 +7,15 @@
     <link rel="stylesheet" href="assets/css/body.css">
     <link rel="stylesheet" href="assets/css/chatbox.css">
     <link rel="stylesheet" href="assets/css/bounce.css">
-    <script defer src="assets/js/client.js"></script>
+    <script defer src="assets/js/tools.js"></script>
+    <script defer src="assets/js/websocket.js"></script>
+    <script defer src="assets/js/chatbox.js"></script>
+    <script defer src="assets/js/client.js"></script>    
 </head>
 <body>
-    <main>
+    <main class="wrap">
        
-       <div id="chatbox" class="chatbox">
-           <div class="chatbox__header">
-               <div class="chatbox__title">Mesasges</div>
-           </div>
-           <div  class="chatbox__messages"></div>
-           <div class="chatbox__footer">
-            <input class="chatbox__newmessage" type="text" placeholder="Type message...">
-            <button class="chatbox__send">Send</button>   
-           </div>
-       </div>
+       <div id="chatbox"></div>
        
     </main>
 </body>

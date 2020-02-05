@@ -6,6 +6,11 @@
     border-radius: 20px;
 }
 
+.chatbox__wrapper {
+    margin: 20px 0px 0px 20px;
+    float:left;
+}
+
 .chatbox__header {
     height: 35px;
     background: rgba(0, 0, 0, 0.2);
