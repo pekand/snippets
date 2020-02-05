@@ -14,12 +14,12 @@ class SocketServer {
         'waitInterval' => 50000, // event loop wait cicle (in ms)
         'clientInactivityInterval' => 30, // check with ping if client live after this interval (in s)
         'maxClientInactivityInterval' => 60, // if client not respond to ping or send eny message get killed after clientInactivityInterval + maxClientInactivityInterval (in s)
-        'maxClientHeaderLength' => 1000, // 0 is unlimite
-        'maxClientRequestLength' => 100, // 0 is unlimite
-        'maxClientLiveTime' => 0, // 0 is unlimite
-        'maxClientRequestCount' => 10000, // 0 is unlimite
-        'maxClientRequestPerMinuteCount' => 1000, // 0 is unlimite
-        'maxClientsCount' => 1000, // 0 is unlimite
+        'maxClientHeaderLength' => 9999, // first request maximal size (0 is unlimite)
+        'maxClientRequestLength' => 0, // (0 is unlimite)
+        'maxClientLiveTime' => 0, // How long can be active client connected to server (0 is unlimite)
+        'maxClientRequestCount' => 0, // (0 is unlimite)
+        'maxClientRequestPerMinuteCount' => 1000, // (0 is unlimite)
+        'maxClientsCount' => 1000, // max clients on server (0 is unlimite)
     ];
        
     public function __construct($options = []) {
@@ -71,12 +71,16 @@ class SocketServer {
         return $this;
     }
     
-    public function getClient($uid) {
-       if (isset($this->clients[$uid])) {
-         return $this->clients[$uid];
+    public function getClient($clientUid) {
+       if (isset($this->clients[$clientUid])) {
+         return $this->clients[$clientUid];
        }
        
        return null;
+    }
+    
+    public function isClient($clientUid) {
+       return isset($this->clients[$clientUid]);
     }
     
     public function closeClient($clientUid) {
@@ -98,7 +102,7 @@ class SocketServer {
     
     public function sendData($clientUid, $data) {
         
-        if (!$this->clients[$clientUid]['live']) {
+        if (!isset($this->clients[$clientUid]) || !$this->clients[$clientUid]['live']) {
             return false;
         }
         
@@ -152,6 +156,14 @@ class SocketServer {
         {
             if(($ref = socket_accept($this->socket)) !== false)
             {
+                if ($this->options['maxClientsCount'] != 0 && count($this->clients) >= $this->options['maxClientsCount']) {
+                    if (isset($this->afterServerErrorEvent) && is_callable($this->afterServerErrorEvent)) {
+                         call_user_func_array($this->afterServerErrorEvent, [null, 'SERVER_IS_FULL']);
+                    }
+                    
+                    socket_close($ref);
+                }
+                            
                 if(is_resource($ref)) {
                     
                     $clientUid =  $this->uid();
@@ -162,6 +174,9 @@ class SocketServer {
                         'created' => microtime(true),
                         'live' => true,
                         'requestCount' => 0,
+
+                        'clientInactivityInterval' => $this->options['clientInactivityInterval'] == 0 ? false :  $this->options['clientInactivityInterval'],
+                        'maxClientInactivityInterval' => $this->options['maxClientInactivityInterval'] == 0 ? false :  $this->options['maxClientInactivityInterval'],
                         
                         'maxClientLiveTime' => $this->options['maxClientLiveTime'],
                         'maxClientHeaderLength' => $this->options['maxClientHeaderLength'] == 0 ? false :  $this->options['maxClientHeaderLength'],
@@ -195,20 +210,11 @@ class SocketServer {
                     } else {
                         $acceptedNewClient = true;
                         if (isset($this->acceptClientEvent) && is_callable($this->acceptClientEvent)) {
-                            $acceptedNewClient = call_user_func_array($this->acceptClientEvent, [$clientUid, &$data]);
+                            $acceptedNewClient = call_user_func_array($this->acceptClientEvent, [$clientUid, $data]);
                         }
 
                         if ($acceptedNewClient) {
                             socket_set_nonblock($this->clients[$clientUid]['ref']);
-                            
-                            if ($this->options['maxClientsCount'] != 0 && count($this->clients) > $this->options['maxClientsCount']) {
-                                if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                     call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'SERVER_IS_FULL']);
-                                }
-                                
-                                $this->closeClient($clientUid);
-                            }
-                            
                         } else {
                             $this->closeClient($clientUid);
                         }
@@ -250,21 +256,19 @@ class SocketServer {
 
                     if ($data === "") {
                         if (isset($this->buildPingEvent) && is_callable($this->buildPingEvent)) {
-                            if($this->clients[$clientUid]['ping'] == false &&  microtime(true) - $this->clients[$clientUid]['lastActivityTime'] > $this->options['clientInactivityInterval']) { // check if client still listening
+                            if($this->clients[$clientUid]['ping'] == false &&  microtime(true) - $this->clients[$clientUid]['lastActivityTime'] > $this->clients[$clientUid]['clientInactivityInterval']) { // check if client still listening
                                 call_user_func_array($this->buildPingEvent, [$clientUid]);
                                 $this->clients[$clientUid]['ping'] = true;
                             }
                         }
                         
-                        if(microtime(true) - $this->clients[$clientUid]['lastActivityTime'] > $this->options['clientInactivityInterval'] + $this->options['maxClientInactivityInterval']) { // check if client still listening
+                        if(microtime(true) - $this->clients[$clientUid]['lastActivityTime'] > $this->clients[$clientUid]['maxClientInactivityInterval']) { // kill connection due to inactivity
                             if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                                call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_NOT_RESPONDING_TO_PING']);
+                                call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_IS_INACTIVE_TO_LONG']);
                             }
                             
                             $this->closeClient($clientUid);
-                        }
-                        
-                        
+                        } else
                         if($this->clients[$clientUid]['maxClientLiveTime'] > 0 && microtime(true) - $this->clients[$clientUid]['created'] > $this->clients[$clientUid]['maxClientLiveTime']) {
                             if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
                                  call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_LIVE_TO_LONG']);
@@ -313,11 +317,10 @@ class SocketServer {
                     $this->clients[$clientUid]['requestCount']++;
  
                     if (is_callable($readFromClientEvent)) {
-                        call_user_func_array($readFromClientEvent, [$clientUid, &$data]);
+                        call_user_func_array($readFromClientEvent, [$clientUid, $data]);
                     }
                 }
-            }
-            echo date("Y-m-d h:i:s")." WAIT \n";
+            }            
             usleep($this->options['waitInterval']);
         }
     }

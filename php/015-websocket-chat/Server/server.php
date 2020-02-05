@@ -25,10 +25,11 @@ class Log
              return;
         }
         
-        file_put_contents("server.log", date("Y-m-d h:i:s")." ".$severity." ".$message."\n", FILE_APPEND | LOCK_EX);
+        file_put_contents("log/server-".date("Y-m-d").".log", date("Y-m-d h:i:s")." ".$severity." ".$message."\n", FILE_APPEND | LOCK_EX);
     }
 }
 
+// business logic
 class ServerState
 {
     static $clients = [];
@@ -89,6 +90,12 @@ $server->clientConnected(function($server, $clientUid) {
     global $clients;
     Log::write("({$clientUid}) CLIENT CONNECTED");
     ServerState::addClient($clientUid);
+    
+    foreach (ServerState::getOperators() as $operatorUid => $value) { 
+        Log::write("({$clientUid}) New client notification to operator {$operatorUid}");
+        $server->sendMessage($operatorUid , json_encode(['operation'=>'newClient', 'client'=> $clientUid])); 
+    } 
+        
     return true;
 });
 
@@ -97,13 +104,18 @@ $server->clientDisconnected(function($server, $clientUid, $reason) {
     
     ServerState::removeOperator($clientUid);
     ServerState::removeClient($clientUid);
+    
+    foreach (ServerState::getOperators() as $operatorUid => $value) { 
+        Log::write("({$clientUid}) Client disconected notification to operator {$operatorUid}");
+        $server->sendMessage($operatorUid , json_encode(['operation'=>'clientDisconected', 'client'=> $clientUid])); 
+    } 
 });
 
 $server->buildPing(function($server, $clientUid) {     
      $server->sendMessage($clientUid, json_encode(['operation'=>'ping']));
 });
 
-$server->beforeSendMesage(function($server, $clientUid, $message) {
+$server->beforeSendMessage(function($server, $clientUid, $message) {
     $data = json_decode($message, true);
     
     $severity = 'INFO';
@@ -146,24 +158,29 @@ $server->listen(function($server, $clientUid, $request) {
     }
     
     if($data['operation'] == 'sendMessage' && isset($data['to']) && isset($data['message'])) { 
-        $uid = $data['to'];                  
-        if ($client !== null) {
-            Log::write("({$clientUid}) Message to {$uid} : {$data['message']}");
-            $server->sendMessage($uid, json_encode(['operation'=>'mesage', 'from'=>$clientUid, 'mesage'=>$data['message'] ]));   
+        $toUid = $data['to'];
+        if($server->isClient($toUid)){        
+            Log::write("({$clientUid}) Message to {$toUid} : {$data['message']}");
+            $server->sendMessage($toUid, json_encode(['operation'=>'message', 'from'=>$clientUid, 'message'=>$data['message'] ]));   
         }
     }
     
     if($data['operation'] == 'sendMessageToOperator' && isset($data['message'])) { 
         foreach (ServerState::getOperators() as $operatorUid => $value) { 
             Log::write("({$clientUid}) Client Send Message To Operator {$operatorUid}: {$data['message']}");
-            $server->sendMessage($operatorUid , json_encode(['operation'=>'messageFromClient', 'from'=> $clientUid, 'mesage'=>$data['message']])); 
+            $server->sendMessage($operatorUid , json_encode(['operation'=>'messageFromClient', 'from'=> $clientUid, 'message'=>$data['message']])); 
         }   
     }
     
     if($data['operation'] == 'login') { 
         if($data['token'] == 'password') { 
             Log::write("({$clientUid}) Operator accepted");
-            ServerState::addOperator($clientUid);            
+            ServerState::addOperator($clientUid);  
+            
+            foreach (ServerState::getOperators() as $operatorUid => $value) { 
+                Log::write("({$clientUid}) Operator login notification {$operatorUid}");
+                $server->sendMessage($operatorUid , json_encode(['operation'=>'operatorLogin', 'operator'=> $clientUid])); 
+            }        
         } else {
             Log::write("({$clientUid}) Operator rejected");
         }
@@ -173,6 +190,12 @@ $server->listen(function($server, $clientUid, $request) {
         if(ServerState::isOperator($clientUid)) { 
             Log::write("({$clientUid}) Operator logout");
             ServerState::removeOperator($clientUid);
+            
+            foreach (ServerState::getOperators() as $operatorUid => $value) { 
+                Log::write("({$clientUid}) Operator logout {$operatorUid}");
+                $server->sendMessage($operatorUid , json_encode(['operation'=>'operatorLogout', 'operator'=> $clientUid])); 
+            } 
+    
         } else {
             $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'logout']));   
         }   
@@ -183,7 +206,7 @@ $server->listen(function($server, $clientUid, $request) {
             Log::write("({$clientUid}) Operator broadcast");
             foreach (ServerState::getClients() as $uid => $value) {                
                 Log::write("({$clientUid}) Addmin broadcast to {$uid}: {$data['message']}");
-                $server->sendMessage($uid, json_encode(['operation'=>'operatorBroadcastMessage', 'mesage'=>$data['message']])); 
+                $server->sendMessage($uid, json_encode(['operation'=>'operatorBroadcastMessage', 'message'=>$data['message']])); 
             }
         } else {
             $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'broadcast']));   

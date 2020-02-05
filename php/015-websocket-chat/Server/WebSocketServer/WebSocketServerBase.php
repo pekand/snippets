@@ -106,140 +106,181 @@ class WebSocketServerBase {
 
     // rfc6455 The WebSocket Protocol 
     // https://tools.ietf.org/html/rfc6455
-    protected function proccessRequest($lastFrame, &$data)
+    protected function proccessRequest($lastFrame, $data)
     {
+        $frames = [];
+        
+        if ($lastFrame != null && isset($frame['partialdata']) && $frame['partialdata'] !== "") { // process short header from previous frame
+            $data = $frame['partialdata'] . $data;
+            $lastFrame = null;
+        }
+        
         // proccess additional data
-        if ($lastFrame != null && 
-            $lastFrame['lenext'] > 0 && 
-            $lastFrame['lenext'] < strlen($lastFrame['payloaddata'])
-        ) {
+        if ($lastFrame != null && isset($frame['full']) && !$frame['full']) {
             $frame = $lastFrame;
+            
+            $len = ($frame['len'] == 126 || $frame['len'] == 127) ? $frame['lenext'] : $frame['len'];
+            
+            $remainingLength = $len - strlen($frame['payloaddata']);
+            $remainingData = substr($data, 0, $remainingLength);
 
-            $frame['payloaddata'] = "";
-            
-            $remainingLength = $frame['lenext'] - strlen($frame['payloaddata']);
-            $data = substr($data, 0, $remainingLength);
-            $data = substr($data, $remainingLength);
-            
             if ($frame['mask']) {
-                for ($i = 0; $i<strlen($data); $i++)
-                    $frame['payloaddata'] .= $data[$i] ^ $frame['maskingkey'][$i % 4];
+                for ($i = 0; $i<strlen($remainingData); $i++)
+                    $frame['payloaddata'] .= $remainingData[$i] ^ $frame['maskingkey'][$i % 4];
             } else {
-                $frame['payloaddata'] .= $data;
+                $frame['payloaddata'] .= $remainingData;
             }
 
-            if($frame['lenext'] == strlen($frame['payloaddata'])) {
+            if($len == strlen($frame['payloaddata'])) {
                 $frame['full'] == true;
             }
 
-            return $frame;
-        }
-
-        $frame = [];
-
-        if(strlen($data)<2) { //header is too short
-            return null; 
-        }
-        
-        $b1 = $this->str2bin($data[0]);
-        $frame['fin'] = $b1[0] == '1';
-        $frame['rsv1'] = $b1[1] == '1';
-        $frame['rsv2'] = $b1[2] == '1';
-        $frame['rsv3'] = $b1[3] == '1';
-        $frame['opcode'] = bindec(substr($b1, 4, 4));
-
-        $b2 = $this->str2bin($data[1]);
-        $frame['mask'] = $b2[0] == '1';
-        $frame['len'] = $frame['mask'] ? ord($data[1]) & 127 : ord($data[1]);
-
-        $frame['lenext'] = 0;
-        if ($frame['len']===126) {
+            $frames[] = $frame;
             
-            if(strlen($data)<4) { // header is too short wait for additional data
-                return null; 
-            }
-        
-            $frame['lenext'] = bindec(
-                $this->str2bin($data[2]).
-                $this->str2bin($data[3])
-            );
-        } elseif ($frame['len']===127) {
-            if(strlen($data)<10) { // header is too short wait for additional data
-                return null; 
+            $data = substr($data, $remainingLength);
+        }
+
+        while (strlen($data) > 0) {     // split data to frames       
+            $frame = [
+                'full' => false,
+                'fin' =>0,
+                'rsv1' => 0,
+                'rsv2' => 0,
+                'rsv3' => 0,
+                'opcode' => 0,
+                'mask' => 0,
+                'maskingkey' => null,
+                'len' => 0,
+                'lenext' => 0,
+                'partialdata' => "",
+                'payloaddata' => "",
+            ];
+
+            if(strlen($data)<2) { //header is too short
+                $frame['partialdata'] = $data;
+                $frames[] = $frame;
+                break;
             }
             
-            $frame['lenext'] = bindec(
-                $this->str2bin($data[2]).
-                $this->str2bin($data[3]).
-                $this->str2bin($data[4]).
-                $this->str2bin($data[5]).
-                $this->str2bin($data[6]).
-                $this->str2bin($data[7]).
-                $this->str2bin($data[8]).
-                $this->str2bin($data[9])
-            );
-        }
+            $b1 = $this->str2bin($data[0]);
+            $frame['fin'] = $b1[0] == '1';
+            $frame['rsv1'] = $b1[1] == '1';
+            $frame['rsv2'] = $b1[2] == '1';
+            $frame['rsv3'] = $b1[3] == '1';
+            $frame['opcode'] = bindec(substr($b1, 4, 4));
 
-        $frame['payloaddata'] = "";
-        if ($frame['mask']) {
+            if ($frame['rsv1'] != 0 || $frame['rsv2'] != 0 || $frame['rsv3'] != 0) {
+                throw new \Exception("Reserved bytes set to unexpected value in frame");
+            }
+            
+            if (!in_array($frame['opcode'], [0,1,2,8,9,10])) {
+                throw new \Exception("Unexpected opcodewalue in frame");
+            }
+
+            $b2 = $this->str2bin($data[1]);
+            $frame['mask'] = $b2[0] == '1';
+            $frame['len'] = $frame['mask'] ? ord($data[1]) & 127 : ord($data[1]);
+
+            $frame['lenext'] = 0;
             if ($frame['len']===126) {
-                if(strlen($data)<8) { // header is too short wait for additional data
-                    return null; 
+                
+                if(strlen($data)<4) { // header is too short wait for additional data
+                    $frame['partialdata'] = $data;
+                    $frames[] = $frame;
+                    break;
                 }
             
-                $frame['maskingkey'] = substr($data, 4, 4);
+                $frame['lenext'] = bindec(
+                    $this->str2bin($data[2]).
+                    $this->str2bin($data[3])
+                );
             } elseif ($frame['len']===127) {
-                if(strlen($data)<12) { // header is too short wait for additional data
-                    return null; 
+                if(strlen($data)<10) { // header is too short wait for additional data
+                    $frame['partialdata'] = $data;
+                    $frames[] = $frame;
+                    break;
                 }
                 
-                $frame['maskingkey'] = substr($data, 10, 4);
-            } else {
-                if(strlen($data)<6) { // header is too short wait for additional data
-                    return null; 
-                }
+                $frame['lenext'] = bindec(
+                    $this->str2bin($data[2]).
+                    $this->str2bin($data[3]).
+                    $this->str2bin($data[4]).
+                    $this->str2bin($data[5]).
+                    $this->str2bin($data[6]).
+                    $this->str2bin($data[7]).
+                    $this->str2bin($data[8]).
+                    $this->str2bin($data[9])
+                );
+            }
+
+            $frame['payloaddata'] = "";
+            if ($frame['mask']) {
                 
-                $frame['maskingkey'] = substr($data, 2, 4);
+                if ($frame['len']===126) {
+                    if(strlen($data)<8) { // header is too short wait for additional data
+                        $frame['partialdata'] = $data;
+                        $frames[] = $frame;
+                        break;
+                    }
+                
+                    $frame['maskingkey'] = substr($data, 4, 4);
+                } elseif ($frame['len']===127) {
+                    if(strlen($data)<12) { // header is too short wait for additional data
+                        $frame['partialdata'] = $data;
+                        $frames[] = $frame;
+                        break;
+                    }
+                    
+                    $frame['maskingkey'] = substr($data, 10, 4);
+                } else {
+                    if(strlen($data)<6) { // header is too short wait for additional data
+                        $frame['partialdata'] = $data;
+                        $frames[] = $frame;
+                        break;
+                    }
+                    
+                    $frame['maskingkey'] = substr($data, 2, 4);
+                }
+            
+                if ($frame['len']===126){
+                    $coded_data = substr($data, 8, $frame['lenext']);
+                    $data = substr($data, $frame['lenext'] + 8);
+                } elseif ($frame['len']===127) {
+                    $coded_data = substr($data, 14, $frame['lenext']);
+                    $data = substr($data, $frame['lenext'] + 14);
+                } else {
+                    $coded_data = substr($data, 6, $frame['len']);
+                    $data = substr($data, $frame['len'] + 6);
+                }
+
+                for ($i = 0; $i<strlen($coded_data); $i++) {
+                    $frame['payloaddata'] .= $coded_data[$i] ^ $frame['maskingkey'][$i % 4];
+                }
             }
+            else
+            {
+                if ($frame['len']===126) {
+                    $frame['payloaddata'] = substr($data, 4, $frame['lenext']);
+                    $data = substr($data, $frame['lenext'] + 4);
+                } elseif ($frame['len']===127) {
+                    $frame['payloaddata'] = substr($data, 10, $frame['lenext']);
+                    $data = substr($data, $frame['lenext'] + 10);
+                } else {
+                    $frame['payloaddata'] = substr($data, 2, $frame['len']);
+                    $data = substr($data, $frame['len'] + 2);
+                }
+            }
+
+            $frame['full'] = false;
+            if($frame['len'] < 126 && $frame['len'] == strlen($frame['payloaddata'])) {
+                $frame['full'] = true;
+            } else if(($frame['len'] == 126 || $frame['len'] == 127) && $frame['lenext'] == strlen($frame['payloaddata'])) {
+                $frame['full'] = true;
+            }
+            
+            $frames[] = $frame;
+        } 
         
-            if ($frame['len']===126){
-                $coded_data = substr($data, 8, $frame['lenext']);
-                $data = substr($data, $frame['lenext']);
-            } elseif ($frame['len']===127) {
-                $coded_data = substr($data, 14, $frame['lenext']);
-                $data = substr($data, $frame['lenext']);
-            } else {
-                $coded_data = substr($data, 6, $frame['len']);
-                $data = substr($data, $frame['len']);
-            }
-
-            for ($i = 0; $i<strlen($coded_data); $i++) {
-                $frame['payloaddata'] .= $coded_data[$i] ^ $frame['maskingkey'][$i % 4];
-            }
-        }
-        else
-        {
-            if ($frame['len']===126) {
-                $frame['payloaddata'] = substr($data, 4, $frame['lenext']);
-                $data = substr($data, $frame['lenext']);
-            } elseif ($frame['len']===127) {
-                $frame['payloaddata'] = substr($data, 10, $frame['lenext']);
-                $data = substr($data, $frame['lenext']);
-            } else {
-                $frame['payloaddata'] = substr($data, 2, $frame['len']);
-                $data = substr($data, $frame['len']);
-            }
-        }
-
-        $frame['full'] = false;
-        if($frame['len'] < 126 && $frame['len'] == strlen($frame['payloaddata'])) {
-            $frame['full'] = true;
-        } else if(($frame['len'] == 126 || $frame['len'] == 127) && $frame['lenext'] == strlen($frame['payloaddata'])) {
-            $frame['full'] = true;
-        }
-
-        $client['lastframe'] = $frame;
-
-        return $frame;
+        return $frames;
     }
 }
