@@ -205,7 +205,7 @@ $server->addListener(function($server, $clientUid, $request) {
             Log::write("({$clientUid}) Operator broadcast");
             foreach (ServerLogic::getClients() as $uid => $value) {                
                 Log::write("({$clientUid}) Addmin broadcast to {$uid}: {$data['message']}");
-                $server->sendMessage($uid, json_encode(['operation'=>'operatorBroadcastMessage', 'message'=>$data['message']])); 
+                $server->sendMessage($uid, json_encode(['operation'=>'operatorBroadcastMessage', 'operator'=>$clientUid, 'message'=>$data['message']])); 
             }
         } else {
             $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'broadcast']));   

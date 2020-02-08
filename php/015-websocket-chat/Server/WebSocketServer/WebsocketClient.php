@@ -16,55 +16,26 @@ class WebsocketClient extends WebSocketServerBase {
         'ip'=> '0.0.0.0', 
         'port' => 8080,
     ];
-    
-        public function getHeader() {
-            $header = "GET / HTTP/1.1
-Connection: Upgrade
-Pragma: no-cache
-Cache-Control: no-cache
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36
-Upgrade: websocket
-Sec-WebSocket-Version: 13
-Accept-Encoding: gzip, deflate
-Accept-Language: en-US,en;q=0.9,sk;q=0.8,und;q=0.7,la;q=0.6,fr;q=0.5
-Sec-WebSocket-Key: vQBa+DW32bHjI3m5+Omfxg==
-Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
-
-        return $header;
-    }
-       
+          
     public function __construct($options = []) {
         
         $this->options = array_merge($this->options, $options);
         $this->client = new SocketClient();
-    }
-    
-    public function connect($afterConnect = null) {    
-        $headerToServer =  $this->getHeader();
         
-        $this->client->connect(function($client) use ($headerToServer) {
+        $headerToServer =  $this->getHeader();        
+        $this->client->addSendHeader(function($client) use ($headerToServer) {            
             $client->sendData($headerToServer);
-        },
-        function($client, $headerFromServer) use ($afterConnect) {
-            if (isset($afterConnect) && is_callable($afterConnect)) {
-                call_user_func_array($afterConnect, [$this]);
-            }       
         });
 
-        return $this;
-    }
-    
-    public function sendMessage($message){                 
-        return $this->client->sendData($this->mesage($message, 1, true));
-    }
 
-    public function addListener($listener) {
-         $this->listeners[] = $listener;
-         
-    }
-    
-    public function listen() {
-        $this->client->listen(function($data) {
+        $client = $this;
+        $this->client->addReceiveHeader(function($headerFromServer) use ($client) {
+            if (isset($client->afterConnect) && is_callable($client->afterConnect)) {
+                call_user_func_array($client->afterConnect, [$client]);
+            }    
+        });
+
+        $this->client->addListener(function($data) {
            
             $frames = [];
             
@@ -93,7 +64,46 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
                 }   
             }
             
-        });       
+        });
+    }
+    
+    public function getHeader() {
+        $header = "GET / HTTP/1.1
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36
+Upgrade: websocket
+Sec-WebSocket-Version: 13
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9,sk;q=0.8,und;q=0.7,la;q=0.6,fr;q=0.5
+Sec-WebSocket-Key: vQBa+DW32bHjI3m5+Omfxg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
+
+        return $header;
+    }
+    
+    public function afterConnect($afterConnect = null) {    
+        $this->afterConnect = $afterConnect;
         return $this;
+    }
+    
+    public function sendMessage($message){                 
+        return $this->client->sendData($this->mesage($message, 1, true));
+    }
+
+    public function addListener($listener) {
+         $this->listeners[] = $listener;
+          return $this;
+    }
+    
+   
+    public function listen() {        
+        $this->client->listen();
+        return $this;
+    }
+    
+     public function getSocketClient(){
+        return $this->client;
     }
 }

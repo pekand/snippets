@@ -163,6 +163,8 @@ class SocketServer {
     
     public function listenToSocket($readFromClientEvent = null) {
         
+        $this->bindSocket();
+        
         if (!$this->socket){
             return;
         }

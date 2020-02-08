@@ -128,7 +128,6 @@ class WebSocketServer extends WebSocketServerBase {
                 $message =  call_user_func_array($this->buildPing, [$server, $clientUid]);
             }
         })
-        ->bindSocket()
         ->listenToSocket(
             function ($clientUid, $data) { // client send request
                 $lastFrame  = null;

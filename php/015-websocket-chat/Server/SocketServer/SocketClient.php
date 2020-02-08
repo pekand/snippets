@@ -10,13 +10,15 @@ class SocketClient {
         'ip'=> '0.0.0.0', 
         'port' => 8080,
     ];
+    
+    private $listeners = [];
        
     public function __construct($options = []) {
         
         $this->options = array_merge($this->options, $options);
     }
 
-    public function connect($sendHeader = null, $receiveHeader = null) {
+    public function connect() {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         
         if(false == @socket_connect($this->socket, '127.0.0.1', 8080)) {
@@ -26,17 +28,16 @@ class SocketClient {
         }
         
         
-        if (isset($sendHeader) && is_callable($sendHeader)) {
-            call_user_func_array($sendHeader, [$this]);
+        if (isset($this->sendHeader) && is_callable($this->sendHeader)) {
+            call_user_func_array($this->sendHeader, [$this]);
         }
         
         if (false === ($headerFromServer = @socket_read($this->socket, 2048, MSG_WAITALL))) {
             echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
         }  
-        
 
-        if (isset($receiveHeader) && is_callable($receiveHeader)) {
-            call_user_func_array($receiveHeader, [$this, $headerFromServer]);
+        if (isset($this->receiveHeader) && is_callable($this->receiveHeader)) {
+            call_user_func_array($this->receiveHeader, [$headerFromServer]);
         }
 
         
@@ -45,6 +46,24 @@ class SocketClient {
         }
 
         return $this;
+    }
+    
+    public function addSendHeader($sendHeader) {
+         $this->sendHeader = $sendHeader;
+         return $this;
+    }
+    
+    public function addReceiveHeader($receiveHeader) {
+         $this->receiveHeader = $receiveHeader;
+         return $this;
+    }
+    
+    public function sendData($data) {     
+        if(!isset($this->socket)){
+            return;    
+        }
+        
+        socket_write($this->socket, $data, strlen($data));
     }
     
     public function close() {
@@ -56,38 +75,46 @@ class SocketClient {
         
         return $this;
     }
-
-    public function sendData($data) {     
-        if(!isset($this->socket)){
-            return;    
-        }
-        
-        socket_write($this->socket, $data, strlen($data));
-    }
     
 
-public function listen($listener = null) {
+    public function addListener($listener) {
+         $this->listeners[] = $listener;
+         return $this;
+    }
+   
+    public function listenBody() {
+        if (!$this->socket){
+            return;
+        }
+        
+        $data = "";
+        while ($buf = @socket_read($this->socket, 1024)) {  
+            if ($buf === false) {
+                echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
+                break;
+            }                 
+            $data .= $buf;
+        }
+        
+        if(strlen($data)>0) {
+            foreach ($this->listeners as $listener) {
+                if (is_callable($listener)) {
+                    call_user_func_array($listener, [$data]);
+                }
+            }   
+        }
+    }
+     
+    public function listen() {
   
+        $this->connect();
+        
         if (!$this->socket){
             return;
         }
           
         while(true) {    
-            $data = "";
-            while ($buf = @socket_read($this->socket, 1024)) {  
-                if ($buf === false) {
-                    echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
-                    break;
-                }                 
-                $data .= $buf;
-            }
-            
-            if(strlen($data)>0) {               
-               if (is_callable($listener)) {
-                    call_user_func_array($listener, [$data]);
-                }
-            }
-
+            $this->listenBody();
             usleep(50000);
         }    
              
