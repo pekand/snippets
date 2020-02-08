@@ -26,7 +26,7 @@ function chatbox(chatboxId){return {
         this.newMesageInput.addEventListener("keyup", this.messageInputKeyUpClick.bind(this));
     },
        
-    addOperatorMesage: function(message) {
+    addOperatorMessage: function(message) {
          var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text chatbox__message--bounce">'+message+'</div></div>')
          this.chatboxMessges.appendChild(messageEl);
          this.chatboxMessges.scrollTop = this.chatboxMessges.scrollHeight;
@@ -71,6 +71,10 @@ function chatbox(chatboxId){return {
     setTitle: function(title) {
         this.chatboxTitle.innerHTML = '';
         this.chatboxTitle.appendChild(document.createTextNode(title));
+    },
+    
+    clearMesages: function(title) {
+        this.chatboxMessges.innerHTML = '';
     },
     
     el: function(html) {

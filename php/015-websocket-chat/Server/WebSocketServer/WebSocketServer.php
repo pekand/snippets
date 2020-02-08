@@ -7,7 +7,7 @@ use SocketServer\SocketServer;
 class WebSocketServer extends WebSocketServerBase {
     
     private $frames = [];
-    
+    private $listeners = [];
     private $socketServer = null; 
     
     public function __construct($options) {
@@ -69,15 +69,33 @@ class WebSocketServer extends WebSocketServerBase {
        $this->socketServer->closeClient($clientUid);
     }
     
-    public function listen($getFrameEvent) {
-        $this->getFrameEvent = $getFrameEvent;
-        
+    public function afterShutdown($afterShutdownEvent = null) {
+        $this->afterShutdownEvent = $afterShutdownEvent;
+        return $this;
+    }
+    
+    public function shutdown() {
+       $this->socketServer->shutdown();
+    }
+    
+    public function addListener($listener) {
+         $this->listeners[] = $listener;
+         
+    }
+    
+    public function listen() {
+       
         $this->socketServer
         ->afterServerError($this->afterServerError) // server cause error
         ->afterClientError(function($clientUid, $code, $mesage) { // client cause error
             $server = $this;
             if (isset($this->afterClientError) && is_callable($this->afterClientError)) {
-                call_user_func_array($this->afterClientError, [$server, $clientUid, $code, $mesage]);
+                call_user_func_array($this->afterClientError, [$this, $clientUid, $code, $mesage]);
+            }
+        })
+        ->afterShutdown(function($server) { // client cause error            
+            if (isset($this->afterShutdownEvent) && is_callable($this->afterShutdownEvent)) {
+                 call_user_func_array($this->afterShutdownEvent, [$this]);
             }
         })
         ->acceptClient(function ($clientUid, $data) { // client connected
@@ -119,6 +137,7 @@ class WebSocketServer extends WebSocketServerBase {
                     $this->frames[$clientUid] = null;
                 }
                 
+                $frames = [];
                 try {
                     $frames = $this->proccessRequest($lastFrame, $data);
                 } catch (\Exception $e) {                    
@@ -155,10 +174,12 @@ class WebSocketServer extends WebSocketServerBase {
                         return;
                     }
                 
-                    if (isset($this->getFrameEvent) && is_callable($this->getFrameEvent)) {
-                        $request = $frame['payloaddata'];
-                        call_user_func_array($this->getFrameEvent, [$server, $clientUid, $request]);
-                        $this->frames[$clientUid] = null;
+                    foreach ($this->listeners as $listener) {
+                        if (isset($listener) && is_callable($listener)) {
+                            $request = $frame['payloaddata'];
+                            call_user_func_array($listener, [$server, $clientUid, $request]);
+                            $this->frames[$clientUid] = null;
+                        }
                     }
                 }
             }

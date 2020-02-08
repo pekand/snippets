@@ -43,21 +43,21 @@ class WebSocketServerBase {
     }
     
     protected function createConnectHeader($data) {
-        preg_match('#Sec-WebSocket-Key: (.*)\r\n#', $data, $matches);
+        preg_match('#Sec-WebSocket-Key: (.*)#', $data, $matches);
         
         $key = "";
         if (isset($matches[1])) {
             $key = base64_encode(pack(
                 'H*',
-                sha1($matches[1] . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
+                sha1(trim($matches[1]) . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
             ));
         }
         
-        $headers = "HTTP/1.1 101 Switching Protocols\r\n";
-        $headers .= "Upgrade: websocket\r\n";
-        $headers .= "Connection: Upgrade\r\n";
-        $headers .= "Sec-WebSocket-Version: 13\r\n";
-        $headers .= "Sec-WebSocket-Accept: $key\r\n\r\n";
+        $headers = "HTTP/1.1 101 Switching Protocols\n";
+        $headers .= "Upgrade: websocket\n";
+        $headers .= "Connection: Upgrade\n";
+        $headers .= "Sec-WebSocket-Version: 13\n";
+        $headers .= "Sec-WebSocket-Accept: $key\n\n";
         
         return $headers;
     }
@@ -95,7 +95,7 @@ class WebSocketServerBase {
             $maskingkey = openssl_random_pseudo_bytes(4);
 
             $messageMasked = "";
-            for ($i = 0; $i<strlen($m); $i++)
+            for ($i = 0; $i<strlen($message); $i++)
                 $messageMasked .= $message[$i] ^ $maskingkey[$i % 4];
 
             return $this->bin2str($frameHeader).$maskingkey.$messageMasked;

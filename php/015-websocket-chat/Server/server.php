@@ -7,71 +7,12 @@ spl_autoload_register(function ($class_name) {
 });
 
 use WebSocketServer\WebSocketServer;
+use Logic\Log;
+use Logic\ChatsStorage;
+use Logic\ServerLogic;
 
-Log::setAllowdSeverity(['INFO', 'ERROR']);
-
+Log::setAllowdSeverity(['INFO', 'ERROR', 'DEBUG']);
 Log::write("WEBSOCKET SERVER START");
-
-class Log
-{
-    private static $allowedSeverity = ['INFO', 'ERROR', 'WARNING', 'DEBUG'];
-    
-    public static function setAllowdSeverity($allowedSeverity) {
-        self::$allowedSeverity = $allowedSeverity;
-    }
-    
-    public static function write($message, $severity = 'INFO') {
-        if (!in_array($severity, self::$allowedSeverity)) {
-             return;
-        }
-        
-        file_put_contents("log/server-".date("Y-m-d").".log", date("Y-m-d h:i:s")." ".$severity." ".$message."\n", FILE_APPEND | LOCK_EX);
-    }
-}
-
-// business logic
-class ServerState
-{
-    static $clients = [];
-    static $operators = [];
- 
-    public static function isOperator($clientUid)
-    {
-        return isset(self::$operators[$clientUid]);
-    }
-    
-    public static function addOperator($clientUid)
-    {
-        self::$operators[$clientUid] = [];
-        self::removeClient($clientUid);
-    }
-    
-    public static function removeOperator($clientUid)
-    {
-        unset(self::$operators[$clientUid]);
-        self::addClient($clientUid);
-    }
-    
-    public static function addClient($clientUid)
-    {
-        self::$clients[$clientUid] = [];
-    }
-    
-    public static function removeClient($clientUid)
-    {
-        unset(self::$clients[$clientUid]);
-    }
-    
-    public static function getClients()
-    {
-       return self::$clients;
-    }
-    
-    public static function getOperators()
-    {
-       return self::$operators;
-    }
-}
 
 $server = new WebSocketServer([
     'ip' => '0.0.0.0',
@@ -86,29 +27,36 @@ $server->afterClientError(function($server, $clientUid, $code, $message) {
     Log::write("({$clientUid}) [$code]: $message", "ERROR");
 });
 
+$server->afterShutdown(function($server) {
+    Log::write("SERVER SHUTDOWN");
+});
+
 $server->clientConnected(function($server, $clientUid) {
-    global $clients;
     Log::write("({$clientUid}) CLIENT CONNECTED");
-    ServerState::addClient($clientUid);
-    
-    foreach (ServerState::getOperators() as $operatorUid => $value) { 
-        Log::write("({$clientUid}) New client notification to operator {$operatorUid}");
-        $server->sendMessage($operatorUid , json_encode(['operation'=>'newClient', 'client'=> $clientUid])); 
-    } 
-        
+    ServerLogic::addClient($clientUid);      
     return true;
 });
 
 $server->clientDisconnected(function($server, $clientUid, $reason) {
     Log::write("({$clientUid}) CLIENT DISCONNECTED: {$reason}");
     
-    ServerState::removeOperator($clientUid);
-    ServerState::removeClient($clientUid);
+    ServerLogic::removeOperator($clientUid);
+    ServerLogic::removeClient($clientUid);
     
-    foreach (ServerState::getOperators() as $operatorUid => $value) { 
+    $chatStorage = ServerLogic::getChatStorage();
+    
+    /*if(ServerLogic::isOperator($clientUid)){
+        $chatStorage->removeOperatorFromAllChats($clientUid);
+    } else {
+        $chatStorage->removeClientFromAllChats($clientUid);
+    }*/
+    
+    /*
+    foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
         Log::write("({$clientUid}) Client disconected notification to operator {$operatorUid}");
         $server->sendMessage($operatorUid , json_encode(['operation'=>'clientDisconected', 'client'=> $clientUid])); 
     } 
+    */
 });
 
 $server->buildPing(function($server, $clientUid) {     
@@ -126,7 +74,8 @@ $server->beforeSendMessage(function($server, $clientUid, $message) {
     Log::write("({$clientUid}) MESSAGE TO CLIENT: {$message}", $severity);
 });
 
-$server->listen(function($server, $clientUid, $request) {   
+// display header
+$server->addListener(function($server, $clientUid, $request) {   
     
     $requestFromClient = $request;
     if(strlen($requestFromClient)>1000) {
@@ -144,17 +93,81 @@ $server->listen(function($server, $clientUid, $request) {
     }
     
     Log::write("({$clientUid}) REQUEST FROM CLIENT (".strlen($request)."): ".$requestFromClient, $severity);
+});
+
+/* TOOLS */
+$server->addListener(function($server, $clientUid, $request) {  
+    
+    $data = json_decode($request, true);
+    if (!isset($data['operation'])) {
+        return;
+    }
     
     if($data['operation'] == 'ping') { 
         $server->sendMessage($clientUid, json_encode(['operation'=>'pong']));      
     }
-    
-     if($data['operation'] == 'getUid') { 
+
+    if($data['operation'] == 'getUid') { 
         $server->sendMessage($clientUid, json_encode(['operation'=>'uid', 'uid'=>$clientUid]));      
+    }
+
+});
+
+/* ACCESS */
+$server->addListener(function($server, $clientUid, $request) {    
+    
+    $data = json_decode($request, true);
+    if (!isset($data['operation'])) {
+        return;
+    }
+    
+    if($data['operation'] == 'shutdown') { 
+        $server->shutdown();
     }
     
     if($data['operation'] == 'close') { 
         $server->closeClient($clientUid);
+    }
+    
+    if($data['operation'] == 'login') { 
+        if($data['token'] == 'password') { 
+            Log::write("({$clientUid}) Operator accepted");
+            ServerLogic::addOperator($clientUid);  
+            
+            $server->sendMessage($clientUid, json_encode(['operation'=>'loginSuccess'])); 
+              
+            foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
+                Log::write("({$clientUid}) Operator login notification {$operatorUid}");
+                $server->sendMessage($operatorUid , json_encode(['operation'=>'operatorLogin', 'operator'=> $clientUid])); 
+            }        
+        } else {
+            Log::write("({$clientUid}) Operator rejected");
+            $server->sendMessage($clientUid, json_encode(['operation'=>'loginFailed']));   
+        }
+    }
+    
+    if($data['operation'] == 'logout') { 
+        if(ServerLogic::isOperator($clientUid)) { 
+            Log::write("({$clientUid}) Operator logout");
+            ServerLogic::removeOperator($clientUid);
+            
+            foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
+                Log::write("({$clientUid}) Operator logout {$operatorUid}");
+                $server->sendMessage($operatorUid , json_encode(['operation'=>'operatorLogout', 'operator'=> $clientUid])); 
+            } 
+    
+        } else {
+            $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'logout']));   
+        }   
+    }
+});
+
+
+/* MESSAGES */
+$server->addListener(function($server, $clientUid, $request) {        
+    $data = json_decode($request, true);
+    if (!isset($data['operation'])) {
+        return;
     }
     
     if($data['operation'] == 'sendMessage' && isset($data['to']) && isset($data['message'])) { 
@@ -166,60 +179,16 @@ $server->listen(function($server, $clientUid, $request) {
     }
     
     if($data['operation'] == 'sendMessageToOperator' && isset($data['message'])) { 
-        foreach (ServerState::getOperators() as $operatorUid => $value) { 
+        foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
             Log::write("({$clientUid}) Client Send Message To Operator {$operatorUid}: {$data['message']}");
             $server->sendMessage($operatorUid , json_encode(['operation'=>'messageFromClient', 'from'=> $clientUid, 'message'=>$data['message']])); 
         }   
     }
     
-    if($data['operation'] == 'login') { 
-        if($data['token'] == 'password') { 
-            Log::write("({$clientUid}) Operator accepted");
-            ServerState::addOperator($clientUid);  
-            
-            $server->sendMessage($clientUid, json_encode(['operation'=>'loginSuccess'])); 
-              
-            foreach (ServerState::getOperators() as $operatorUid => $value) { 
-                Log::write("({$clientUid}) Operator login notification {$operatorUid}");
-                $server->sendMessage($operatorUid , json_encode(['operation'=>'operatorLogin', 'operator'=> $clientUid])); 
-            }        
-        } else {
-            Log::write("({$clientUid}) Operator rejected");
-            $server->sendMessage($clientUid, json_encode(['operation'=>'loginFailed']));   
-        }
-    }
-    
-    if($data['operation'] == 'logout') { 
-        if(ServerState::isOperator($clientUid)) { 
-            Log::write("({$clientUid}) Operator logout");
-            ServerState::removeOperator($clientUid);
-            
-            foreach (ServerState::getOperators() as $operatorUid => $value) { 
-                Log::write("({$clientUid}) Operator logout {$operatorUid}");
-                $server->sendMessage($operatorUid , json_encode(['operation'=>'operatorLogout', 'operator'=> $clientUid])); 
-            } 
-    
-        } else {
-            $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'logout']));   
-        }   
-    }
-    
-    if($data['operation'] == 'broadcast') { 
-        if(ServerState::isOperator($clientUid) && isset($data['message'])) { 
-            Log::write("({$clientUid}) Operator broadcast");
-            foreach (ServerState::getClients() as $uid => $value) {                
-                Log::write("({$clientUid}) Addmin broadcast to {$uid}: {$data['message']}");
-                $server->sendMessage($uid, json_encode(['operation'=>'operatorBroadcastMessage', 'message'=>$data['message']])); 
-            }
-        } else {
-            $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'broadcast']));   
-        }     
-    }
-    
     if($data['operation'] == 'getClients') { 
-        if(ServerState::isOperator($clientUid)) {
+        if(ServerLogic::isOperator($clientUid)) {
             $clients = [];
-            foreach (ServerState::getClients() as $uid => $value) { 
+            foreach (ServerLogic::getClients() as $uid => $value) { 
                 $clients[] = $uid;
             }
             $server->sendMessage($clientUid, json_encode(['operation'=>'clients', 'clients'=>$clients]));   
@@ -227,6 +196,118 @@ $server->listen(function($server, $clientUid, $request) {
             $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'getClients']));   
         }
     }
+    
+    if($data['operation'] == 'broadcast') { 
+        if(ServerLogic::isOperator($clientUid) && isset($data['message'])) { 
+            Log::write("({$clientUid}) Operator broadcast");
+            foreach (ServerLogic::getClients() as $uid => $value) {                
+                Log::write("({$clientUid}) Addmin broadcast to {$uid}: {$data['message']}");
+                $server->sendMessage($uid, json_encode(['operation'=>'operatorBroadcastMessage', 'message'=>$data['message']])); 
+            }
+        } else {
+            $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'broadcast']));   
+        }     
+    }
 });
+
+
+/* CHATS */
+$server->addListener(function($server, $clientUid, $request) {   
+    $data = json_decode($request, true);
+    if (!isset($data['operation'])) {
+        return;
+    }
+    
+    if($data['operation'] == 'openChat' && isset($data['chatUid'])) { 
+        
+        $chatStorage = ServerLogic::getChatStorage();
+        $chatUid = $chatStorage->openChat($data['chatUid'], $clientUid);
+        $chatStorage->addClientToChat($chatUid, $clientUid);
+        
+        $server->sendMessage($clientUid, json_encode(
+                [
+                    'operation'=>'chatUid', 
+                    'chatUid'=> $chatUid,
+                ]
+            )
+        );    
+        
+        foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
+            Log::write("({$clientUid}) Client open chat {$chatUid}");
+            $server->sendMessage($operatorUid , json_encode(['operation'=>'newChat', 'chatUid'=>$chatUid])); 
+        }  
+    }
+    
+    
+    if($data['operation'] == 'getAllOpenChats') { 
+        if(ServerLogic::isOperator($clientUid)) {
+            $chatStorage = ServerLogic::getChatStorage();
+            $chatStorage->addOperatorToAllChats($clientUid);
+            $server->sendMessage($clientUid, json_encode(['operation'=>'allOpenChats', 'chats'=>$chatStorage->getChats()]));               
+        }  else {
+            $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'getChats']));   
+        }
+    }
+    
+    
+    if($data['operation'] == 'getChatHistory' && isset($data['chatUid'])) { 
+        
+        $chatStorage = ServerLogic::getChatStorage();
+        $chatHsitory = $chatStorage->getChatHistory($data['chatUid']);
+        
+        $server->sendMessage($clientUid, json_encode(
+                [
+                    'operation'=>'chatHistory', 
+                    'chatUid'=> $data['chatUid'],
+                    'chatHistory' => $chatHsitory,
+                ]
+            )
+        );      
+    }
+    
+    if($data['operation'] == 'addClientMessageToChat' && isset($data['chatUid']) && isset($data['message'])) { 
+        $chatStorage = ServerLogic::getChatStorage();        
+        $chatStorage->addClientMessage($data['chatUid'], $clientUid, $data['message']);
+        $chatStorage->saveChat($data['chatUid']);     
+        
+        $chat = $chatStorage->getChat($data['chatUid']);
+          
+        foreach (array_merge($chat['participants']['operators'], $chat['participants']['clients']) as $participantUid) {
+            if($participantUid == $clientUid) {
+                continue;
+            }
+            
+            $server->sendMessage($participantUid, json_encode([
+                'operation'=>'clientAddMessageToChat', 
+                'chatUid'=>$data['chatUid'], 
+                'operator'=> $clientUid,
+                'message'=>$data['message'],
+            ]));   
+        }   
+    }
+    
+    if($data['operation'] == 'addOperatorMessageToChat' && isset($data['chatUid']) && isset($data['message'])) { 
+        $chatStorage = ServerLogic::getChatStorage();  
+        $chatStorage->addOperatorMessage($data['chatUid'], $clientUid, $data['message']);
+        $chatStorage->saveChat($data['chatUid']); 
+        
+        $chat = $chatStorage->getChat($data['chatUid']);
+        foreach (array_merge($chat['participants']['operators'], $chat['participants']['clients']) as $participantUid) {
+            if($participantUid == $clientUid) {
+                continue;
+            }
+            
+            $server->sendMessage($participantUid, json_encode([
+                'operation'=>'operatorAddMessageToChat', 
+                'chatUid'=>$data['chatUid'], 
+                'operator'=> $clientUid,
+                'message'=>$data['message'],
+            ]));   
+        }
+    }
+    
+});
+
+$server->listen();
 
 Log::write("WEBSOCKET SERVER FINISHED");

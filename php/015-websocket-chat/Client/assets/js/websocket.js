@@ -14,7 +14,7 @@ var websocket = {
         this.conn.onopen = this.connectionOpen.bind(this);
         this.conn.onclose = this.connectionClose.bind(this);
         this.conn.onerror = this.connectionError.bind(this);
-        this.conn.onmessage = this.getMesage.bind(this);
+        this.conn.onmessage = this.getMessage.bind(this);
     },
 
     connectionOpen: function() {
@@ -41,15 +41,13 @@ var websocket = {
         L('Error: ' + error.message);
     },
 
-    getMesage: function(e) {
-        L("Mesage from server:" + e.data);
+    getMessage: function(e) {
+        L("Message from server:" + e.data);
 
         var data = JSON.parse(e.data);
 
-        L(data);
-
         if (data.operation == 'ping') {
-            this.sendMesage({ operation: "pong" });
+            this.sendMessage({ operation: "pong" });
             return;
         }
         
@@ -72,9 +70,9 @@ var websocket = {
         this.afterDisconnectionListeners.push(callback);
     },
     
-    sendMesage: function(data) {
+    sendMessage: function(data) {
         var message = JSON.stringify(data);
-        L("Mesage to server:" + message);
+        L("Message to server:" + message);
 
         if (this.conn.readyState !== WebSocket.CLOSED) {
             this.conn.send(message);

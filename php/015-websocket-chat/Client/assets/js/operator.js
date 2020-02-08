@@ -21,8 +21,8 @@ var app = {
     },
 
     connectionCreated: function() {       
-        this.connection.sendMesage({operation:'getUid'});
-        this.connection.sendMesage({operation:'login', token: 'password'});
+        this.connection.sendMessage({operation:'getUid'});
+        this.connection.sendMessage({operation:'login', token: 'password'});
     },
     
     messageArrive: function(data) {
@@ -32,29 +32,49 @@ var app = {
         
         if(data.operation == "loginSuccess"){
             this.logged = true;
-            this.connection.sendMesage({operation:'getClients'});
+            this.connection.sendMessage({operation:'getAllOpenChats'});
         }
         
-        if(data.operation == "clients") {
-            var clients = data.clients;
+        if(data.operation == "allOpenChats") {
+            var chats = data.chats;
             
-            for (var client of clients) {
-                this.createChatbox(client);
+            for (var key in chats) {
+                this.createChatbox(chats[key]);
+                this.connection.sendMessage({operation:'getChatHistory', chatUid:chats[key]});
             }
         }
         
-        if(data.operation == "messageFromClient"){            
-            this.chats[data.from].addOperatorMesage(data.message);
+        if(data.operation == "chatHistory"){
+           this.chats[data.chatUid].clearMesages();
+
+           for(var key in data.chatHistory.messages){
+             var message = data.chatHistory.messages[key];
+             
+             if (message.type=='operator') {
+               this.chats[data.chatUid].addOperatorMessage(message.message);
+             } 
+             
+             if (message.type=='client') {
+               this.chats[data.chatUid].addClientMessage(message.message);
+             }
+           }
         }
         
-        if(data.operation == "newClient"){            
+        if(data.operation == "clientAddMessageToChat"){
+           this.chats[data.chatUid].addClientMessage(data.message);
+        }
+        
+        /*if(data.operation == "messageFromClient"){            
+            this.chats[data.from].addOperatorMessage(data.message);
+        }*/
+        
+        /*if(data.operation == "newClient"){            
             this.createChatbox(data.client);
-        }
+        }*/
         
-        if(data.operation == "clientDisconected"){            
+        /*if(data.operation == "clientDisconected"){            
             this.removeChatbox(data.client);
-        }
-        
+        }*/        
     },
     
     createChatbox: function(client){
@@ -67,12 +87,12 @@ var app = {
     sendMessageClick: function(message, chatbox) {
         
         var data = {
-            operation: "sendMessage",
-            to: chatbox.chatbox.id,
+            operation: "addOperatorMessageToChat",
+            chatUid: chatbox.chatbox.id,
             message: message
         }
 
-        this.connection.sendMesage(data);
+        this.connection.sendMessage(data);
     },
     
     removeChatbox: function(client){
