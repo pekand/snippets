@@ -44,27 +44,46 @@ class SocketServer {
         return $this;
     }
     
-    public function bindSocket() {      
-        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        if(!@socket_bind($socket, $this->options['ip'], $this->options['port'])){
-            $errorcode = socket_last_error();
-            $errormsg = socket_strerror($errorcode);
-            
+    public function processSocketError($clientUid = null) {
+        
+        $errorcode = socket_last_error();
+        $errormsg = socket_strerror($errorcode);
+
+        if(isset($clientUid)) {
+            if ($errorcode == 10053 || $errorcode == 10054) { // client disconected
+                $this->clients[$clientUid]['live'] = false;
+                if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
+                     call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_UNEXPECTEDLY_CLOSED_SOCKET']);
+                }
+                
+                $this->closeClient($clientUid);         
+            } else {
+                if (isset($this->afterClientErrorEvent) && is_callable($this->afterClientErrorEvent)) {
+                    call_user_func_array($this->afterClientErrorEvent, [$clientUid, $errorcode, $errormsg]);
+                }
+            }
+        } else {            
             if (isset($this->afterServerErrorEvent) && is_callable($this->afterServerErrorEvent)) {
                 call_user_func_array($this->afterServerErrorEvent, [$errorcode, $errormsg]);
             }
+        }
+            
+        return $this;
+    }
+    
+    public function bindSocket() {      
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if(!@socket_bind($socket, $this->options['ip'], $this->options['port'])){
+            $this->processSocketError();
         } else {
             if(!socket_listen($socket)) {
-                $errorcode = socket_last_error();
-                $errormsg = socket_strerror($errorcode);
-            
-                if (isset($this->afterServerErrorEvent) && is_callable($this->afterServerErrorEvent)) {
-                    call_user_func_array($this->afterServerErrorEvent, [$errorcode, $errormsg]);
-                }
+                $this->processSocketError();
                                 
             } else {
                 $this->socket = $socket;
-                socket_set_nonblock($this->socket);
+                if(!socket_set_nonblock($this->socket)) {
+                    $this->processSocketError();
+                }
             }
         }
 
@@ -108,23 +127,8 @@ class SocketServer {
         
         $result = @socket_write($this->clients[$clientUid]['ref'], $data, strlen($data));
         
-        if ($result === false) {
-            $errorcode = socket_last_error();
-            $errormsg = socket_strerror($errorcode);
-
-            if ($errorcode == 10053 || $errorcode == 10054) { // client disconected
-                $this->clients[$clientUid]['live'] = false;
-                if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
-                     call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_UNEXPECTEDLY_CLOSED_SOCKET']);
-                }
-                
-                $this->closeClient($clientUid);         
-            } else {
-                if (isset($this->afterClientErrorEvent) && is_callable($this->afterClientErrorEvent)) {
-                    call_user_func_array($this->afterClientErrorEvent, [$clientUid, $errorcode, $errormsg]);
-                }
-            }
-            
+        if (false === $result) {            
+            $this->processSocketError($clientUid);
             return false;
         }
         
@@ -170,6 +174,7 @@ class SocketServer {
         {
             if(($ref = socket_accept($this->socket)) !== false)
             {
+                
                 if ($this->options['maxClientsCount'] != 0 && count($this->clients) >= $this->options['maxClientsCount']) {
                     if (isset($this->afterServerErrorEvent) && is_callable($this->afterServerErrorEvent)) {
                          call_user_func_array($this->afterServerErrorEvent, [null, 'SERVER_IS_FULL']);
@@ -206,15 +211,19 @@ class SocketServer {
                     ];
                     
                     $data = "";
-                    while ($buf = @socket_read($this->clients[$clientUid]['ref'], 1024)) {                        
+                    while ($buf = @socket_read($this->clients[$clientUid]['ref'], 1024)) {  
+                    
+                        if (false === $buf){
+                            $this->processSocketError($clientUid);
+                            break;                            
+                        }   
+                                           
                         $data .= $buf;
                         
                         if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($data)) {                              
                             break;
                         }
                     }
-                    
-                    var_dump($data);
                     
                     if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($data)) {
                         if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {

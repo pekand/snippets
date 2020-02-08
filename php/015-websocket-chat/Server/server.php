@@ -126,6 +126,7 @@ $server->addListener(function($server, $clientUid, $request) {
     }
     
     if($data['operation'] == 'close') { 
+        Log::write("({$clientUid}) Client call close operation on yourself");
         $server->closeClient($clientUid);
     }
     
@@ -148,8 +149,10 @@ $server->addListener(function($server, $clientUid, $request) {
     
     if($data['operation'] == 'logout') { 
         if(ServerLogic::isOperator($clientUid)) { 
-            Log::write("({$clientUid}) Operator logout");
+            Log::write("({$clientUid}) Operator logout operator");
             ServerLogic::removeOperator($clientUid);
+            
+            $server->sendMessage($clientUid, json_encode(['operation'=>'logoutSuccess'])); 
             
             foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
                 Log::write("({$clientUid}) Operator logout {$operatorUid}");

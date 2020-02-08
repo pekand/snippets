@@ -19,8 +19,10 @@ class SocketClient {
     public function connect($sendHeader = null, $receiveHeader = null) {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         
-        if(!socket_connect($this->socket, '127.0.0.1', 8080)) {
-             $this->socket = null;
+        if(false == @socket_connect($this->socket, '127.0.0.1', 8080)) {
+             $this->socket = null;             
+             echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
+             return;
         }
         
         
@@ -28,15 +30,19 @@ class SocketClient {
             call_user_func_array($sendHeader, [$this]);
         }
         
-        if (false === ($headerFromServer = socket_read($this->socket, 2048, MSG_WAITALL))) {
-            echo socket_strerror(socket_last_error($this->socket)) . "\n";
+        if (false === ($headerFromServer = @socket_read($this->socket, 2048, MSG_WAITALL))) {
+            echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
         }  
         
+
         if (isset($receiveHeader) && is_callable($receiveHeader)) {
             call_user_func_array($receiveHeader, [$this, $headerFromServer]);
         }
+
         
-        socket_set_nonblock($this->socket);
+        if(false === @socket_set_nonblock($this->socket)) {
+            echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
+        }
 
         return $this;
     }
@@ -51,12 +57,16 @@ class SocketClient {
         return $this;
     }
 
-    public function sendData($data) {        
+    public function sendData($data) {     
+        if(!isset($this->socket)){
+            return;    
+        }
+        
         socket_write($this->socket, $data, strlen($data));
     }
     
 
-    public function listen($listener = null) {
+public function listen($listener = null) {
   
         if (!$this->socket){
             return;
@@ -64,10 +74,14 @@ class SocketClient {
           
         while(true) {    
             $data = "";
-            while ($buf = socket_read($this->socket, 1024)) {                        
+            while ($buf = @socket_read($this->socket, 1024)) {  
+                if ($buf === false) {
+                    echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
+                    break;
+                }                 
                 $data .= $buf;
             }
-
+            
             if(strlen($data)>0) {               
                if (is_callable($listener)) {
                     call_user_func_array($listener, [$data]);

@@ -1,0 +1,3 @@
+Server/storage/log/*
+Server/storage/chats/*
+Server/*.lnk
