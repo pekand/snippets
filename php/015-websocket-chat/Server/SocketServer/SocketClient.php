@@ -22,8 +22,10 @@ class SocketClient {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         
         if(false == @socket_connect($this->socket, '127.0.0.1', 8080)) {
-             $this->socket = null;             
-             echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
+            $this->socket = null;      
+            if($this->socket != null) {
+                echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
+            }
              return;
         }
         

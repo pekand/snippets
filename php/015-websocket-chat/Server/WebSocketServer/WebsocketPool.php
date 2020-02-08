@@ -5,14 +5,23 @@ namespace WebSocketServer;
 use SocketServer\SocketPool;
 
 class WebSocketPool {   
-            
+    private $socketPool = null;
+    
+    public function __construct() {
+    	$this->socketPool = new SocketPool();
+    }
+         
+    public function addAction($delay, $action) {
+    	$this->socketPool->addAction($delay, $action);
+    }   
+    
 	public function listen($clients) {
-		$pool = new SocketPool();
+		
         $socketClients = [];
         foreach ($clients as $client) {
             $socketClients[] = $client->getSocketClient();
         }
         
-        $pool->listen($socketClients);
+        $this->socketPool->listen($socketClients);
     }
 }

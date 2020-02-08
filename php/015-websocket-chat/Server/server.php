@@ -51,12 +51,17 @@ $server->clientDisconnected(function($server, $clientUid, $reason) {
         $chatStorage->removeClientFromAllChats($clientUid);
     }*/
     
-    /*
-    foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
-        Log::write("({$clientUid}) Client disconected notification to operator {$operatorUid}");
-        $server->sendMessage($operatorUid , json_encode(['operation'=>'clientDisconected', 'client'=> $clientUid])); 
-    } 
-    */
+    foreach (ServerLogic::getOperators() as $uid => $value) { 
+        Log::write("({$clientUid}) Client disconected notification to operator {$uid}");
+        $server->sendMessage($uid , json_encode(['operation'=>'clientDisconected', 'client'=> $clientUid])); 
+    }
+    
+    if(count(ServerLogic::getOperators()) == 0) {
+        foreach (ServerLogic::getClients() as $uid => $value) { 
+            Log::write("({$clientUid}) All operators disconected notification to client {$uid}");
+            $server->sendMessage($uid , json_encode(['operation'=>'allOperatorsDisconected'])); 
+        }
+    }
 });
 
 $server->buildPing(function($server, $clientUid) {     
@@ -126,8 +131,20 @@ $server->addListener(function($server, $clientUid, $request) {
     }
     
     if($data['operation'] == 'close') { 
-        Log::write("({$clientUid}) Client call close operation on yourself");
+        Log::write("({$clientUid}) Client call close operation on self");
         $server->closeClient($clientUid);
+        
+        foreach (ServerLogic::getOperators() as $uid => $value) { 
+            Log::write("({$clientUid}) Client disconected notification to operator {$uid}");
+            $server->sendMessage($uid , json_encode(['operation'=>'clientDisconected', 'clientUid'=> $clientUid])); 
+        }
+        
+        if(count(ServerLogic::getOperators()) == 0) {
+            foreach (ServerLogic::getClients() as $uid => $value) { 
+                Log::write("({$clientUid}) All operators disconected notification to client {$uid}");
+                $server->sendMessage($uid , json_encode(['operation'=>'allOperatorsDisconected'])); 
+            }
+        }
     }
     
     if($data['operation'] == 'login') { 
@@ -162,6 +179,15 @@ $server->addListener(function($server, $clientUid, $request) {
         } else {
             $server->sendMessage($clientUid, json_encode(['operation'=>'accessDenied', 'forbidden'=>'logout']));   
         }   
+    }
+    
+    if($data['operation'] == 'isOperatorLogged') { 
+        Log::write("({$clientUid}) Check if operator is logged");
+        if(count(ServerLogic::getOperators()) == 0) {
+            $server->sendMessage($clientUid , json_encode(['operation'=>'operatorConnected'])); 
+        } else {
+            $server->sendMessage($clientUid , json_encode(['operation'=>'allOperatorsDisconected']));
+        }
     }
 });
 
@@ -222,7 +248,6 @@ $server->addListener(function($server, $clientUid, $request) {
     }
     
     if($data['operation'] == 'openChat' && isset($data['chatUid'])) { 
-        
         $chatStorage = ServerLogic::getChatStorage();
         $chatUid = $chatStorage->openChat($data['chatUid'], $clientUid);
         $chatStorage->addClientToChat($chatUid, $clientUid);

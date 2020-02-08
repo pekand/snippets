@@ -257,7 +257,7 @@ class SocketServer {
                 
                 foreach ($cientUids as $clientUid) {
 
-                    if (!is_array($this->clients[$clientUid]) || $this->clients[$clientUid]['ref'] === null) {
+                    if (!isset($this->clients[$clientUid]) || !is_array($this->clients[$clientUid]) || $this->clients[$clientUid]['ref'] === null) {
                         continue;
                     }
                     
