@@ -94,7 +94,6 @@ $client2->addAction('operatorConnected', function ($client, $data) {
     echo "C2 New operator is available \n";
 });
 
-
 /* operator1 */
 
 $operator1->afterConnect(function ($client) {

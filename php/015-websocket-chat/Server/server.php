@@ -276,7 +276,11 @@ $server->addAction('openChat', function($server, $clientUid, $data){
     if(!$isChatAllreadyOpen) {
         foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
             Log::write("({$clientUid}) Client open chat {$chatUid}");
-            $server->sendMessage($operatorUid , json_encode(['action'=>'chatOpen', 'chatUid'=>$chatUid])); 
+            $server->sendMessage($operatorUid , json_encode([
+                'action'=>'chatOpen', 
+                'chatUid'=> $chatUid,
+                'chatHistory' => $chatStorage->getChatHistory($chatUid)
+            ])); 
         }  
     }
 
@@ -287,6 +291,8 @@ $server->addAction('openChat', function($server, $clientUid, $data){
                 [
                     'action'=>'chatUid', 
                     'chatUid'=> $chatUid,
+                    'operatorStatus' => count(ServerLogic::getOperators()) > 0 ? 'online' :'offline',
+                    'chatHistory' => $chatStorage->getChatHistory($chatUid)
                 ]
             )
         );
@@ -377,11 +383,11 @@ $server->addAction('addOperatorMessageToChat', function($server, $clientUid, $da
     }
     
     foreach (ServerLogic::getOperators() as $operatorUid => $operator) {
-        if($participantUid == $clientUid) {
+        if($operatorUid == $clientUid) {
             continue;
         }
         
-        $server->sendMessage($participantUid, json_encode([
+        $server->sendMessage($operatorUid, json_encode([
             'action'=>'operatorAddMessageToChat', 
             'chatUid'=>$data['chatUid'], 
             'operatorUid'=> $clientUid,
