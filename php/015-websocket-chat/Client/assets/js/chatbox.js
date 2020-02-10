@@ -9,9 +9,11 @@ function chatbox(chatboxId){return {
     },
 
     bindComponents: function(chatboxId){
-        this.chatbox = document.getElementById(chatboxId);
+        this.chatboxWrapper = document.getElementById(chatboxId);
         
-        this.chatbox.appendChild(this.el('<div class="chatbox"><div class="chatbox__header"><div class="chatbox__title">Mesasges</div></div><div  class="chatbox__messages"></div><div class="chatbox__footer"><input class="chatbox__newmessage" type="text" placeholder="Type message..."><button class="chatbox__send">Send</button></div></div>'));
+        this.chatboxWrapper.appendChild(this.el('<div class="chatbox"><div class="chatbox__header"><div class="chatbox__title">Mesasges</div></div><div  class="chatbox__messages"></div><div class="chatbox__footer"><input class="chatbox__newmessage" type="text" placeholder="Type message..."><button class="chatbox__send">Send</button></div></div>'));
+       
+        this.chatbox = this.chatboxWrapper.getElementsByClassName("chatbox")[0];
        
         this.chatboxHeader = this.chatbox.getElementsByClassName("chatbox__header")[0];
         this.chatboxTitle = this.chatboxHeader.getElementsByClassName("chatbox__title")[0];
@@ -25,13 +27,7 @@ function chatbox(chatboxId){return {
         this.sendButton.addEventListener("click", this.sendMessageClick.bind(this));
         this.newMesageInput.addEventListener("keyup", this.messageInputKeyUpClick.bind(this));
     },
-       
-    addOperatorMessage: function(message) {
-         var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text chatbox__message--bounce">'+message+'</div></div>')
-         this.chatboxMessges.appendChild(messageEl);
-         this.chatboxMessges.scrollTop = this.chatboxMessges.scrollHeight;
-    },
-    
+
     sendMessageClick: function() {
         var message = this.newMesageInput.value.trim();
         
@@ -45,16 +41,32 @@ function chatbox(chatboxId){return {
             }
         }
         
-        this.addClientMessage(message);
+        this.addMessageSource(message, true);
         
         this.newMesageInput.value = '';
         this.newMesageInput.focus();
     },
     
-    addClientMessage: function(message) {
-        var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text chatbox__message__text--right chatbox__message--bounce">'+message+'</div></div>')        
+    addMessageSource: function(message, animation) {
+        
+        if (typeof animation === 'undefined'){
+            animation = false;    
+        }
+        
+        var bounce = '';
+        if (animation){
+            animation = 'chatbox__message--bounce';    
+        }
+
+        var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text chatbox__message__text--right '+bounce+'">'+message+'</div></div>')        
         this.chatboxMessges.appendChild(messageEl);
         this.chatboxMessges.scrollTop = this.chatboxMessges.scrollHeight;
+    },
+    
+    addMessageTarget: function(message) {
+         var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text chatbox__message--bounce">'+message+'</div></div>')
+         this.chatboxMessges.appendChild(messageEl);
+         this.chatboxMessges.scrollTop = this.chatboxMessges.scrollHeight;
     },
     
     messageInputKeyUpClick: function(e) {
@@ -75,6 +87,14 @@ function chatbox(chatboxId){return {
     
     clearMesages: function(title) {
         this.chatboxMessges.innerHTML = '';
+    },
+    
+    show:function (){
+        this.chatbox.style.display = "block";
+    },
+    
+    hide:function (){
+        this.chatbox.style.display = "none";
     },
     
     el: function(html) {

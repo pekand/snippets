@@ -24,6 +24,11 @@ class ServerLogic
         return isset(self::$operators[$clientUid]);
     }
     
+    public static function isClient($clientUid)
+    {
+        return isset(self::$clients[$clientUid]);
+    }
+    
     public static function addOperator($clientUid)
     {
         self::$operators[$clientUid] = [];

@@ -46,8 +46,8 @@ var websocket = {
 
         var data = JSON.parse(e.data);
 
-        if (data.operation == 'ping') {
-            this.sendMessage({ operation: "pong" });
+        if (data.action == 'ping') {
+            this.sendMessage({ action: "pong" });
             return;
         }
         
@@ -89,6 +89,7 @@ var websocket = {
     
     windowUnload: function(e) {
         if (this.conn.readyState !== WebSocket.CLOSED) {
+            this.sendMessage({ action: "close" });
             this.conn.close();
         }
     },

@@ -30,6 +30,10 @@ class ChatsStorage
             return null;
         }
         
+        if (isset($this->chats[$chatUid])) {
+            return $chatUid;
+        }
+        
         $chatStorageFile = $this->storagePath.$chatUid.".json";
 
         if(!file_exists($chatStorageFile)) {
@@ -68,6 +72,15 @@ class ChatsStorage
         return $openedChats;
     }
     
+    public function isChatOpen($chatUid)
+    {       
+        if (isset($this->chats[$chatUid])) {
+            return true;
+        }
+
+        return false;
+    }
+    
     public function getChat($chatUid)
     {       
         if (!$this->isUid($chatUid)) {
@@ -81,6 +94,36 @@ class ChatsStorage
         $this->chats[$chatUid];
         
         return $this->chats[$chatUid];
+    }
+    
+    public function getChatOperators($chatUid)
+    {       
+        if (!$this->isUid($chatUid)) {
+            return [];
+        }
+        
+        if (!isset($this->chats[$chatUid])) {
+            return [];
+        }
+        
+        $this->chats[$chatUid];
+        
+        return $this->chats[$chatUid]['participants']['operators'];
+    }
+    
+    public function getChatClients($chatUid)
+    {       
+        if (!$this->isUid($chatUid)) {
+            return [];
+        }
+        
+        if (!isset($this->chats[$chatUid])) {
+            return [];
+        }
+        
+        $this->chats[$chatUid];
+        
+        return $this->chats[$chatUid]['participants']['clients'];
     }
     
     public function getChatHistory($chatUid)
@@ -164,6 +207,10 @@ class ChatsStorage
     
     public function closeChat($chatUid)
     {        
+        if(!isset($this->chats[$chatUid])){
+            return;
+        }
+        
         $this->saveChat($chatUid);
         unset($this->chats[$chatUid]);
     }
@@ -208,6 +255,19 @@ class ChatsStorage
         }
     }
     
+    public function isClientInChat($chatUid, $clientUid)
+    {
+        if (!isset($this->chats[$chatUid])){
+            return false;
+        }
+        
+        if (!in_array($clientUid, $this->chats[$chatUid]['participants']['clients'])) {
+            return false;
+        }
+        
+        return true;
+    }
+    
     public function addClientToChat($chatUid, $clientUid)
     {
         if (!isset($this->chats[$chatUid])){
@@ -231,19 +291,31 @@ class ChatsStorage
     
     public function removeOperatorFromAllChats($operatorUid)
     {       
+        $chatsWithoutOperator = [];
         foreach ($this->chats as $chatUid => $chat) {          
             if (($key = array_search($operatorUid, $this->chats[$chatUid]['participants']['operators'])) !== false) {
                 unset($this->chats[$chatUid]['participants']['operators'][$key]);
+                
+                if(count($this->chats[$chatUid]['participants']['operators']) == 0){
+                    $chatsWithoutOperator[] = $chatUid;
+                }
             }
         }
+        return $chatsWithoutOperator;
     }
     
     public function removeClientFromAllChats($clientUid)
     {       
+        $chatsWithoutClients = [];
         foreach ($this->chats as $chatUid => $chat) {          
             if (($key = array_search($clientUid, $this->chats[$chatUid]['participants']['clients'])) !== false) {
                 unset($this->chats[$chatUid]['participants']['clients'][$key]);
+                
+                if(count($this->chats[$chatUid]['participants']['clients']) == 0){
+                    $chatsWithoutClients[] = $chatUid;
+                }
             }
         }
+        return $chatsWithoutClients;
     }
 }

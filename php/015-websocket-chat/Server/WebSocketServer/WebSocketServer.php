@@ -9,6 +9,7 @@ class WebSocketServer extends WebSocketServerBase {
     private $frames = [];
     private $listeners = [];
     private $socketServer = null; 
+    private $action = [];
     
     public function __construct($options) {
         $this->socketServer = new SocketServer($options);
@@ -76,6 +77,36 @@ class WebSocketServer extends WebSocketServerBase {
     
     public function shutdown() {
        $this->socketServer->shutdown();
+    }
+    
+    
+    
+    public function addAction($name, $action) {
+         $this->actions[$name] = $action;
+    }
+    
+    public function isAction($name) {
+         if(isset($this->actions[$name])) {
+           return true;
+         }
+         
+         return false;
+    }
+    
+    public function callAction($name, $clientUid, $data) {
+        if (isset($this->actions[$name]) && is_callable($this->actions[$name])) {
+            call_user_func_array($this->actions[$name], [$this, $clientUid, $data]);
+        }
+    }
+    
+    public function decodeData($data) {
+        $json = json_decode($data, true);
+        
+        if(json_last_error() == JSON_ERROR_NONE) {
+            return $json;    
+        }
+        
+        return null;
     }
     
     public function addListener($listener) {
@@ -172,13 +203,34 @@ class WebSocketServer extends WebSocketServerBase {
                         $this->socketServer->sendData($clientUid, $this->mesage("", 10));
                         return;
                     }
-                
+                    
+                    
+                    
+                    $request = $frame['payloaddata'];
+                    
+                    $processed = false;
                     foreach ($this->listeners as $listener) {
-                        if (isset($listener) && is_callable($listener)) {
-                            $request = $frame['payloaddata'];
-                            call_user_func_array($listener, [$server, $clientUid, $request]);
-                            $this->frames[$clientUid] = null;
+                        if (isset($listener) && is_callable($listener)) {                            
+                            $result = call_user_func_array($listener, [$server, $clientUid, $request]);
+                            
+                            if($result === true){
+                                $processed = true;
+                                $this->frames[$clientUid] = null;
+                                break;
+                            }
+                            
                         }
+                    }
+                    
+                    if(!$processed) {
+                        $json = null;
+                        if(count($this->actions) > 0) {
+                            $json = $this->decodeData($request);
+                        }
+                        
+                        if($json != null && isset($json['action']) && $this->isAction($json['action'])){
+                            $this->callAction($json['action'], $clientUid, $json);
+                        } 
                     }
                 }
             }

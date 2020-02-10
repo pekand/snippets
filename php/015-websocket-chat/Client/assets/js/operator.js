@@ -19,62 +19,65 @@ var app = {
         this.connection.addAfterConnectionListener(this.connectionCreated.bind(this));
         this.connection.addMessageListener(this.messageArrive.bind(this));
     },
-
+    
     connectionCreated: function() {       
-        this.connection.sendMessage({operation:'getUid'});
-        this.connection.sendMessage({operation:'login', token: 'password'});
+        this.connection.sendMessage({action:'getUid'});
+        this.connection.sendMessage({action:'login', token: 'password'});
     },
     
     messageArrive: function(data) {
-        if(data.operation == "uid"){
+        if(data.action == "uid"){
             this.clientUid = data.uid;
         }
         
-        if(data.operation == "loginSuccess"){
+        if(data.action == "loginSuccess"){
             this.logged = true;
-            this.connection.sendMessage({operation:'getAllOpenChats'});
+            this.connection.sendMessage({action:'getAllOpenChats'});
         }
         
-        if(data.operation == "allOpenChats") {
+        if(data.action == "allOpenChats") {
             var chats = data.chats;
             
             for (var key in chats) {
                 this.createChatbox(chats[key]);
-                this.connection.sendMessage({operation:'getChatHistory', chatUid:chats[key]});
+                this.connection.sendMessage({action:'getChatHistory', chatUid:chats[key]});
             }
         }
         
-        if(data.operation == "chatHistory"){
+        if(data.action == "chatHistory"){
            this.chats[data.chatUid].clearMesages();
 
            for(var key in data.chatHistory.messages){
              var message = data.chatHistory.messages[key];
              
              if (message.type=='operator') {
-               this.chats[data.chatUid].addOperatorMessage(message.message);
+               this.chats[data.chatUid].addMessageSource(message.message);
              } 
              
              if (message.type=='client') {
-               this.chats[data.chatUid].addClientMessage(message.message);
+               this.chats[data.chatUid].addMessageTarget(message.message);
              }
            }
         }
         
-        if(data.operation == "clientAddMessageToChat"){
-           this.chats[data.chatUid].addClientMessage(data.message);
+        if(data.action == "clientAddMessageToChat"){
+           this.chats[data.chatUid].addMessageTarget(data.message);
         }
         
-        /*if(data.operation == "messageFromClient"){            
-            this.chats[data.from].addOperatorMessage(data.message);
-        }*/
+        if(data.action == "operatorAddMessageToChat"){
+           this.chats[data.chatUid].addMessageSource(data.message);
+        }
         
-        /*if(data.operation == "newClient"){            
-            this.createChatbox(data.client);
-        }*/
         
-        /*if(data.operation == "clientDisconected"){            
-            this.removeChatbox(data.client);
-        }*/        
+        if(data.action == "chatOpen"){
+           this.createChatbox(data.chatUid);
+           this.connection.sendMessage({action:'getChatHistory', chatUid:data.chatUid});
+        }   
+        
+        if(data.action == "chatClosed"){
+           this.chats[data.chatUid].chatboxWrapper.remove();
+           this.chats[data.chatUid] = null;
+        }       
     },
     
     createChatbox: function(client){
@@ -82,13 +85,14 @@ var app = {
         this.chats[client] = chatbox(client);
         this.chats[client].setTitle(client);
         this.chats[client].addSendMessageListener(this.sendMessageClick.bind(this))
+        this.chats[client].show();
     },
        
     sendMessageClick: function(message, chatbox) {
         
         var data = {
-            operation: "addOperatorMessageToChat",
-            chatUid: chatbox.chatbox.id,
+            action: "addOperatorMessageToChat",
+            chatUid: chatbox.chatboxWrapper.id,
             message: message
         }
 

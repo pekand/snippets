@@ -11,6 +11,7 @@ class WebsocketClient extends WebSocketServerBase {
     private $client = null;
     private $lastFrame = null;
     private $listeners = [];
+    private $actions = [];
        
     protected $options = [
         'ip'=> '0.0.0.0', 
@@ -43,7 +44,7 @@ class WebsocketClient extends WebSocketServerBase {
                 $frames = $this->proccessRequest(null, $data);
             } catch (\Exception $e) {                    
                 if (isset($this->afterClientError) && is_callable($this->afterClientError)) {
-                    call_user_func_array($this->afterClientError, [$this, $clientUid, null, $e->getMessage()]);
+                    call_user_func_array($this->afterClientError, [$this, null, $e->getMessage()]);
                 }
             }
                     
@@ -56,17 +57,38 @@ class WebsocketClient extends WebSocketServerBase {
                 
                 $this->lastFrame = null;
 
+                
+                
+                $request = $frame['payloaddata'];
+                    
+                $processed = false;
                 foreach ($this->listeners as $listener) {
                     if (isset($listener) && is_callable($listener)) {
-                        $request = $frame['payloaddata'];
-                        call_user_func_array($listener, [$this, $request]);
+                        $result = call_user_func_array($listener, [$this, $request]);
+                        
+                        if($result === true){
+                            $processed = true;
+                            break;
+                        }
                     }
                 }   
+                
+                if(!$processed) {
+                    $json = null;
+                    if(count($this->actions) > 0) {
+                        $json = $this->decodeData($request);
+                    }
+                    
+                    if($json != null && isset($json['action']) && $this->isAction($json['action'])){
+                        $this->callAction($json['action'], $json);
+                    } 
+                }
+                    
             }
             
         });
     }
-    
+
     public function getHeader() {
         $header = "GET / HTTP/1.1
 Connection: Upgrade
@@ -92,6 +114,24 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
         return $this->client->sendData($this->mesage($message, 1, true));
     }
 
+    public function addAction($name, $action) {
+         $this->actions[$name] = $action;
+    }
+    
+    public function isAction($name) {
+         if(isset($this->actions[$name])) {
+           return true;
+         }
+         
+         return false;
+    }
+    
+    public function callAction($name, $data) {
+        if (isset($this->actions[$name]) && is_callable($this->actions[$name])) {
+            call_user_func_array($this->actions[$name], [$this, $data]);
+        }
+    }
+    
     public function addListener($listener) {
          $this->listeners[] = $listener;
           return $this;
@@ -105,5 +145,15 @@ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits";
     
      public function getSocketClient(){
         return $this->client;
+    }
+    
+    public function decodeData($data) {
+        $json = json_decode($data, true);
+        
+        if(json_last_error() == JSON_ERROR_NONE) {
+            return $json;    
+        }
+        
+        return null;
     }
 }
