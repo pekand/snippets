@@ -14,14 +14,12 @@ class WebsocketClient extends WebSocketServerBase {
     private $actions = [];
        
     protected $options = [
-        'ip'=> '0.0.0.0', 
-        'port' => 8080,
     ];
           
     public function __construct($options = []) {
         
         $this->options = array_merge($this->options, $options);
-        $this->client = new SocketClient();
+        $this->client = new SocketClient($this->options);
         
         $headerToServer =  $this->getHeader();        
         $this->client->addSendHeader(function($client) use ($headerToServer) {            

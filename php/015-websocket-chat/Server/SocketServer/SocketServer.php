@@ -213,6 +213,12 @@ class SocketServer {
                     ];
                     
                     $data = "";
+                    
+                    if (false === ($headerFromServer = socket_read($this->clients[$clientUid]['ref'], 2048, MSG_WAITALL))) {
+                        echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
+                    }
+
+                    /*
                     while ($buf = @socket_read($this->clients[$clientUid]['ref'], 1024)) {  
                     
                         if (false === $buf){
@@ -225,9 +231,9 @@ class SocketServer {
                         if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($data)) {                              
                             break;
                         }
-                    }
-                    
-                    if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($data)) {
+                    }*/
+
+                    if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($headerFromServer)) {
                         if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
                              call_user_func_array($this->clientDisconnectedEvent, [$clientUid, 'CLIENT_HEADER_IS_TOO_BIG']);
                         }
@@ -236,7 +242,7 @@ class SocketServer {
                     } else {
                         $acceptedNewClient = true;
                         if (isset($this->acceptClientEvent) && is_callable($this->acceptClientEvent)) {
-                            $acceptedNewClient = call_user_func_array($this->acceptClientEvent, [$clientUid, $data]);
+                            $acceptedNewClient = call_user_func_array($this->acceptClientEvent, [$clientUid, $headerFromServer]);
                         }
 
                         if ($acceptedNewClient) {

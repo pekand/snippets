@@ -67,8 +67,7 @@ var app = {
         if(data.action == "operatorAddMessageToChat"){
            this.chats[data.chatUid].addMessageSource(data.message);
         }
-        
-        
+
         if(data.action == "chatOpen"){
            this.createChatbox(data.chatUid);
            this.connection.sendMessage({action:'getChatHistory', chatUid:data.chatUid});

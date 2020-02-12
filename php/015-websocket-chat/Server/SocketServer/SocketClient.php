@@ -7,7 +7,7 @@ class SocketClient {
     private $socket = null;
        
     protected $options = [
-        'ip'=> '0.0.0.0', 
+        'ip'=> '127.0.0.1', 
         'port' => 8080,
     ];
     
@@ -20,23 +20,26 @@ class SocketClient {
 
     public function connect() {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        
-        if(false == @socket_connect($this->socket, '127.0.0.1', 8080)) {
+        socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
+
+        if(false == @socket_connect($this->socket, $this->options['ip'], $this->options['port'])) {
             $this->socket = null;      
+            
             if($this->socket != null) {
                 echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
             }
+
              return;
+             
         }
-        
-        
+
         if (isset($this->sendHeader) && is_callable($this->sendHeader)) {
             call_user_func_array($this->sendHeader, [$this]);
         }
         
         if (false === ($headerFromServer = @socket_read($this->socket, 2048, MSG_WAITALL))) {
             echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
-        }  
+        }
 
         if (isset($this->receiveHeader) && is_callable($this->receiveHeader)) {
             call_user_func_array($this->receiveHeader, [$headerFromServer]);

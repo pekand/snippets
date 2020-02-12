@@ -23,22 +23,14 @@ var app = {
     },
     
     messageArrive: function(data) {       
-        if(data.action == "operatorAddMessageToChat"){
-           this.chatbox.addMessageTarget(data.message);
-        }
-        
-        if(data.action == "clientAddMessageToChat"){
-           this.chatbox.addMessageSource(data.message);
-        }
-        
+
         if(data.action == "chatUid" && data.chatUid != 'null' && data.chatUid != '' && data.chatUid != null) {
            this.chatUid = data.chatUid;
            this.chatbox.setTitle(data.chatUid);
            localStorage.setItem('chatUid', data.chatUid);
-           this.connection.sendMessage({action:'getChatHistory', chatUid:this.chatUid});
-        }
-        
-        if(data.action == "chatHistory"){
+           
+           this.chatbox.show();
+           
            this.chatbox.clearMesages();
 
            for(var key in data.chatHistory.messages){
@@ -53,11 +45,23 @@ var app = {
              }
            }
            
-           this.chatbox.show();
+           if(data.operatorStatus == 'online') {
+             this.chatbox.addMessageTarget("chat is online");
+           } else {
+             this.chatbox.addMessageTarget("Chat is offline");
+           } 
+        }
+        
+        if(data.action == "operatorAddMessageToChat"){
+           this.chatbox.addMessageTarget(data.message);
+        }
+        
+        if(data.action == "clientAddMessageToChat"){
+           this.chatbox.addMessageSource(data.message);
         }
         
         if(data.action == "operatorsDisconected") {
-           this.chatbox.addMessageTarget("Operator go offline");
+           this.chatbox.addMessageTarget("Chat is offline");
         }
         
         if(data.action == "operatorConnected") {

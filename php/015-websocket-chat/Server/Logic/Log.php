@@ -14,6 +14,6 @@ class Log
              return;
         }
         
-        file_put_contents("storage/log/server-".date("Y-m-d").".log", date("Y-m-d h:i:s")." ".$severity." ".$message."\n", FILE_APPEND | LOCK_EX);
+        file_put_contents("storage/log/server-".date("Y-m-d").".log", date("Y-m-d H:i:s")." ".$severity." ".$message."\n", FILE_APPEND | LOCK_EX);
     }
 }

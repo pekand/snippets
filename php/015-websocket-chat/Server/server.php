@@ -1,14 +1,9 @@
 <?php
 
-function dd($a,$n = '') {
-    $d=debug_backtrace();
-    file_put_contents("debug.log", $d[0]['file'].':'.$d[0]['line'].(isset($n)?"(".$n.")":"")."\n".print_r($a,true)."\n", FILE_APPEND | LOCK_EX);
-}
-
 set_time_limit(0);
 
 spl_autoload_register(function ($class_name) {
-    require_once $class_name . '.php';
+    require_once dirname(__FILE__)."/".str_replace("\\", "/", $class_name) . '.php';
 });
 
 use WebSocketServer\WebSocketServer;
@@ -20,7 +15,6 @@ Log::setAllowdSeverity(['INFO', 'ERROR', 'DEBUG']);
 Log::write("WEBSOCKET SERVER START");
 
 $server = new WebSocketServer([
-    'ip' => '0.0.0.0',
     'port' => 8080
 ]);
 
@@ -127,7 +121,7 @@ $server->addAction('close', function($server, $clientUid, $data){
                 $server->sendMessage($uid , json_encode(['action'=>'operatorsDisconected'])); 
             }
         }
-    } else if(ServerLogic::isClient($clientUid)){
+    } else if(ServerLogic::isClient($clientUid)) {
         
         $chatsWithoutClients = $chatStorage->removeClientFromAllChats($clientUid);
         if(count($chatsWithoutClients) > 0) {
@@ -225,7 +219,7 @@ $server->addAction('sendMessage', function($server, $clientUid, $data){
 });
 
 $server->addAction('sendMessageToOperator', function($server, $clientUid, $data){
-    Log::write("({$clientUid}) Client send message to operator: ".$data['to']." message".$data['message']);
+    Log::write("({$clientUid}) Client send message to all active operators: message".$data['message']);
     foreach (ServerLogic::getOperators() as $operatorUid => $value) { 
         Log::write("({$clientUid}) Client Send Message To Operator {$operatorUid}: {$data['message']}");
         $server->sendMessage($operatorUid , json_encode(['action'=>'messageFromClient', 'from'=> $clientUid, 'message'=>$data['message']])); 

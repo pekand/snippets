@@ -3,16 +3,16 @@
 set_time_limit(0);
 
 spl_autoload_register(function ($class_name) {
-    require_once $class_name . '.php';
+    require_once dirname(__FILE__)."/".str_replace("\\", "/", $class_name) . '.php';
 });
 
-use WebSocketServer\WebsocketClient;
+use WebSocketServer\WebSocketClient;
 use WebSocketServer\WebSocketPool;
 
-$client1 = new WebsocketClient();
-$client2 = new WebsocketClient();
-$operator1 = new WebsocketClient();
-$operator2 = new WebsocketClient();
+$client1 = new WebSocketClient();
+$client2 = new WebSocketClient();
+$operator1 = new WebSocketClient();
+$operator2 = new WebSocketClient();
 
 $state = [];
 
@@ -111,7 +111,6 @@ $operator1->addAction('uid', function ($client, $data) {
     $state['operator1']['uid'] = $data['uid'];
 });
 
-
 $operator1->addAction('loginSuccess', function ($client, $data) {    
     echo "O1 Successful attempt to login as operator\n";   
 });
@@ -127,12 +126,12 @@ $operator1->addAction('allOpenChats', function ($client, $data) {
     }   
 });
 
-$operator1->addAction('operatorAddMessageToChat', function ($client, $data) {   
-    echo "O1 Operator (".$data['operatorUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";
+$operator1->addAction('chatOpen', function ($client, $data) {    
+    echo "O1 Client open chat ".$data['chatUid']."\n";  
 });
 
-$operator1->addAction('clientAddMessageToChat', function ($client, $data) {    
-    echo "O1 Client (".$data['clientUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";  
+$operator1->addAction('chatClose', function ($client, $data) {    
+    echo "O1 Client close chat ".$data['chatUid']."\n";  
 });
 
 $operator1->addAction('chatHistory', function ($client, $data) {    
@@ -141,6 +140,14 @@ $operator1->addAction('chatHistory', function ($client, $data) {
     foreach ($data['chatHistory']['messages'] as $message) {
         echo $message['from']." ".$message['type']." ".$message['message']."\n";
     }
+});
+
+$operator1->addAction('operatorAddMessageToChat', function ($client, $data) {   
+    echo "O1 Operator (".$data['operatorUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";
+});
+
+$operator1->addAction('clientAddMessageToChat', function ($client, $data) {    
+    echo "O1 Client (".$data['clientUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";  
 });
 
 $operator1->addAction('clientDisconected', function ($client, $data) {    
@@ -154,8 +161,6 @@ $operator1->addAction('allClientsDisconectedFromChat', function ($client, $data)
 $operator1->addAction('chatClosed', function ($client, $data) {    
     echo "O1 Chat closed ".$data['chatUid']."\n";
 });
-
-
 
 /* operator2*/
 
@@ -190,12 +195,12 @@ $operator2->addAction('allOpenChats', function ($client, $data) {
     }   
 });
 
-$operator2->addAction('operatorAddMessageToChat', function ($client, $data) {   
-    echo "O2 Operator (".$data['operatorUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";
+$operator2->addAction('chatOpen', function ($client, $data) {    
+    echo "O2 Client open chat ".$data['chatUid']."\n";  
 });
 
-$operator2->addAction('clientAddMessageToChat', function ($client, $data) {    
-    echo "O2 Client (".$data['clientUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";  
+$operator2->addAction('chatClose', function ($client, $data) {    
+    echo "O2 Client close chat ".$data['chatUid']."\n";  
 });
 
 $operator2->addAction('chatHistory', function ($client, $data) {    
@@ -204,6 +209,14 @@ $operator2->addAction('chatHistory', function ($client, $data) {
     foreach ($data['chatHistory']['messages'] as $message) {
         echo $message['from']." ".$message['type']." ".$message['message']."\n";
     }
+});
+
+$operator2->addAction('operatorAddMessageToChat', function ($client, $data) {   
+    echo "O2 Operator (".$data['operatorUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";
+});
+
+$operator2->addAction('clientAddMessageToChat', function ($client, $data) {    
+    echo "O2 Client (".$data['clientUid'].") add message to chat (".$data['chatUid'].") message: ".$data['message']."\n";  
 });
 
 $operator2->addAction('clientDisconected', function ($client, $data) {    

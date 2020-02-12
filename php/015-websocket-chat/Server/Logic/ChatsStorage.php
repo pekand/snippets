@@ -20,6 +20,15 @@ class ChatsStorage
         return true;
     }
     
+    public function isChatOpen($chatUid)
+    {       
+        if (isset($this->chats[$chatUid])) {
+            return true;
+        }
+
+        return false;
+    }
+    
     public function openChat($chatUid = null)
     {
         if(empty($chatUid)) {           
@@ -71,16 +80,7 @@ class ChatsStorage
         
         return $openedChats;
     }
-    
-    public function isChatOpen($chatUid)
-    {       
-        if (isset($this->chats[$chatUid])) {
-            return true;
-        }
-
-        return false;
-    }
-    
+        
     public function getChat($chatUid)
     {       
         if (!$this->isUid($chatUid)) {
@@ -215,35 +215,6 @@ class ChatsStorage
         unset($this->chats[$chatUid]);
     }
     
-    public function isLive($chatUid, $liveOperators, $liveClients)
-    {      
-        if (!isset($this->chats[$chatUid])){
-            return false;
-        } 
-        
-        $isLiveOperator = false;
-        foreach ($liveOperators as $operatorUid) {
-           if (in_array($operatorUid, $this->chats[$chatUid]['participants']['operators'])) {
-             $isLiveOperator = true;
-             break;
-           }
-        }
-        
-        $isLiveClient = false;
-        foreach ($liveClients as $clientUid) {
-           if (in_array($clientUid, $this->chats[$chatUid]['participants']['clients'])) {
-             $isLiveClient = true;
-             break;
-           }
-        }
-        
-        if($isLiveClient && $isLiveOperator){
-            return true;
-        }
-        
-        return false;
-    }
-    
     public function addOperatorToChat($chatUid, $clientUid)
     {
         if (!isset($this->chats[$chatUid])){
@@ -253,6 +224,30 @@ class ChatsStorage
         if (!in_array($clientUid, $this->chats[$chatUid]['participants']['clients'])) {
             $this->chats[$chatUid]['participants']['clients'][] = $clientUid;
         }
+    }
+    
+    public function addOperatorToAllChats($operatorUid)
+    {       
+        foreach ($this->chats as $chatUid => $chats) {
+            if (!in_array($operatorUid, $this->chats[$chatUid]['participants']['operators'])) {
+                $this->chats[$chatUid]['participants']['operators'][] = $operatorUid;
+           }
+        }
+    }
+    
+    public function removeOperatorFromAllChats($operatorUid)
+    {       
+        $chatsWithoutOperator = [];
+        foreach ($this->chats as $chatUid => $chat) {          
+            if (($key = array_search($operatorUid, $this->chats[$chatUid]['participants']['operators'])) !== false) {
+                unset($this->chats[$chatUid]['participants']['operators'][$key]);
+                
+                if(count($this->chats[$chatUid]['participants']['operators']) == 0){
+                    $chatsWithoutOperator[] = $chatUid;
+                }
+            }
+        }
+        return $chatsWithoutOperator;
     }
     
     public function isClientInChat($chatUid, $clientUid)
@@ -278,32 +273,7 @@ class ChatsStorage
             $this->chats[$chatUid]['participants']['clients'][] = $clientUid;
         }
     }
-    
-    public function addOperatorToAllChats($operatorUid)
-    {       
-        foreach ($this->chats as $chatUid => $chats) {
-            if (!in_array($operatorUid, $this->chats[$chatUid]['participants']['operators'])) {
-                $this->chats[$chatUid]['participants']['operators'][] = $operatorUid;
-           }
-        }
-    }
-    
-    
-    public function removeOperatorFromAllChats($operatorUid)
-    {       
-        $chatsWithoutOperator = [];
-        foreach ($this->chats as $chatUid => $chat) {          
-            if (($key = array_search($operatorUid, $this->chats[$chatUid]['participants']['operators'])) !== false) {
-                unset($this->chats[$chatUid]['participants']['operators'][$key]);
-                
-                if(count($this->chats[$chatUid]['participants']['operators']) == 0){
-                    $chatsWithoutOperator[] = $chatUid;
-                }
-            }
-        }
-        return $chatsWithoutOperator;
-    }
-    
+
     public function removeClientFromAllChats($clientUid)
     {       
         $chatsWithoutClients = [];

@@ -48,14 +48,13 @@ function chatbox(chatboxId){return {
     },
     
     addMessageSource: function(message, animation) {
-        
         if (typeof animation === 'undefined'){
             animation = false;    
         }
         
         var bounce = '';
         if (animation){
-            animation = 'chatbox__message--bounce';    
+            bounce = 'chatbox__message--bounce';    
         }
 
         var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text chatbox__message__text--right '+bounce+'">'+message+'</div></div>')        
@@ -63,8 +62,17 @@ function chatbox(chatboxId){return {
         this.chatboxMessges.scrollTop = this.chatboxMessges.scrollHeight;
     },
     
-    addMessageTarget: function(message) {
-         var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text chatbox__message--bounce">'+message+'</div></div>')
+    addMessageTarget: function(message, animation) {
+        if (typeof animation === 'undefined'){
+            animation = false;    
+        }
+        
+        var bounce = '';
+        if (animation){
+            bounce = 'chatbox__message--bounce';    
+        }
+        
+         var messageEl = this.el('<div class="chatbox__message"><div class="chatbox__message__text '+bounce+'">'+message+'</div></div>')
          this.chatboxMessges.appendChild(messageEl);
          this.chatboxMessges.scrollTop = this.chatboxMessges.scrollHeight;
     },
