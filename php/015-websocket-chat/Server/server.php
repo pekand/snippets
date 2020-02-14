@@ -11,7 +11,12 @@ use Logic\Log;
 use Logic\ChatsStorage;
 use Logic\ServerLogic;
 
-Log::setAllowdSeverity(['INFO', 'ERROR', 'DEBUG']);
+Log::setAllowdSeverity([
+    'INFO', 
+    'ERROR', 
+    //'DEBUG'
+]);
+
 Log::write("WEBSOCKET SERVER START");
 
 $server = new WebSocketServer([

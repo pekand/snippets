@@ -183,8 +183,8 @@ class SocketServer {
                     }
                     
                     socket_close($ref);
-                }
-                            
+                } 
+                
                 if(is_resource($ref)) {
                     
                     $clientUid =  $this->uid();
@@ -212,13 +212,14 @@ class SocketServer {
                         'ping' => false,
                     ];
                     
-                    $data = "";
+                    $headerFromServer = "";
                     
-                    if (false === ($headerFromServer = socket_read($this->clients[$clientUid]['ref'], 2048, MSG_WAITALL))) {
+                    /*if (false === ($headerFromServer = socket_read($this->clients[$clientUid]['ref'], 2048, MSG_WAITALL))) {
                         echo "socket_read() failed: reason: " . socket_strerror(socket_last_error($this->socket)) . "\n";
-                    }
+                    }*/
 
-                    /*
+                    socket_set_nonblock($this->clients[$clientUid]['ref']);
+ 
                     while ($buf = @socket_read($this->clients[$clientUid]['ref'], 1024)) {  
                     
                         if (false === $buf){
@@ -226,12 +227,12 @@ class SocketServer {
                             break;                            
                         }   
                                            
-                        $data .= $buf;
+                        $headerFromServer .= $buf;
                         
-                        if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($data)) {                              
+                        if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($headerFromServer)) {                              
                             break;
                         }
-                    }*/
+                    }
 
                     if($this->clients[$clientUid]['maxClientHeaderLength'] !== false && $this->clients[$clientUid]['maxClientHeaderLength'] < strlen($headerFromServer)) {
                         if (isset($this->clientDisconnectedEvent) && is_callable($this->clientDisconnectedEvent)) {
@@ -245,9 +246,7 @@ class SocketServer {
                             $acceptedNewClient = call_user_func_array($this->acceptClientEvent, [$clientUid, $headerFromServer]);
                         }
 
-                        if ($acceptedNewClient) {
-                            socket_set_nonblock($this->clients[$clientUid]['ref']);
-                        } else {
+                        if (!$acceptedNewClient) {
                             $this->closeClient($clientUid);
                         }
                     }

@@ -11,8 +11,8 @@ class WebSocketPool {
     	$this->socketPool = new SocketPool();
     }
          
-    public function addAction($delay, $action) {
-    	$this->socketPool->addAction($delay, $action);
+    public function addAction($params, $action) {
+    	$this->socketPool->addAction($params, $action);
     }   
     
 	public function listen($clients) {

@@ -235,7 +235,7 @@ $operator2->addAction('chatClosed', function ($client, $data) {
 $pool = new WebSocketPool();
 
 /* ACTIONS */
-$pool->addAction(1000000, function(){
+$pool->addAction(['delay'=>1000000], function(){
     echo "AC1 Client1 open new chat\n";
     
     global $state;
@@ -245,7 +245,7 @@ $pool->addAction(1000000, function(){
     
 });
 
-$pool->addAction(2000000, function(){
+$pool->addAction(['delay'=>2000000], function(){
     echo "AC2 Operator1 login\n";
     
     global $state;
@@ -254,7 +254,7 @@ $pool->addAction(2000000, function(){
     $operator1->sendMessage(json_encode(['action'=>'login','token'=>'password']));
 });
 
-$pool->addAction(3000000, function(){
+$pool->addAction(['delay'=>3000000], function(){
     echo "AC3 Operator1 get all open chats\n";
     
     global $state;
@@ -263,7 +263,7 @@ $pool->addAction(3000000, function(){
     $operator1->sendMessage(json_encode(['action'=>'getAllOpenChats']));
 });
 
-$pool->addAction(4000000, function(){
+$pool->addAction(['delay'=>4000000], function(){
     echo "AC4 Client1 add message to chat\n";
     
     global $state;
@@ -276,7 +276,7 @@ $pool->addAction(4000000, function(){
     ]));
 });
 
-$pool->addAction(5000000, function(){
+$pool->addAction(['delay'=>5000000], function(){
     echo "AC5 Operator1 add message to chat\n";
     
     global $state;
@@ -289,7 +289,7 @@ $pool->addAction(5000000, function(){
     ]));
 });
 
-$pool->addAction(6000000, function(){
+$pool->addAction(['delay'=>6000000], function(){
     echo "AC6 Client2 open existing chat\n";
     
     global $state;
@@ -298,7 +298,7 @@ $pool->addAction(6000000, function(){
     $client2->sendMessage(json_encode(['action'=>'openChat', 'chatUid'=> $state['client1']['chatUid']]));
 });
 
-$pool->addAction(7000000, function(){
+$pool->addAction(['delay'=>7000000], function(){
     echo "AC7 Client2 add message to chat\n";
     
     global $state;
@@ -311,7 +311,7 @@ $pool->addAction(7000000, function(){
     ]));
 });
   
-$pool->addAction(8000000, function(){
+$pool->addAction(['delay'=>8000000], function(){
     echo "AC8 Operator1 add message to chat\n";
     
     global $state;
@@ -324,7 +324,7 @@ $pool->addAction(8000000, function(){
     ]));
 });
 
-$pool->addAction(9000000, function(){
+$pool->addAction(['delay'=>9000000], function(){
     echo "AC9 Operator3 get chat history\n";
     
     global $state;
@@ -336,7 +336,7 @@ $pool->addAction(9000000, function(){
     ]));
 });
 
-$pool->addAction(10000000, function(){
+$pool->addAction(['delay'=>10000000], function(){
     echo "AC10 Client1 close\n";
     
     global $client1;
@@ -346,7 +346,7 @@ $pool->addAction(10000000, function(){
     ]));
 });
 
-$pool->addAction(11000000, function(){
+$pool->addAction(['delay'=>11000000], function(){
     echo "AC11 Operator1 close\n";
     
     global $operator1;
@@ -356,7 +356,7 @@ $pool->addAction(11000000, function(){
     ]));
 });
 
-$pool->addAction(12000000, function(){
+$pool->addAction(['delay'=>12000000], function(){
     echo "AC12 Operator2 login\n";
     
     global $state;
@@ -365,7 +365,7 @@ $pool->addAction(12000000, function(){
     $operator2->sendMessage(json_encode(['action'=>'login','token'=>'password']));
 });
 
-$pool->addAction(13000000, function(){
+$pool->addAction(['delay'=>13000000], function(){
     echo "AC13 Operator2 get all open chats\n";
     
     global $state;
@@ -374,7 +374,7 @@ $pool->addAction(13000000, function(){
     $operator2->sendMessage(json_encode(['action'=>'getAllOpenChats']));
 });
 
-$pool->addAction(14000000, function(){
+$pool->addAction(['delay'=>14000000], function(){
     echo "AC14 Client2 close\n";
     
     global $client2;
@@ -382,6 +382,10 @@ $pool->addAction(14000000, function(){
     $client2->sendMessage(json_encode([
         'action'=>'close'
     ]));
+});
+
+$pool->addAction(['delay'=>15000000, 'repeat'=> 1000000], function(){
+    echo "repeat test\n";    
 });
 
   
