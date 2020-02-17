@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Event flow</title>
+    
+    <style>
+    div {
+        border:1px solid black;
+        padding: 10px;
+        margin: 10px;
+    }
+    </style>
+    
+</head>
+<body>
+    
+    <section>
+        <div id="a1">
+            (a) click me
+            <div id="b1">
+                (b) click me
+                <div id="c1">(c) click me</div>
+            </div>
+        </div>
+        <script>
+            document.getElementById("a1").addEventListener("click",function(){console.log('a catching');}, true);
+            document.getElementById("b1").addEventListener("click",function(){console.log('b catching');}, true);
+            document.getElementById("c1").addEventListener("click",function(){console.log('c catching');}, true);
+            document.getElementById("c1").addEventListener("click",function(){console.log('c bubbling');}, false);
+            document.getElementById("b1").addEventListener("click",function(){console.log('b bubbling');}, false);
+            document.getElementById("a1").addEventListener("click",function(){console.log('a bubbling');}, false);
+        </script>
+    </section>   
+    
+    <h2>stopPropagation</h2>
+    <section>
+        <div id="a2">
+            (a) click me
+            <div id="b2">
+                (b) click me
+                <div id="c2">(c) click me</div>
+            </div>
+        </div>
+        <script>
+            document.getElementById("a2").addEventListener("click",function(e){console.log('a catching');}, true); // executed
+            document.getElementById("b2").addEventListener("click",function(e){console.log('b catching');}, true); // executed
+            
+            document.getElementById("c2").addEventListener("click",function(e){console.log('c 1. catching');}, true);            
+            document.getElementById("c2").addEventListener("click",function(e){console.log('c 2. catching');}, true); // executed
+            document.getElementById("c2").addEventListener("click",function(e){console.log('c 1. bubbling');e.stopPropagation()}, false); // executed (stop bubling up, all listeners on c2 will be executed )
+            document.getElementById("c2").addEventListener("click",function(e){console.log('c 2. bubbling');}, false); // executed
+            
+            document.getElementById("b2").addEventListener("click",function(e){console.log('b bubbling');}, false); // not executed
+            document.getElementById("a2").addEventListener("click",function(e){console.log('a bubbling');}, false); // not executed
+        </script>
+    </section> 
+    
+    
+    <h2>stopImmediatePropagation</h2>
+    <section>
+        <div id="a4">
+            (a) click me
+            <div id="b4">
+                (b) click me
+                <div id="c4">(c) click me</div>
+            </div>
+        </div>
+        <script>
+            document.getElementById("a4").addEventListener("click",function(e){console.log('a catching');}, true); // executed
+            document.getElementById("b4").addEventListener("click",function(e){console.log('b catching');}, true); // executed
+            
+            document.getElementById("c4").addEventListener("click",function(e){console.log('c 1. catching');}, true); // executed           
+            document.getElementById("c4").addEventListener("click",function(e){console.log('c 2. catching');}, true); // executed
+            document.getElementById("c4").addEventListener("click",function(e){console.log('c 1. bubbling');e.stopImmediatePropagation()}, false); // executed (stop bubling up and stop all other events on self to be executed)
+            document.getElementById("c4").addEventListener("click",function(e){console.log('c 2. bubbling');}, false); // not executed
+            
+            document.getElementById("b4").addEventListener("click",function(e){console.log('b bubbling');}, false); // not executed
+            document.getElementById("a4").addEventListener("click",function(e){console.log('a bubbling');}, false); // not executed
+        </script>
+    </section> 
+    
+    <h2>Event parameters</h2>
+    <section>
+        <div id="a3">
+            (a) click me
+            <div id="b3">
+                (b) click me
+                <div id="c3">(c) click me</div>
+            </div>
+        </div>
+        <script>
+        
+            //event.bubbles indicate if this type of event support bubbling. Same events as: focus, blur, load, unload, change, reset, scroll doesn't bubbling
+            document.getElementById("a3").addEventListener("click",function(e){console.log(e.currentTarget.id, e.target.id, e.eventPhase, event.bubbles);}, true); //Event.CAPTURING_PHASE = 1
+            document.getElementById("b3").addEventListener("click",function(e){console.log(e.currentTarget.id, e.target.id, e.eventPhase, event.bubbles);}, true); //Event.CAPTURING_PHASE = 1
+            document.getElementById("c3").addEventListener("click",function(e){console.log(e.currentTarget.id, e.target.id, e.eventPhase, event.bubbles);}, true); // Event.AT_TARGET = 2
+            document.getElementById("c3").addEventListener("click",function(e){console.log(e.currentTarget.id, e.target.id, e.eventPhase, event.bubbles);}, false); // Event.AT_TARGET = 2
+            document.getElementById("b3").addEventListener("click",function(e){console.log(e.currentTarget.id, e.target.id, e.eventPhase, event.bubbles);}, false); // Event.BUBBLING_PHASE = 3
+            document.getElementById("a3").addEventListener("click",function(e){console.log(e.currentTarget.id, e.target.id, e.eventPhase, event.bubbles);}, false); // Event.BUBBLING_PHASE = 3
+        </script>
+    </section> 
+    
+    <h2>Event order on one object</h2>
+    <section>
+        <div id="a5">
+            (a) click me
+        </div>
+        <script>
+            document.getElementById("a5").addEventListener("click",function(e){console.log('1.');}, true); // executed as 1.
+            document.getElementById("a5").addEventListener("click",function(e){console.log('2.');}, false); // executed as 2.
+            document.getElementById("a5").addEventListener("click",function(e){console.log('3.');}, true); // executed as 3.
+            document.getElementById("a5").addEventListener("click",function(e){console.log('4.');}, false); // executed as 4.
+        </script>
+    </section> 
+
+</body>
+</html>
