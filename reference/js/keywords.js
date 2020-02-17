@@ -44,6 +44,8 @@ for(in) {
   continue;
 }  
 
+for(of) {
+}
 
 function() {
   return;  

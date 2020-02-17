@@ -1,3 +1,48 @@
+
+
+// add and remove event from element
+function listener(){
+	console.log('test');
+	document.getElementById("id").removeEventListener("click", listener, false);
+}
+
+document.getElementById("id").addEventListener(
+	"click", 
+	listener, 
+	false
+);
+
+// one time event listener
+document.getElementById("id").addEventListener("click", function(e){
+	    console.log('click');
+	},{capture:false, once:true}
+);
+
+document.getElementById("id").addEventListener("click", function(e){
+		e.stopPropagation(); // prevent bubbling event
+	    console.log('click');
+	},false
+);
+
+//add event to all elements
+for(x of document.body.getElementsByTagName("*")){
+    x.addEventListener("click",function(e){
+        console.log(e.currentTarget.id, e.target.id, e.eventPhase);
+    }, true); // capturing
+    
+    x.addEventListener("click",function(e){
+        console.log("currentTarget="+e.currentTarget.id, "target="+e.target.id, "eventPhase="+e.eventPhase);
+    }, false); // bubbling
+}
+
+// one time event
+var el = document.getElementById("id");
+var handler = function(e) {
+  this.loginBox.classList.remove("login--shake");
+  el.removeEventListener("click", handler, false); 
+};
+el.addEventListener("click", handler, false); 
+
 document.getElementById("id").addEventListener("abort", function(){ });
 document.getElementById("id").addEventListener("afterprint", function(){ });
 document.getElementById("id").addEventListener("animationcancel", function(){ });
