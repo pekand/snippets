@@ -1,19 +1,64 @@
-var connections = 0; // count active connections
+var worker = {
+    init: function (space){
+        this.connections = 0;
+        this.space = space;
+        this.ports = [];
+        this.bindEvents();
+    },
 
-var data = "a";
+    getUid: function(){
+        return Math.random().toString(36).substr(2, 5)+Math.random().toString(36).substr(2, 5);
+    },
 
-self.addEventListener("connect", function (e) {
+    bindEvents: function(){
+        this.space.addEventListener("connect", this.connect.bind(this), false);
+    },
 
-	var port = e.ports[0];
-	connections++;
+    connect: function(e){
+        var uid = this.getUid();
+        this.connections++;
+        var port = e.ports[0];        
+        this.ports[uid] = port;       
 
-	data += "a";
-	
-	port.addEventListener("message", function (e) {
-		port.postMessage(data + e.data);
-		console.log('test');
-	}, false);
+        port.addEventListener("message", function(e){
+            this.message(e, uid, port);
+        }.bind(this), false);
 
-	port.start();
+        port.start();
+        this.sendAction(port, 'uid', {uid:uid});        
+    },
 
-}, false);
+    message: function(e, uid, port){       
+        var data = JSON.parse(e.data);
+        
+        if(data.action === 'ping') {
+            console.log('Ping from :'+data.uid)
+        }
+
+        if(data.action === 'close') {
+            console.log('Close :'+data.uid)
+            this.ports[uid] = null;
+            port.close();  
+            this.connections--;
+            
+            if(this.connections===0){
+                this.close();
+            }
+        }
+    },
+
+    sendMessage: function(port, message) {
+        port.postMessage(message);
+    },
+
+    sendAction: function(port, action, data) {
+        data.action = action;
+        this.sendMessage(port, JSON.stringify(data));
+    },
+
+    close: function() {
+        console.log("finish");
+    },
+}
+
+worker.init(self);

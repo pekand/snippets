@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <title>Shared Worker</title>
-    
+    <script src="client.js"></script>
     <style>
     </style>
     
@@ -12,16 +12,9 @@
 <body>
     
     <script>
-    	var myWorker = new SharedWorker('worker.js');
-    	
-    	
-    	myWorker.port.addEventListener("message", function(e) {
-			console.log(e.data);
-		}, false);
-		
-		myWorker.port.start();
-		
-		myWorker.port.postMessage("Message To Server");
+        
+        client.init('worker.js?22');
+
     </script>
 
 </body>
