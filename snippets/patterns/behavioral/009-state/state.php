@@ -79,7 +79,7 @@ class StateOpened implements VideoPlayerState
     {
         $player = $context->getVideoPlayer();
         $player->play();
-        $context->setState(new StatePlaiing());
+        $context->setState(new StatePlaying());
     }
 
     function pause(VideoPlayerContext $context) 
@@ -93,12 +93,12 @@ class StateOpened implements VideoPlayerState
     }
 }
 
-class StatePlaiing implements VideoPlayerState
+class StatePlaying implements VideoPlayerState
 {
 
     function play(VideoPlayerContext $context) 
     {
-        echo "ERROR: Video is already plaiing\n";      
+        echo "ERROR: Video is already playing\n";      
     }
 
     function pause(VideoPlayerContext $context) 
@@ -122,14 +122,14 @@ class StatePaused implements VideoPlayerState
     {
         $player = $context->getVideoPlayer();
         $player->play();
-        $context->setState(new StatePlaiing());       
+        $context->setState(new StatePlaying());       
     }
 
     function pause(VideoPlayerContext $context) 
     {
         $player = $context->getVideoPlayer();  // if video is paused pause play video
         $player->play();
-        $context->setState(new StatePlaiing());
+        $context->setState(new StatePlaying());
     }
 
     function rewind(VideoPlayerContext $context) 
