@@ -1,4 +1,2 @@
-
-
-default user: user@rmail.com/password
+Clean version of laravel empty new project without changes
 
