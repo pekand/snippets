@@ -37,12 +37,4 @@ class Dev extends Controller
 
         return;
     }
-
-    public function users(Request $request)
-    {
-
-        $users = DB::select('select * from users where id = ?', [1]);
-
-        return;
-    }
 }

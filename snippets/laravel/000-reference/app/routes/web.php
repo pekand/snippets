@@ -26,7 +26,10 @@ Route::group(['middleware' => 'dev'], function()
     Route::get('/dev/info', 'Dev@info');
     Route::get('/dev/env', 'Dev@env');
     Route::get('/dev/server', 'Dev@server');
-    Route::get('/dev/db/users', 'Dev@users');
+    Route::get('/dev/db/fluent/users', 'Fluent@users');
 });
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
 

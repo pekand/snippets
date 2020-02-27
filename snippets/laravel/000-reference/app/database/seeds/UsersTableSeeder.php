@@ -29,8 +29,8 @@ class UsersTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        
-        factory(App\User::class, 50)->create()->each(function ($user) {
+
+        factory(App\User::class, 5)->create()->each(function ($user) {
             $user->save();
         });
     }

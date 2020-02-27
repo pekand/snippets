@@ -16,9 +16,17 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('description');
+            $table->index(['name']);
+            $table->text('description');
             $table->string('status');
-            $table->string('assigned');
+            $table->unsignedBigInteger('assigned_id')
+                ->nullable();
+            $table->foreign('assigned_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('views')
+                ->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

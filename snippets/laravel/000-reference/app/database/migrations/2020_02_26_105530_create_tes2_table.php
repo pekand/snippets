@@ -38,7 +38,7 @@ class CreateTes2Table extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        //Schema::drop('test2');
+        Schema::drop('test2');
         Schema::dropIfExists('test2');
         Schema::enableForeignKeyConstraints();
     }
