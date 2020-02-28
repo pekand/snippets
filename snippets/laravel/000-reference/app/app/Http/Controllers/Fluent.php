@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Fluent extends Controller
 {
-    public function users(Request $request)
+    public function test(Request $request)
     {
         echo "<hr><h2>select</h2>";
 

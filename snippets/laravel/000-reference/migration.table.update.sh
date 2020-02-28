@@ -1,3 +1,6 @@
 cd app
-php artisan make:migration update2_test2_table --table=test2
+read -p "Update Model name [table]: " name
+name=${name}
+timestamp=$(date +%s)
+php artisan make:migration update_${name}_table_${timestamp} --table={$name}
 read -p "Press enter to continue"

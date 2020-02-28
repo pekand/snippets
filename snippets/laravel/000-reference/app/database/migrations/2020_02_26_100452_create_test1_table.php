@@ -15,6 +15,8 @@ class CreateTest1Table extends Migration
     {
         Schema::create('test1', function (Blueprint $table) {
 
+            /* all columns basic types example */
+
             /* primary keys */
             $table->bigIncrements('id');
             //$table->tinyIncrements('id');

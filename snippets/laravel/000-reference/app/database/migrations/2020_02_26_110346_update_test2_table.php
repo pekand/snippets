@@ -20,6 +20,9 @@ class UpdateTest2Table extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::table('test2', function (Blueprint $table) {
+
+            /* modiy table example */
+
             $table->string('name');
 
             $table->index(['id', 'name']);

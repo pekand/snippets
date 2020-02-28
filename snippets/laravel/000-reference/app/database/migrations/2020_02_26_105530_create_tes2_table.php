@@ -14,6 +14,9 @@ class CreateTes2Table extends Migration
     public function up()
     {
         Schema::create('test2', function (Blueprint $table) {
+
+            /* foreign key example */
+
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('test1_id');

@@ -26,7 +26,8 @@ Route::group(['middleware' => 'dev'], function()
     Route::get('/dev/info', 'Dev@info');
     Route::get('/dev/env', 'Dev@env');
     Route::get('/dev/server', 'Dev@server');
-    Route::get('/dev/db/fluent/users', 'Fluent@users');
+    Route::get('/dev/db/fluent/examples', 'Fluent@test');
+    Route::get('/dev/db/eloquent/examples', 'Eloquent@test');
 });
 
 Auth::routes();
