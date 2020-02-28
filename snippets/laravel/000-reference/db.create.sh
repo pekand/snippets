@@ -1,1 +1,1 @@
-mysql -uroot -p < db.create.sql
+mysql -u"${DB_USERNAME}" -p"${DB_PASSWORD}" < db.create.sql

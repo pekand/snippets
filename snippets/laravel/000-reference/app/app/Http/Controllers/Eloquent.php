@@ -53,7 +53,7 @@ class Eloquent extends Controller
             }
         });
 
-        // read by one, for small memory usage
+        // read by one, for small memory usage (one item in memory)
         foreach (\App\Models\Test3::where('status', 'updated')->cursor() as $item) {
             // read with cursor
         }

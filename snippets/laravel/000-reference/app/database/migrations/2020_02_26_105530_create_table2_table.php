@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTes2Table extends Migration
+class CreateTable2Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateTes2Table extends Migration
      */
     public function up()
     {
-        Schema::create('test2', function (Blueprint $table) {
+        Schema::create('table2', function (Blueprint $table) {
 
             /* foreign key example */
 
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('test1_id');
-            $table->foreign('test1_id')
-                ->references('id')->on('test1')
+            $table->unsignedBigInteger('table1_id');
+            $table->foreign('table1_id')
+                ->references('id')->on('table1')
                 ->onDelete('cascade');
 
             $table->unsignedBigInteger('user_id');
@@ -41,8 +41,8 @@ class CreateTes2Table extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::drop('test2');
-        Schema::dropIfExists('test2');
+        Schema::drop('table2');
+        Schema::dropIfExists('table2');
         Schema::enableForeignKeyConstraints();
     }
 }

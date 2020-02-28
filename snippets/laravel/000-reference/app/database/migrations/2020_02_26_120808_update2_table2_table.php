@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Update2Test2Table extends Migration
+class Update2Table2Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class Update2Test2Table extends Migration
      */
     public function up()
     {
-        Schema::table('test2', function (Blueprint $table) {
+        Schema::table('table2', function (Blueprint $table) {
             $table->unique('name');
         });
     }
@@ -25,8 +25,8 @@ class Update2Test2Table extends Migration
      */
     public function down()
     {
-        Schema::table('test2', function (Blueprint $table) {
-            $table->dropUnique('test2_name_unique');
+        Schema::table('table2', function (Blueprint $table) {
+            $table->dropUnique('table2_name_unique');
         });
     }
 }

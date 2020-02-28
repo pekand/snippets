@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTest1Table extends Migration
+class CreateTable1Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTest1Table extends Migration
      */
     public function up()
     {
-        Schema::create('test1', function (Blueprint $table) {
+        Schema::create('table1', function (Blueprint $table) {
 
             /* all columns basic types example */
 
@@ -96,6 +96,6 @@ class CreateTest1Table extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test1');
+        Schema::dropIfExists('table1');
     }
 }

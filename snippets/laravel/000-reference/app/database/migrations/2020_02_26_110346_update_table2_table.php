@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateTest2Table extends Migration
+class UpdateTable2Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class UpdateTest2Table extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('test2')) {
+        if (!Schema::hasTable('table2')) {
             return;
         }
 
         Schema::disableForeignKeyConstraints();
 
-        Schema::table('test2', function (Blueprint $table) {
+        Schema::table('table2', function (Blueprint $table) {
 
             /* modiy table example */
 
@@ -29,8 +29,8 @@ class UpdateTest2Table extends Migration
 
             $table->renameColumn('user_id', 'owner_id');
 
-            $table->dropForeign(['test1_id']);
-            $table->dropColumn(['test1_id']);
+            $table->dropForeign(['table1_id']);
+            $table->dropColumn(['table1_id']);
         });
 
         Schema::enableForeignKeyConstraints();
@@ -44,11 +44,11 @@ class UpdateTest2Table extends Migration
     public function down()
     {
 
-        if (!Schema::hasColumn('test2', 'name')) {
+        if (!Schema::hasColumn('table2', 'name')) {
             return;
         }
 
-        Schema::table('test2', function (Blueprint $table) {
+        Schema::table('table2', function (Blueprint $table) {
             //$table->dropPrimary('id');
             $table->dropColumn(['name']);
             $table->dropIndex(['id', 'name']);
@@ -56,9 +56,9 @@ class UpdateTest2Table extends Migration
 
             $table->renameColumn('owner_id', 'user_id');
 
-            $table->unsignedBigInteger('test1_id');
-            $table->foreign('test1_id')
-                ->references('id')->on('test1')
+            $table->unsignedBigInteger('table1_id');
+            $table->foreign('table1_id')
+                ->references('id')->on('table1')
                 ->onDelete('cascade');
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTest3sTable extends Migration
+class CreateTest4Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,23 @@ class CreateTest3sTable extends Migration
      */
     public function up()
     {
-        Schema::create('test3', function (Blueprint $table) {
-
-            /* table for eloquent orm examples */
-
+        Schema::create('test4', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('status')->default("New");
+
+            $table->unsignedBigInteger('owner_id')
+                ->nullable();
+            $table->foreign('owner_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+
+            $table->unsignedBigInteger('test3_id')
+                ->nullable();
+            $table->foreign('test3_id')
+                ->references('id')->on('test3')
+                ->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -32,6 +42,6 @@ class CreateTest3sTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test3');
+        Schema::dropIfExists('test4');
     }
 }

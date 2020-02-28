@@ -19,11 +19,12 @@ class CreateTicketsTable extends Migration
             $table->index(['name']);
             $table->text('description');
             $table->string('status');
+
             $table->unsignedBigInteger('assigned_id')
                 ->nullable();
             $table->foreign('assigned_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
+                ->references('id')->on('users');
+
             $table->unsignedBigInteger('views')
                 ->default(0);
             $table->softDeletes();
