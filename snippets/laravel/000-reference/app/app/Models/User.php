@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // relation M:N
+    public function watching()
+    {
+        return $this->belongsToMany('App\Models\Ticket', 'ticket_watchers', 'watcher_id' , 'ticket_id')
+            ->as('subscription')
+            ->withPivot('active')
+            ->withTimestamps();
+    }
 }
