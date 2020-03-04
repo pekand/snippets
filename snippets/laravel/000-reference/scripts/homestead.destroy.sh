@@ -1,2 +1,2 @@
 cd ../homestead
-vagrant dsetroy
+vagrant destroy --force
