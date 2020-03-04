@@ -1,4 +1,4 @@
-cd app
+cd ../app
 composer install --optimize-autoloader --no-dev
 npm install
 npm run dev

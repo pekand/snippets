@@ -1,2 +1,2 @@
-cd app
+cd ../app
 php artisan make:test SubmitLinksTest

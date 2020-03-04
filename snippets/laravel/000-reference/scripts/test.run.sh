@@ -1,2 +1,2 @@
-cd app
+cd ../app
 ./vendor/bin/phpunit

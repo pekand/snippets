@@ -1,4 +1,4 @@
-cd app
+cd ../app
 read -p "Model name [Tickets]: " name
 name=${name:-Tickets}
 echo $name

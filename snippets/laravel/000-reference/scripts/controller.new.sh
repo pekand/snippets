@@ -1,5 +1,4 @@
-
-cd app
+cd ../app
 read -p "Model name [Controller]: " name
 name=${name:-Controller}
 echo $name

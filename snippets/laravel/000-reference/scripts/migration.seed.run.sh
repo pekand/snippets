@@ -1,4 +1,4 @@
-cd app
+cd ../app
 
 #update new seeds classies
 php composer.phar dump-autoload

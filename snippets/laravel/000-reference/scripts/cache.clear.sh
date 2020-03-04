@@ -1,4 +1,4 @@
-cd app
+cd ../app
 
 php composer.phar dump-autoload
 php artisan cache:clear
