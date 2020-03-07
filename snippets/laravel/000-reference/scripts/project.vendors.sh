@@ -1,4 +1,4 @@
-cd ../app
+cd $(dirname $0)/../app
 php composer.phar require laravel/ui
 php composer.phar require doctrine/dbal
 php artisan ui vue --auth

@@ -16,9 +16,7 @@ class UpdateTable2Table extends Migration
         if (!Schema::hasTable('table2')) {
             return;
         }
-
-        Schema::disableForeignKeyConstraints();
-
+        
         Schema::table('table2', function (Blueprint $table) {
 
             /* modiy table example */
@@ -32,8 +30,6 @@ class UpdateTable2Table extends Migration
             $table->dropForeign(['table1_id']);
             $table->dropColumn(['table1_id']);
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

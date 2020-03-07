@@ -33,6 +33,8 @@ class CreateTicketInfoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticketinfo');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('ticket_info');
+        Schema::enableForeignKeyConstraints();
     }
 }

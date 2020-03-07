@@ -23,18 +23,24 @@ class Dev extends Controller
 
     public function env(Request $request)
     {
-        var_dump($_ENV);
-
-        var_dump($_SERVER);
-
-        return;
+        return [
+            'env' => $_ENV,
+            'server' => $_SERVER,
+        ];
     }
 
     public function server(Request $request)
     {
+        return [
+            'server' => $_SERVER,
+        ];
+    }
 
-        var_dump($_SERVER);
+    public function csfr(Request $request)
+    {
 
-        return;
+        return [
+            'csrf' => csrf_token(),
+        ];
     }
 }
