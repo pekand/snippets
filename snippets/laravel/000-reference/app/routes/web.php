@@ -32,6 +32,11 @@ Route::group(['middleware' => 'dev'], function()
 
 Route::group(['middleware' => 'dev'], function()
 {
+    Route::get('/dev/commands', 'Commands@main');
+});
+
+Route::group(['middleware' => 'dev'], function()
+{
     Route::get('/dev/db/fluent', 'Fluent@test');
 });
 
