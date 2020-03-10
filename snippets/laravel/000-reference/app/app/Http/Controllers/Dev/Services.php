@@ -16,6 +16,13 @@ class Services extends Controller
     private $primitiveValue = null;
     private $tickets = null;
 
+    /**
+     * Services constructor.
+     *
+     * @param $primitiveValue
+     * @param TicketRepository $tickets
+     * @param ContainerInterface $container
+     */
     public function __construct($primitiveValue, TicketRepository $tickets, ContainerInterface $container)
     {
         $this->primitiveValue = $primitiveValue;
@@ -27,7 +34,14 @@ class Services extends Controller
      * Handle the incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Application $app
+     * @param UserRepositoryContract $users1
+     * @param TicketRepository $tickets
+     * @param TaggedRepository $tagged
+     *
+     * @return array
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function main(Request $request, Application $app, UserRepositoryContract $users1, TicketRepository $tickets, TaggedRepository $tagged)
     {
@@ -46,13 +60,13 @@ class Services extends Controller
         $app->instance('App\Lib\Repositories\UserRepository', $users2); // override instance
 
         return [
-            'users1'=>$users1->dump(),
-            'users2'=>$users2->dump(),
-            'users3'=>$users3->dump(),
-            'users4'=>$users4->dump(),
-            'users5'=>$users5->dump(),
-            'tickets'=>$tickets->dump(),
-            'tickets2'=>$this->tickets->dump(),
+            'users1'=>$users1->getUsers(),
+            'users2'=>$users2->getUsers(),
+            'users3'=>$users3->getUsers(),
+            'users4'=>$users4->getUsers(),
+            'users5'=>$users5->getUsers(),
+            'tickets'=>$tickets->getTickets(),
+            'tickets2'=>$this->tickets->getTickets(),
             'tagged'=>$tagged->dump(),
             'primitiveValue' =>$this->primitiveValue,
         ];

@@ -4,7 +4,6 @@ namespace App\Lib\Repositories;
 
 class TaggedRepository implements Repository
 {
-    private $param = null;
     private UserRepository $users;
     private TicketRepository $tisckets;
 
@@ -13,11 +12,13 @@ class TaggedRepository implements Repository
         $this->tisckets = $tisckets;
     }
 
-    public function setParam($param) {
-        $this->param = $param;
-    }
-
     public function dump() {
-        return $this->param.$this->users->dump() . " " . $this->tisckets->dump();
+
+        $data = [
+            'users' => $this->users->getUsers(),
+            'tickets' => $this->tisckets->getTickets(),
+        ];
+
+        return $data;
     }
 }

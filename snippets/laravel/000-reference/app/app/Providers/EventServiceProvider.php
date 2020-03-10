@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'App\Events\NewTicket' => [
+            'App\Listeners\TicketNotification',
+        ],
     ];
 
     /**
@@ -29,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        // manual definition of event listener (override other listeners)
+        Event::listen('App\Events\NewTicket', function (\App\Events\NewTicket $newTicket) {
+            echo "NewTicket event occured";
+        });
     }
 }

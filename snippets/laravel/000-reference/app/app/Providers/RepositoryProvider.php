@@ -119,7 +119,6 @@ class RepositoryProvider extends ServiceProvider implements DeferrableProvider
 
         //  do samthink extra wit object (decorate)
         $this->app->extend('App\Lib\Repositories\TaggedRepository', function ($service, $app) {
-            $service->setParam("Decorated :");
             return $service;
         });
     }

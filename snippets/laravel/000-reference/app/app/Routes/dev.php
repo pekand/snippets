@@ -31,6 +31,12 @@ Route::group(['middleware' => ['auth', 'web']], function()
     Route::get('/dev/services', 'Services@main');
 });
 
+/* Services */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/events', 'Events@main');
+});
+
 /* Configuration */
 
 Route::group(['middleware' => ['auth', 'web']], function()
