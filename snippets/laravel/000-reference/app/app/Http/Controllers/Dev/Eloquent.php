@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dev;
 
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ class Eloquent extends Controller
     {
 
         $admin = \App\Models\User::where('name','admin')->first();
-        
+
         $newStatus = \App\Models\TicketStatus::where('name','new')->first();
 
         $ticket = \App\Models\Ticket::where('name','ticket name')->first();

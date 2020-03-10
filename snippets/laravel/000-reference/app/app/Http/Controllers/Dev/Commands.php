@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dev;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -13,7 +13,7 @@ class Commands extends Controller
         $exitCode1 = Artisan::call('execute:command1 --option1 --option2WithValue=value1 --option3WithDefault --option4Array=1 --option4Array=2 -S param1 param2 param3');
 
         $exitCode2 = Artisan::call('execute:command1', [
-            '--option1' => true, 
+            '--option1' => true,
             '--option2WithValue' => 'default',
             '--option3WithDefault' => null,
             '--option4Array' => [1, 2, 3],

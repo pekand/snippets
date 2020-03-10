@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Lib\Fruit;
+use App\Lib\UserRepository;
 
 class Main extends Controller
 {

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
-
+use App\Lib\Repositories\UserRepository;
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -17,6 +17,9 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
-Artisan::command('execute:command3 {param1}', function ($param1) {
+
+// $users is inserted by dependency injection
+Artisan::command('execute:command3 {param1}', function ($param1, UserRepository $users) {
+    $this->info($users->dump());
     $this->info("command1 with parameter {$param1}!");
 })->describe('Command2 description');
