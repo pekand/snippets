@@ -37,7 +37,10 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => [
+                'single', //default logger
+                'custom',
+            ],
             'ignore_exceptions' => false,
         ],
 
@@ -98,6 +101,42 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        'query' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.access.log'),
+            'level' => 'debug',
+        ],
+
+        'access' => [ // bind in LogMiddleware
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.access.log'),
+            'level' => 'debug',
+        ],
+
+        'query' => [ // bind in QueryServiceProvider
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.query.log'),
+            'level' => 'debug',
+        ],
+
+        'events' => [ // bind in EventServiceProvider
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.events.log'),
+            'level' => 'debug',
+        ],
+
+        'custom' => [
+            'driver' => 'custom',
+            'via' => App\Lib\Logging\CreateCustomLogger::class,
+            'tap' => [\App\Lib\Logging\CustomizeFormatter::class], // custom log formatter
+            'emoji'    => ':gear:',
+            'path' => storage_path('logs/laravel.custom.log'),
+            'level' => 'debug',
+            'bubble' => true, // bubble to other chanels 
+            'permission' => '0644',
+            'locking' => 'true', // lock file
         ],
     ],
 

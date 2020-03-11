@@ -36,6 +36,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        /*
+        if ($exception instanceof CustomException) { // skip exception
+            return;
+        }
+        */
+
         parent::report($exception);
     }
 
@@ -51,5 +57,19 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Get the default context variables for logging.
+     * - optional
+     * - overriding context 
+     *
+     * @return array
+     */
+    protected function context()
+    {
+        return array_merge(parent::context(), [
+            'foo' => 'bar',
+        ]);
     }
 }

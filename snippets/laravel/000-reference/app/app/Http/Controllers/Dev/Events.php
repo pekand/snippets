@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dev;
 
 use Illuminate\Http\Request;
 use App\Events\NewTicket;
+use App\Events\ClosedTicket;
 
 class Events extends Controller
 {
@@ -21,7 +22,8 @@ class Events extends Controller
     public function main(Request $request)
     {
         $ticket = \App\Models\Ticket::find(1);
-        event(new NewTicket($ticket)); // with trait SerializesModels 
+        event(new NewTicket($ticket));
+        event(new ClosedTicket($ticket));
     }
 
 }

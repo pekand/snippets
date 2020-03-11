@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\App;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,16 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     /**
+     * The subscriber classes to register.
+     * - listen to multiple events
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        'App\Listeners\TicketEventSubscriber',
+    ];
+
+    /**
      * Register any events for your application.
      *
      * @return void
@@ -34,20 +46,14 @@ class EventServiceProvider extends ServiceProvider
 
         // manual definition of event listener (override other listeners)
         Event::listen('App\Events\NewTicket', function (\App\Events\NewTicket $newTicket) {
-            echo "NewTicket event occured<br>\n";
+            Log::info("Event new ticket");
         });
 
         //catch multiple events with wildcard 
         // - wilcard match all fired events '*'
         Event::listen('App\Events\*', function ($eventName, array $data) {
-            echo "NewTicket event occured<br>\n";
+            Log::info("App Event: ".$eventName);
         });
-
-        /* Event::listen('*', function ($eventName, array $data) { 
-            echo "Event: [". $eventName."]<br>\n"; // TODO move to log
-        });
-        */
-
     }
 
     /**

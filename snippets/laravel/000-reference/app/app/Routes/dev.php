@@ -25,6 +25,18 @@ Route::group(['middleware' => ['auth', 'web']], function()
 
 });
 
+/* log */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/log', 'Logging@main');
+});
+
+/* errors handling */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/errors', 'Errors@main');
+});
+
 /* Services */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
@@ -38,35 +50,30 @@ Route::group(['middleware' => ['auth', 'web']], function()
 });
 
 /* Configuration */
-
 Route::group(['middleware' => ['auth', 'web']], function()
 {
     Route::get('/dev/configuration', 'Configuration@show');
 });
 
 /* Commands */
-
 Route::group(['middleware' =>['auth', 'web']], function()
 {
     Route::get('/dev/commands', 'Commands@main');
 });
 
 /* Fluent */
-
 Route::group(['middleware' => ['auth', 'web']], function()
 {
     Route::get('/dev/db/fluent', 'Fluent@test');
 });
 
 /* Eloquent */
-
 Route::group(['middleware' => ['auth', 'web']], function()
 {
     Route::get('/dev/db/eloquent', 'Eloquent@test');
 });
 
 /* File Storage */
-
 Route::group(['middleware' => ['auth', 'web']], function()
 {
     Route::get('/dev/file', 'File@main');
@@ -85,7 +92,6 @@ Route::group(['middleware' => ['auth', 'web']], function()
 
 
 /* Unit Tests - tools */
-
 Route::group(['middleware' => ['auth', 'web']], function()
 {
     Route::get('/dev/unit/json', 'Unit@getjson');
