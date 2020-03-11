@@ -32,6 +32,6 @@ class TicketNotification
      */
     public function handle(NewTicket $event)
     {
-        echo "NewTicket event occured";
+        echo "NewTicket event occured:".$event->ticket->name."<br>\n";
     }
 }

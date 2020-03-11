@@ -20,7 +20,8 @@ class Events extends Controller
      */
     public function main(Request $request)
     {
-        event(new NewTicket());
+        $ticket = \App\Models\Ticket::find(1);
+        event(new NewTicket($ticket)); // with trait SerializesModels 
     }
 
 }

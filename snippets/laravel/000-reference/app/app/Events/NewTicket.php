@@ -19,9 +19,9 @@ class NewTicket
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($ticket)
     {
-        //
+        $this->ticket = $ticket;
     }
 
     /**
