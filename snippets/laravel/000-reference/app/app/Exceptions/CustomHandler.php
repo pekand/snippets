@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
-class Handler extends ExceptionHandler
+class CustomHandler extends ExceptionHandler
 {
     /**
      * A list of the exception types that are not reported.
@@ -36,10 +36,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if ($exception instanceof CustomException) { // skip exception
-            //do something with exception
-        }
-
         parent::report($exception);
     }
 
@@ -55,19 +51,5 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
-    }
-
-    /**
-     * Get the default context variables for logging.
-     * - optional
-     * - overriding context 
-     *
-     * @return array
-     */
-    protected function context()
-    {
-        return array_merge(parent::context(), [
-            'foo' => 'bar',
-        ]);
     }
 }

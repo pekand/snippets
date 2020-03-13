@@ -85,6 +85,12 @@ return [
             'endpoint' => env('DYNAMODB_ENDPOINT'),
         ],
 
+        'custom' => [
+            'driver' => 'custom',
+            'table' => 'cache',
+            'connection' => null,
+        ],
+
     ],
 
     /*

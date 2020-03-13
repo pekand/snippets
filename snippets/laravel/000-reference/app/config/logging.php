@@ -115,6 +115,12 @@ return [
             'level' => 'debug',
         ],
 
+        'session' => [ // bind in LogMiddleware
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.session.log'),
+            'level' => 'debug',
+        ],
+
         'query' => [ // bind in QueryServiceProvider
             'driver' => 'single',
             'path' => storage_path('logs/laravel.query.log'),
@@ -127,6 +133,11 @@ return [
             'level' => 'debug',
         ],
 
+        'cache' => [ // bind in EventServiceProvider
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.cache.log'),
+            'level' => 'debug',
+        ],
         'custom' => [
             'driver' => 'custom',
             'via' => App\Lib\Logging\CreateCustomLogger::class,

@@ -170,7 +170,10 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\UidServiceProvider::class,
+        env('APP_ENV') == 'local' ? App\Providers\UidServiceProvider::class : App\Providers\EmptyServiceProvider::class,
+        App\Providers\CustomExceptionHandlerServiceProvider::class,
+        env('APP_ENV') == 'local' ? App\Providers\CustomSessionServiceProvider::class : App\Providers\EmptyServiceProvider::class,
+        env('APP_ENV') == 'local' ? App\Providers\CustomCacheServiceProvider::class : App\Providers\EmptyServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         env('APP_ENV') == 'local' ? App\Providers\LogRequestServiceProvider::class : App\Providers\EmptyServiceProvider::class,

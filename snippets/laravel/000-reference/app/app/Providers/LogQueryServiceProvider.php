@@ -16,16 +16,14 @@ class LogQueryServiceProvider extends ServiceProvider
      */
     public function boot()
     {       
-        if (App::environment('local')) {
-            DB::listen(function ($query) {
-                $requestUid = config('requestUid', null);
-                Log::channel('query')->info("Query", [
-                    'requestUid' => $requestUid,
-                    'sql' => $query->sql,
-                    'bindings' => $query->bindings,
-                    'time' => $query->time,
-                ]);
-            });
-        }
+        DB::listen(function ($query) {
+            $requestUid = config('requestUid', null);
+            Log::channel('query')->info("Query", [
+                'requestUid' => $requestUid,
+                'sql' => $query->sql,
+                'bindings' => $query->bindings,
+                'time' => $query->time,
+            ]);
+        });
     }
 }

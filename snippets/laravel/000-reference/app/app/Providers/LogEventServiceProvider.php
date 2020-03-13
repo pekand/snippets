@@ -17,24 +17,19 @@ class LogEventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        parent::boot();
+        Event::listen('*', function ($eventName, array $data) {   
+            // skip log event (prevent infinite loop)
+            if($eventName === 'Illuminate\Log\Events\MessageLogged'){
+                return;
+            }
 
-        if (App::environment('local')) {
-            Event::listen('*', function ($eventName, array $data) {   
-                // skip log event (prevent infinite loop)
-                if($eventName === 'Illuminate\Log\Events\MessageLogged'){
-                    return;
-                }
+            $requestUid = config('requestUid');
 
-                $requestUid = config('requestUid');
+            Log::channel('events')->info("Event", [
+                'requestUid' => $requestUid,
+                'eventName' => $eventName,
+            ]);
 
-                Log::channel('events')->info("Event", [
-                    'requestUid' => $requestUid,
-                    'eventName' => $eventName,
-                    'data' => $data,
-                ]);
-
-            });
-        }
+        });
     }
 }

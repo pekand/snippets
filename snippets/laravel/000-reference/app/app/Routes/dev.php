@@ -25,29 +25,9 @@ Route::group(['middleware' => ['auth', 'web']], function()
 
 });
 
-/* log */
-Route::group(['middleware' => ['auth', 'web']], function()
-{
-    Route::get('/dev/log', 'Logging@main');
-});
-
-/* errors handling */
-Route::group(['middleware' => ['auth', 'web']], function()
-{
-    Route::get('/dev/errors', 'Errors@main');
-});
-
-/* Services */
-Route::group(['middleware' => ['auth', 'web']], function()
-{
-    Route::get('/dev/services', 'Services@main');
-});
-
-/* Services */
-Route::group(['middleware' => ['auth', 'web']], function()
-{
-    Route::get('/dev/events', 'Events@main');
-});
+/* 
+    Getting Started 
+*/
 
 /* Configuration */
 Route::group(['middleware' => ['auth', 'web']], function()
@@ -55,22 +35,84 @@ Route::group(['middleware' => ['auth', 'web']], function()
     Route::get('/dev/configuration', 'Configuration@show');
 });
 
+
+/* 
+    Architecture Concepts 
+*/
+
+/* Services */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/services', 'Services@main');
+});
+
+/* Facades */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/facades', 'Facades@main');
+});
+
+/* Contracts */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/contracts', 'Contracts@main');
+});
+
+/* 
+    The Basics 
+*/
+
+/* errors handling */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/session', 'Session@main');
+});
+
+/* errors handling */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/errors', 'Errors@main');
+    Route::get('/dev/errors/404', 'Errors@error404');
+    Route::get('/dev/errors/500', 'Errors@error500');
+});
+
+/* log */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/log', 'Logging@main');
+});
+
+/* 
+    Frontend 
+*/
+
+/* 
+    Security 
+*/
+
+/* 
+    Digging Deeper 
+*/
+
+
 /* Commands */
 Route::group(['middleware' =>['auth', 'web']], function()
 {
     Route::get('/dev/commands', 'Commands@main');
 });
 
-/* Fluent */
+/* cache */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/db/fluent', 'Fluent@test');
+    Route::get('/dev/cache', 'Caching@main');
+    Route::get('/dev/cache/locks', 'Caching@locks');
+    Route::get('/dev/cache/tags', 'Caching@tags');
 });
 
-/* Eloquent */
+/* Events */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/db/eloquent', 'Eloquent@test');
+    Route::get('/dev/events', 'Events@main');
 });
 
 /* File Storage */
@@ -90,6 +132,34 @@ Route::group(['middleware' => ['auth', 'web']], function()
 
 });
 
+
+/* Events */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/helpers', 'Helpers@main');
+});
+
+/* 
+    Database 
+*/
+
+/* Fluent */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/db/fluent', 'Fluent@test');
+});
+
+/* Eloquent ORM */
+
+/* Eloquent */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/db/eloquent', 'Eloquent@test');
+});
+
+/* 
+    Testing 
+*/
 
 /* Unit Tests - tools */
 Route::group(['middleware' => ['auth', 'web']], function()
