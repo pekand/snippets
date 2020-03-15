@@ -155,7 +155,7 @@ class RouterTest extends TestCase
 
     public function testCheckRouteAsUser()
     {
-        $user = factory(\App\Models\User::class)->create();
+        $user = factory(\App\Models\Users\User::class)->create();
 
         $response = $this->actingAs($user)->get('/');
 

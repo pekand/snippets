@@ -16,6 +16,6 @@ class LogRequestServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->make(\Illuminate\Contracts\Http\Kernel::class)->pushMiddleware(\App\Http\Middleware\LogRequestMiddleware::class);
+        $this->app->make(\Illuminate\Contracts\Http\Kernel::class)->pushMiddleware(\App\Middleware\LogRequestMiddleware::class);
     }
 }

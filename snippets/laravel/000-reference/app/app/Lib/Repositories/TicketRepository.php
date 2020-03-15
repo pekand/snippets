@@ -2,6 +2,8 @@
 
 namespace App\Lib\Repositories;
 
+use App\Models\Tickets\Ticket;
+
 class TicketRepository implements Repository
 {
     public function __construct($param = "") {
@@ -9,7 +11,7 @@ class TicketRepository implements Repository
     }
 
     public function getTickets() {
-        $tickets = \App\Models\Ticket::with(['status'])->get();
+        $tickets = Ticket::with(['status'])->get();
         return $tickets;
     }
 

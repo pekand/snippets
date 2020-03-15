@@ -7,28 +7,21 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Http\Request;
 use Illuminate\Session\DatabaseSessionHandler;
 use Illuminate\Support\Facades\Log;
+use SessionHandlerInterface;
 
-class CustomSessionHandler implements \SessionHandlerInterface
+class CustomSessionHandler extends DatabaseSessionHandler implements SessionHandlerInterface
 {
     private $sessionHandler = null;
 
     public function __construct(ConnectionInterface $connection, $table, $minutes, Container $container = null, Request $request)
     {
-        $this->sessionHandler = new DatabaseSessionHandler($connection, $table, $minutes, $container);
+        parent::__construct($connection, $table, $minutes, $container);
         $this->request = $request;
-    }
-
-    public function open($savePath, $sessionName) {
-        return $this->sessionHandler->open($savePath, $sessionName);
-    }
-
-    public function close() {
-        return $this->sessionHandler->close();
     }
 
     public function read($sessionId) {
         Log::channel('session')->info("Session read", []);
-        return $this->sessionHandler->read($sessionId);
+        return parent::read($sessionId);
     }
 
     public function write($sessionId, $data) {
@@ -38,14 +31,6 @@ class CustomSessionHandler implements \SessionHandlerInterface
             'session' => $this->request->session()->all(),
         ]);
 
-        return $this->sessionHandler->write($sessionId, $data);
-    }
-
-    public function destroy($sessionId) {
-        return $this->sessionHandler->destroy($sessionId);
-    }
-
-    public function gc($lifetime) {
-        $this->sessionHandler->gc($lifetime);
+        return parent::write($sessionId, $data);
     }
 }

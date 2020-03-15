@@ -7,7 +7,7 @@ use App\Lib\Repositories\UserRepository;
 use App\Lib\Repositories\UserRepositoryContract;
 use App\Lib\Repositories\TicketRepository;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use App\Http\Controllers\Dev\Services;
+use App\Controllers\Dev\Services;
 use App\Lib\Repositories\TaggedRepository;
 
 /*
@@ -85,14 +85,14 @@ class RepositoryProvider extends ServiceProvider implements DeferrableProvider
         /* Contextual Binding */
 
         // overide object injection to constructor for specific class
-        $this->app->when(['App\Http\Controllers\Dev\Services'])
+        $this->app->when(['App\Controllers\Dev\Services'])
             ->needs('App\Lib\Repositories\TicketRepository')
             ->give(function () {
                 return new \App\Lib\Repositories\TicketRepository("name4");
             });
 
         // bind primitive value to constructor
-        $this->app->when(['App\Http\Controllers\Dev\Services'])
+        $this->app->when(['App\Controllers\Dev\Services'])
             ->needs('$primitiveValue')
             ->give(5);
 

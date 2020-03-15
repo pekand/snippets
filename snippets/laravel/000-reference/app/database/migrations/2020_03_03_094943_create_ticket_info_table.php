@@ -22,6 +22,7 @@ class CreateTicketInfoTable extends Migration
             $table->unsignedBigInteger('views')
                 ->default(0);
             
+            $table->softDeletes();
             $table->timestamps();
         });
     }

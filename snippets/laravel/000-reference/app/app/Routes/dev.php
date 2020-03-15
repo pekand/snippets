@@ -16,13 +16,14 @@ Route::get('/dev/', 'Dev@show')->middleware(['auth', 'web']);
 
 /* tools */
 
-Route::group(['middleware' => ['auth', 'web']], function()
+Route::group(['middleware' => [ 'web']], function()
 {
     Route::get('/dev/info', 'Dev@info');
     Route::get('/dev/env', 'Dev@env');
     Route::get('/dev/server', 'Dev@server');
+    Route::get('/dev/session', 'Dev@session');
     Route::get('/dev/csfr', 'Dev@csfr');
-
+    Route::get('/dev/user', 'Dev@user');
 });
 
 /* 
@@ -32,7 +33,7 @@ Route::group(['middleware' => ['auth', 'web']], function()
 /* Configuration */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/configuration', 'Configuration@show');
+    Route::get('/dev/examples/configuration', 'Configuration@show');
 });
 
 
@@ -43,19 +44,19 @@ Route::group(['middleware' => ['auth', 'web']], function()
 /* Services */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/services', 'Services@main');
+    Route::get('/dev/examples/services', 'Services@main');
 });
 
 /* Facades */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/facades', 'Facades@main');
+    Route::get('/dev/examples/facades', 'Facades@main');
 });
 
 /* Contracts */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/contracts', 'Contracts@main');
+    Route::get('/dev/examples/contracts', 'Contracts@main');
 });
 
 /* 
@@ -65,26 +66,42 @@ Route::group(['middleware' => ['auth', 'web']], function()
 /* errors handling */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/session', 'Session@main');
+    Route::get('/dev/examples/session', 'Session@main');
 });
 
 /* errors handling */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/errors', 'Errors@main');
-    Route::get('/dev/errors/404', 'Errors@error404');
-    Route::get('/dev/errors/500', 'Errors@error500');
+    Route::get('/dev/examples/errors', 'Errors@main');
+    Route::get('/dev/examples/errors/404', 'Errors@error404');
+    Route::get('/dev/examples/errors/500', 'Errors@error500');
 });
 
 /* log */
 Route::group(['middleware' => ['auth', 'web']], function()
 {
-    Route::get('/dev/log', 'Logging@main');
+    Route::get('/dev/examples/log', 'Logging@main');
 });
 
 /* 
     Frontend 
 */
+
+/* blade */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/examples/blade/comment', 'Blade@comment');
+    Route::get('/dev/examples/blade/variables', 'Blade@variables');
+    Route::get('/dev/examples/blade/section', 'Blade@section');
+    Route::get('/dev/examples/blade/components', 'Blade@components');
+    Route::get('/dev/examples/blade/phpblock', 'Blade@phpblock');
+    Route::get('/dev/examples/blade/json', 'Blade@json');
+    Route::get('/dev/examples/blade/control', 'Blade@control');
+    Route::get('/dev/examples/blade/form', 'Blade@form');
+    Route::post('/dev/examples/blade/form', 'Blade@formSave');
+    Route::post('/dev/examples/blade/form2', 'Blade@form2Save');
+    
+});
 
 /* 
     Security 

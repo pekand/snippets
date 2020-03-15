@@ -3,6 +3,7 @@
 namespace App\Lib\Repositories;
 
 use Illuminate\Support\Facades\Log;
+use App\Models\Users\User;
 
 class UserRepository implements UserRepositoryContract
 {
@@ -11,7 +12,7 @@ class UserRepository implements UserRepositoryContract
     }
 
     public function getUsers() {
-        $users = \App\Models\User::get();
+        $users = User::get();
 
         Log::info("Request ".$requestUid);
 
