@@ -49,8 +49,14 @@ class User extends Authenticatable
     }
 
     // relation 1:N
-    public function tickets()
+    public function assignedTickets()
     {
         return $this->hasMany(Ticket::class, 'assigned_id'); //foregin_key in other table
+    }
+
+    // relation 1:N
+    public function ownedTickets()
+    {
+        return $this->hasMany(Ticket::class, 'owner_id'); //foregin_key in other table
     }
 }

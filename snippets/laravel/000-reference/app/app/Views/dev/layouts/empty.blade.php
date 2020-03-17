@@ -1,5 +1,5 @@
 @extends('dev/templates/template')
 
-@section('body')<main>@yield('content')</main>@endsection
+@section('body')<main>@yield('main')</main>@endsection
 
 

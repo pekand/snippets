@@ -1,6 +1,6 @@
 @extends('dev/layouts/empty')
 
-@section('content')
+@section('main')
 
     @if (count($records) === 1)
         I have one record!<br>

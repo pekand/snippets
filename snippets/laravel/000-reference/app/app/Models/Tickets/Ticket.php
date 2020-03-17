@@ -15,8 +15,13 @@ class Ticket extends Model
     protected $with = ['status']; // alweys preload status relation
 
     protected $fillable = [
-        'name', 'description', 'ticket_status_id'
+        'name', 'description', 'ticket_status_id', 'assigned_id'
     ];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id'); //foregin_key in current table
+    }
 
     public function assigned()
     {
@@ -45,7 +50,7 @@ class Ticket extends Model
     {
         return $this->belongsToMany(User::class, 'ticket_watchers', 'ticket_id', 'watcher_id')
             ->wherePivot('active', 1) // filters (wherePivotIn, wherePivotNotIn)
-            ->as('subscription') // rename pivot to subscription
+            ->as('subscription') // rename 'pivot' variable  to 'subscription'
             ->withPivot('active') // columns on pivot table
             ->withTimestamps();
     }

@@ -1,6 +1,6 @@
 @extends('dev/layouts/empty')
 
-@section('content')
+@section('main')
 
     <h1>Add ticket</h1>
     <form name="ticket" class="form1" method="POST" action="/dev/blade/form">

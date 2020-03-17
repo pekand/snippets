@@ -1,6 +1,6 @@
 @extends('dev/layouts/empty')
 
-@section('content')
+@section('main')
     <h1>{{ $pageHeader }}</h1> {{-- use htmlspecialchars --}}  
 
     <h2>{{ now() }}</h2>

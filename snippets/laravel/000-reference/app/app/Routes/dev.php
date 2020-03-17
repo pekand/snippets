@@ -92,14 +92,22 @@ Route::group(['middleware' => ['auth', 'web']], function()
 {
     Route::get('/dev/examples/blade/comment', 'Blade@comment');
     Route::get('/dev/examples/blade/variables', 'Blade@variables');
-    Route::get('/dev/examples/blade/section', 'Blade@section');
+    Route::get('/dev/examples/blade/extend', 'Blade@extend');
+    Route::get('/dev/examples/blade/include', 'Blade@include');
     Route::get('/dev/examples/blade/components', 'Blade@components');
     Route::get('/dev/examples/blade/phpblock', 'Blade@phpblock');
     Route::get('/dev/examples/blade/json', 'Blade@json');
     Route::get('/dev/examples/blade/control', 'Blade@control');
+    Route::get('/dev/examples/blade/aliasing', 'Blade@aliasing');
+    Route::get('/dev/examples/blade/collection', 'Blade@collection');
+    Route::get('/dev/examples/blade/stacks', 'Blade@stacks');
+    Route::get('/dev/examples/blade/injection', 'Blade@injection');
+    Route::get('/dev/examples/blade/extending', 'Blade@extending');
+
     Route::get('/dev/examples/blade/form', 'Blade@form');
     Route::post('/dev/examples/blade/form', 'Blade@formSave');
     Route::post('/dev/examples/blade/form2', 'Blade@form2Save');
+
     
 });
 

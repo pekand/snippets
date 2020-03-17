@@ -1,6 +1,6 @@
 @extends('dev/layouts/empty')
 
-@section('content')
+@section('main')
     @php
         phpinfo();
     @endphp

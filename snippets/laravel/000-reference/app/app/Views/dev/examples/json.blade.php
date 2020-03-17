@@ -1,6 +1,6 @@
 @extends('dev/layouts/empty')
 
-@section('content')
+@section('main')
     <script>
         var data = @json($data, JSON_PRETTY_PRINT);
     </script>

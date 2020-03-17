@@ -1,6 +1,6 @@
 @extends('dev/layouts/empty')
 
-@section('content')
+@section('main')
     @component('dev/components/alert', ['extraInfo' => 'extra info'])
         @slot('title')
             info

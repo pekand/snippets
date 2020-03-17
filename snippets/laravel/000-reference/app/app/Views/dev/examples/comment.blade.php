@@ -2,7 +2,7 @@
 
 @section('title', 'Comment')
 
-@section('content')
+@section('main')
 {{-- comment --}}
 @endsection
 

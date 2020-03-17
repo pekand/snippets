@@ -33,9 +33,45 @@ class Blade extends Controller
         return view('dev/examples/components');
     }
 
-    public function section(Request $request)
+    public function extend(Request $request)
     {
         return view('dev/examples/extend');
+    }
+
+    public function include(Request $request)
+    {
+        return view('dev/examples/include');
+    }
+
+    public function aliasing(Request $request)
+    {
+        return view('dev/examples/aliasing');
+    }
+
+    public function extending(Request $request)
+    {
+        return view('dev/examples/extending', [
+            'time' => new \DateTime(),
+        ]);
+    }
+
+    public function collection(Request $request)
+    {
+        $users = User::get();
+
+        return view('dev/examples/collection', [
+            'users' => $users,
+        ]);
+    }
+
+    public function stacks(Request $request)
+    {
+        return view('dev/examples/stacks', []);
+    }
+
+    public function injection(Request $request)
+    {
+        return view('dev/examples/injection', []);
     }
 
     public function phpblock(Request $request)
