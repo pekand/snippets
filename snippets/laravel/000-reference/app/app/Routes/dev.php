@@ -157,6 +157,12 @@ Route::group(['middleware' => ['auth', 'web']], function()
 
 });
 
+/* Packages */
+Route::group(['middleware' => ['auth', 'web']], function()
+{
+    Route::get('/dev/packages', 'Packages@main');
+});
+
 
 /* Events */
 Route::group(['middleware' => ['auth', 'web']], function()

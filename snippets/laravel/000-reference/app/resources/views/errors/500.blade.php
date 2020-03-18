@@ -1,2 +1,5 @@
-<h1>custom 500 error</h1>
-<h2>{{ $exception->getMessage() }}</h2>
+@extends('errors::minimal')
+
+@section('title', __('Server Error'))
+@section('code', '500')
+@section('message', __('Server Error'))

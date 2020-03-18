@@ -39,7 +39,7 @@ return [
             'driver' => 'stack',
             'channels' => [
                 'single', //default logger
-                'custom',
+                //'custom',
             ],
             'ignore_exceptions' => false,
         ],
@@ -103,44 +103,9 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
-        'query' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/laravel.access.log'),
-            'level' => 'debug',
-        ],
-
-        'access' => [ // bind in LogMiddleware
-            'driver' => 'single',
-            'path' => storage_path('logs/laravel.access.log'),
-            'level' => 'debug',
-        ],
-
-        'session' => [ // bind in LogMiddleware
-            'driver' => 'single',
-            'path' => storage_path('logs/laravel.session.log'),
-            'level' => 'debug',
-        ],
-
-        'query' => [ // bind in QueryServiceProvider
-            'driver' => 'single',
-            'path' => storage_path('logs/laravel.query.log'),
-            'level' => 'debug',
-        ],
-
-        'events' => [ // bind in EventServiceProvider
-            'driver' => 'single',
-            'path' => storage_path('logs/laravel.events.log'),
-            'level' => 'debug',
-        ],
-
-        'cache' => [ // bind in EventServiceProvider
-            'driver' => 'single',
-            'path' => storage_path('logs/laravel.cache.log'),
-            'level' => 'debug',
-        ],
         'custom' => [
             'driver' => 'custom',
-            'via' => App\Lib\Logging\CreateCustomLogger::class,
+            'via' => \App\Lib\Logging\CreateCustomLogger::class,
             'tap' => [\App\Lib\Logging\CustomizeFormatter::class], // custom log formatter
             'emoji'    => ':gear:',
             'path' => storage_path('logs/laravel.custom.log'),

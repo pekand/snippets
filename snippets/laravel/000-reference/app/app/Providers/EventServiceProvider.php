@@ -32,8 +32,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [
-        'App\Listeners\TicketEventSubscriber',
-        'App\Listeners\CacheEventSubscriber',
+        'App\Listeners\TicketEventSubscriber'
     ];
 
     /**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc1712873349202c94649551395ee00d",
+    "content-hash": "7e45b3472b508465ff2336314214ab84",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1402,6 +1402,48 @@
                 "random"
             ],
             "time": "2018-07-02T15:55:56+00:00"
+        },
+        {
+            "name": "pekand/detailog",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/pekand/detaillog",
+                "reference": "41dba2adb6029ac5f4060c86f768666c5c4b231f"
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pekand\\DetailLog\\Providers\\DetailLogServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pekand\\DetailLog\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrej Pekar",
+                    "email": "pekand@gmail.com"
+                }
+            ],
+            "description": "Detail log",
+            "keywords": [
+                "log"
+            ]
         },
         {
             "name": "phpoption/phpoption",
@@ -3241,6 +3283,50 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2019-10-24T08:53:34+00:00"
+        },
+        {
+            "name": "vendor/package",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/vendor/package",
+                "reference": "bfdca9113af2395918052c9dafcc0b96f036ef1e"
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vendor\\Package\\Providers\\PackageServiceProvider"
+                    ],
+                    "aliases": {
+                        "PackageFacade": "Vendor\\Package\\Facades\\PackageFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vendor\\Package\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Author",
+                    "email": "author@email.com"
+                }
+            ],
+            "description": "Example of package",
+            "keywords": [
+                "package"
+            ]
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5288,11 +5374,14 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "pekand/detailog": 20,
+        "vendor/package": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2"
+        "php": "^7.4"
     },
     "platform-dev": []
 }
