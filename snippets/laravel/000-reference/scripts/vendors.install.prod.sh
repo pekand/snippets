@@ -1,7 +1,7 @@
 cd $(dirname $0)/../app
 composer install --optimize-autoloader --no-dev
 npm install
-npm run prod
+npm run production
 
 php artisan cache:clear
 php artisan route:clear
