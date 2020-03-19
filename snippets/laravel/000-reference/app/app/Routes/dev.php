@@ -27,15 +27,15 @@ Route::get('/dev/csfr', 'Dev@csfr');
 Route::get('/dev/token', 'Dev@csfr');
 Route::get('/dev/user', 'Dev@user');
 
-/* 
-    Getting Started 
+/*
+    Getting Started
 */
 
 /* Configuration */
 Route::get('/dev/examples/configuration', 'Configuration@show');
 
-/* 
-    Architecture Concepts 
+/*
+    Architecture Concepts
 */
 
 /* Services */
@@ -49,8 +49,8 @@ Route::get('/dev/examples/facades', 'Facades@main');
 /* Contracts */
 Route::get('/dev/examples/contracts', 'Contracts@main');
 
-/* 
-    The Basics 
+/*
+    The Basics
 */
 
 /* errors handling */
@@ -65,8 +65,8 @@ Route::get('/dev/examples/errors/500', 'Errors@error500');
 Route::get('/dev/examples/log', 'Logging@main');
 
 
-/* 
-    Frontend 
+/*
+    Frontend
 */
 
 /* blade */
@@ -92,13 +92,12 @@ Route::get('/dev/examples/localization/{locale}', 'Localization@main');
 Route::get('/dev/examples/localization/{locale}/messages', 'Localization@messages');
 
 /* messages
-    Security 
+    Security
 */
 
-/* 
-    Digging Deeper 
+/*
+    Digging Deeper
 */
-
 
 /* Commands */
 Route::get('/dev/examples/commands', 'Commands@main');
@@ -125,6 +124,7 @@ Route::get('/dev/examples/file/missing', 'File@missing');
 Route::get('/dev/examples/file/url', 'File@fileUrl');
 Route::get('/dev/examples/file/download', 'File@download');
 Route::get('/dev/examples/file/downloadmime', 'File@downloadMime');
+Route::get('/dev/examples/file/uploadform', 'File@uploadForm');
 
 /* Packages */
 Route::get('/dev/examples/packages', 'Packages@main');
@@ -132,8 +132,8 @@ Route::get('/dev/examples/packages', 'Packages@main');
 /* Events */
 Route::get('/dev/examples/helpers', 'Helpers@main');
 
-/* 
-    Database 
+/*
+    Database
 */
 
 /* Fluent */
@@ -144,8 +144,8 @@ Route::get('/dev/examples/db/fluent', 'Fluent@test');
 /* Eloquent */
 Route::get('/dev/examples/db/eloquent', 'Eloquent@test');
 
-/* 
-    Testing 
+/*
+    Testing
 */
 
 /* Unit Tests - tools */

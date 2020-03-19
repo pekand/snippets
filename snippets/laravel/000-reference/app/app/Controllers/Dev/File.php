@@ -76,16 +76,24 @@ class File extends Controller
         // header X-CSRF-TOKEN (token is bonded to session => generate token with /dev/token)
 
         $file = $request->file('file');
+
+        if($file === null) {
+            return [];
+        }
+
         $filename = Storage::putFile('documents', $file);
 
         return [
             "fileinfo" => [
+                'hashName' => $file->hashName(),
+                'storage' => 'documents',
                 'filename' => $filename,
                 'originalFilename' => $file->getClientOriginalName(),
                 'extension' => $file->getClientOriginalExtension(),
                 'path' => $file->getRealPath(),
                 'size' => $file->getSize(),
                 'mime' => $file->getMimeType(),
+                'content' => Storage::disk('documents')->get($file->hashName()),
             ]
         ];
     }
@@ -160,6 +168,17 @@ class File extends Controller
         ];
 
         return Storage::download('file.txt', "test.txt", $headers);
+    }
+
+    public function uploadForm(Request $request)
+    {
+        Storage::disk('documents')->put('file.txt', 'Contents');
+
+        $headers = [
+            'Content-Type: text/plain',
+        ];
+
+        return view('dev/controllers.file/uploadForm');
     }
 
 }
