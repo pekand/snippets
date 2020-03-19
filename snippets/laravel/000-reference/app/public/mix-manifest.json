@@ -1,4 +1,6 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/app-bootstrap.js": "/js/app-bootstrap.js",
+    "/css/app.css": "/css/app.css",
+    "/js/app-react.js": "/js/app-react.js",
+    "/js/app-vue.js": "/js/app-vue.js"
 }

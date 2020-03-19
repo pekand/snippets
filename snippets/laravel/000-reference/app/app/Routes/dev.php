@@ -19,50 +19,50 @@ Route::get('/dev/', 'Dev@show')->middleware(['auth', 'web']);
 Route::group(['middleware' => [ 'web']], function()
 {
 
-Route::get('/dev/info', 'Dev@info');
-Route::get('/dev/env', 'Dev@env');
-Route::get('/dev/server', 'Dev@server');
-Route::get('/dev/session', 'Dev@session');
-Route::get('/dev/csfr', 'Dev@csfr');
-Route::get('/dev/token', 'Dev@csfr');
-Route::get('/dev/user', 'Dev@user');
+Route::get('/info/info', 'Info@info');
+Route::get('/info/env', 'Info@env');
+Route::get('/info/server', 'Info@server');
+Route::get('/info/session', 'Info@session');
+Route::get('/info/csfr', 'Info@csfr');
+Route::get('/info/token', 'Info@csfr');
+Route::get('/info/user', 'Info@user');
 
 /*
     Getting Started
 */
 
 /* Configuration */
-Route::get('/dev/examples/configuration', 'Configuration@show');
+Route::get('/dev/configuration', 'Configuration@show');
 
 /*
     Architecture Concepts
 */
 
 /* Services */
-Route::get('/dev/examples/services', 'Services@main');
+Route::get('/dev/services', 'Services@main');
 
 
 /* Facades */
-Route::get('/dev/examples/facades', 'Facades@main');
+Route::get('/dev/facades', 'Facades@main');
 
 
 /* Contracts */
-Route::get('/dev/examples/contracts', 'Contracts@main');
+Route::get('/dev/contracts', 'Contracts@main');
 
 /*
     The Basics
 */
 
 /* errors handling */
-Route::get('/dev/examples/session', 'Session@main');
+Route::get('/dev/session', 'Session@main');
 
 /* errors handling */
-Route::get('/dev/examples/errors', 'Errors@main');
-Route::get('/dev/examples/errors/404', 'Errors@error404');
-Route::get('/dev/examples/errors/500', 'Errors@error500');
+Route::get('/dev/errors', 'Errors@main');
+Route::get('/dev/errors/404', 'Errors@error404');
+Route::get('/dev/errors/500', 'Errors@error500');
 
 /* log */
-Route::get('/dev/examples/log', 'Logging@main');
+Route::get('/dev/log', 'Logging@main');
 
 
 /*
@@ -70,28 +70,36 @@ Route::get('/dev/examples/log', 'Logging@main');
 */
 
 /* blade */
-Route::get('/dev/examples/blade/comment', 'Blade@comment');
-Route::get('/dev/examples/blade/variables', 'Blade@variables');
-Route::get('/dev/examples/blade/extend', 'Blade@extend');
-Route::get('/dev/examples/blade/include', 'Blade@include');
-Route::get('/dev/examples/blade/components', 'Blade@components');
-Route::get('/dev/examples/blade/phpblock', 'Blade@phpblock');
-Route::get('/dev/examples/blade/json', 'Blade@json');
-Route::get('/dev/examples/blade/control', 'Blade@control');
-Route::get('/dev/examples/blade/aliasing', 'Blade@aliasing');
-Route::get('/dev/examples/blade/collection', 'Blade@collection');
-Route::get('/dev/examples/blade/stacks', 'Blade@stacks');
-Route::get('/dev/examples/blade/injection', 'Blade@injection');
-Route::get('/dev/examples/blade/extending', 'Blade@extending');
-Route::get('/dev/examples/blade/form', 'Blade@form');
-Route::post('/dev/examples/blade/form', 'Blade@formSave');
-Route::post('/dev/examples/blade/form2', 'Blade@form2Save');
+Route::get('/dev/blade/comment', 'Blade@comment');
+Route::get('/dev/blade/variables', 'Blade@variables');
+Route::get('/dev/blade/extend', 'Blade@extend');
+Route::get('/dev/blade/include', 'Blade@include');
+Route::get('/dev/blade/components', 'Blade@components');
+Route::get('/dev/blade/phpblock', 'Blade@phpblock');
+Route::get('/dev/blade/json', 'Blade@json');
+Route::get('/dev/blade/control', 'Blade@control');
+Route::get('/dev/blade/aliasing', 'Blade@aliasing');
+Route::get('/dev/blade/collection', 'Blade@collection');
+Route::get('/dev/blade/stacks', 'Blade@stacks');
+Route::get('/dev/blade/injection', 'Blade@injection');
+Route::get('/dev/blade/extending', 'Blade@extending');
+Route::get('/dev/blade/form', 'Blade@form');
+Route::post('/dev/blade/form', 'Blade@formSave');
+Route::post('/dev/blade/form2', 'Blade@form2Save');
 
 /* localization */
-Route::get('/dev/examples/localization/{locale}', 'Localization@main');
-Route::get('/dev/examples/localization/{locale}/messages', 'Localization@messages');
+Route::get('/dev/localization/{locale}', 'Localization@main');
+Route::get('/dev/localization/{locale}/messages', 'Localization@messages');
 
-/* messages
+
+/* Frontend Scaffolding */
+Route::get('/dev/scaffolding/bootstrap', 'Scaffolding@bootstrap');
+Route::get('/dev/scaffolding/vue', 'Scaffolding@vue');
+Route::get('/dev/scaffolding/react', 'Scaffolding@react');
+
+/* Compiling Assets (Mix) */
+
+/*
     Security
 */
 
@@ -100,60 +108,60 @@ Route::get('/dev/examples/localization/{locale}/messages', 'Localization@message
 */
 
 /* Commands */
-Route::get('/dev/examples/commands', 'Commands@main');
+Route::get('/dev/commands', 'Commands@main');
 
 /* cache */
-Route::get('/dev/examples/cache', 'Caching@main');
-Route::get('/dev/examples/cache/locks', 'Caching@locks');
-Route::get('/dev/examples/cache/tags', 'Caching@tags');
+Route::get('/dev/cache', 'Caching@main');
+Route::get('/dev/cache/locks', 'Caching@locks');
+Route::get('/dev/cache/tags', 'Caching@tags');
 
 
 /* Events */
-Route::get('/dev/examples/events', 'Events@main');
+Route::get('/dev/events', 'Events@main');
 
 
 /* File Storage */
-Route::get('/dev/examples/file', 'File@main');
-Route::get('/dev/examples/file/files', 'File@files');
-Route::get('/dev/examples/file/create', 'File@create');
-Route::get('/dev/examples/file/operations', 'File@operations');
-Route::post('/dev/examples/file/upload', 'File@uploadFile');
-Route::post('/dev/examples/file/upload2', 'File@uploadFile2');
-Route::post('/dev/examples/file/upload3', 'File@uploadFile3');
-Route::get('/dev/examples/file/missing', 'File@missing');
-Route::get('/dev/examples/file/url', 'File@fileUrl');
-Route::get('/dev/examples/file/download', 'File@download');
-Route::get('/dev/examples/file/downloadmime', 'File@downloadMime');
-Route::get('/dev/examples/file/uploadform', 'File@uploadForm');
+Route::get('/dev/file', 'File@main');
+Route::get('/dev/file/files', 'File@files');
+Route::get('/dev/file/create', 'File@create');
+Route::get('/dev/file/operations', 'File@operations');
+Route::post('/dev/file/upload', 'File@uploadFile');
+Route::post('/dev/file/upload2', 'File@uploadFile2');
+Route::post('/dev/file/upload3', 'File@uploadFile3');
+Route::get('/dev/file/missing', 'File@missing');
+Route::get('/dev/file/url', 'File@fileUrl');
+Route::get('/dev/file/download', 'File@download');
+Route::get('/dev/file/downloadmime', 'File@downloadMime');
+Route::get('/dev/file/uploadform', 'File@uploadForm');
 
 /* Packages */
-Route::get('/dev/examples/packages', 'Packages@main');
+Route::get('/dev/packages', 'Packages@main');
 
 /* Events */
-Route::get('/dev/examples/helpers', 'Helpers@main');
+Route::get('/dev/helpers', 'Helpers@main');
 
 /*
     Database
 */
 
 /* Fluent */
-Route::get('/dev/examples/db/fluent', 'Fluent@test');
+Route::get('/dev/db/fluent', 'Fluent@test');
 
 /* Eloquent ORM */
 
 /* Eloquent */
-Route::get('/dev/examples/db/eloquent', 'Eloquent@test');
+Route::get('/dev/db/eloquent', 'Eloquent@test');
 
 /*
     Testing
 */
 
 /* Unit Tests - tools */
-Route::get('/dev/examples/unit/json', 'Unit@getjson');
-Route::post('/dev/examples/unit/json', 'Unit@getjson');
-Route::get('/dev/examples/unit/json/block', 'Unit@getjsonblock');
-Route::post('/dev/examples/unit/json/block', 'Unit@getjsonblock');
-Route::get('/dev/examples/unit/json/upload', 'Unit@uploadFile');
-Route::post('/dev/examples/unit/json/upload', 'Unit@uploadFile');
+Route::get('/dev/unit/json', 'Unit@getjson');
+Route::post('/dev/unit/json', 'Unit@getjson');
+Route::get('/dev/unit/json/block', 'Unit@getjsonblock');
+Route::post('/dev/unit/json/block', 'Unit@getjsonblock');
+Route::get('/dev/unit/json/upload', 'Unit@uploadFile');
+Route::post('/dev/unit/json/upload', 'Unit@uploadFile');
 
 });

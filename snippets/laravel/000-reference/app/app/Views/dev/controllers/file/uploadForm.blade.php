@@ -3,7 +3,7 @@
 @section('main')
 
     <h1>Upload file</h1>
-    <form name="ticket" class="form1" method="POST" action="/dev/examples/file/upload" enctype="multipart/form-data">
+    <form name="ticket" class="form1" method="POST" action="/dev/file/upload" enctype="multipart/form-data">
         @csrf
         @method('POST')
 

@@ -16,7 +16,7 @@ class Localization extends Controller
     {
         App::setLocale($locale);
 
-        return view('dev/examples/localization');
+        return view('dev/controllers/localization/localization');
     }
 
     public function messages(Request $request, $locale)

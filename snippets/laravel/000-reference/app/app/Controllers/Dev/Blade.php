@@ -18,39 +18,39 @@ class Blade extends Controller
 {
     public function comment(Request $request)
     {
-        return view('dev/examples/comment');
+        return view('dev/controllers/comment');
     }
 
     public function variables(Request $request)
     {
-        return view('dev/examples/variables', [
+        return view('dev/controllers/variables', [
             'pageHeader' => 'Blade',
         ]);
     }
 
     public function components(Request $request)
     {
-        return view('dev/examples/components');
+        return view('dev/controllers/components');
     }
 
     public function extend(Request $request)
     {
-        return view('dev/examples/extend');
+        return view('dev/controllers/extend');
     }
 
     public function include(Request $request)
     {
-        return view('dev/examples/include');
+        return view('dev/controllers/include');
     }
 
     public function aliasing(Request $request)
     {
-        return view('dev/examples/aliasing');
+        return view('dev/controllers/aliasing');
     }
 
     public function extending(Request $request)
     {
-        return view('dev/examples/extending', [
+        return view('dev/controllers/extending', [
             'time' => new \DateTime(),
         ]);
     }
@@ -59,29 +59,29 @@ class Blade extends Controller
     {
         $users = User::get();
 
-        return view('dev/examples/collection', [
+        return view('dev/controllers/collection', [
             'users' => $users,
         ]);
     }
 
     public function stacks(Request $request)
     {
-        return view('dev/examples/stacks', []);
+        return view('dev/controllers/stacks', []);
     }
 
     public function injection(Request $request)
     {
-        return view('dev/examples/injection', []);
+        return view('dev/controllers/injection', []);
     }
 
     public function phpblock(Request $request)
     {
-        return view('dev/examples/phpblock');
+        return view('dev/controllers/phpblock');
     }
 
     public function json(Request $request)
     {
-        return view('dev/examples/json', [
+        return view('dev/controllers/json', [
             'data' => [
                 'param1' => 'value1',
                 'param2' => 'value2'
@@ -93,7 +93,7 @@ class Blade extends Controller
     {
         $users = User::get();
 
-        return view('dev/examples/control', [
+        return view('dev/controllers/control', [
             'num' => 1,
             'users' => $users,
             'records' => [
@@ -108,7 +108,7 @@ class Blade extends Controller
         $ticket = Ticket::find(1);
         $ticketComment = TicketComment::find(1);
 
-        return view('dev/examples/form', [
+        return view('dev/controllers/form', [
             'ticket' => $ticket,
             'ticketComment' => $ticketComment,
         ]);
