@@ -21,10 +21,12 @@ class Packages extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function main(Request $request)
     {
-       PackageFacade::action();
+        return  [
+            'callActionFromCustomPackage' => PackageFacade::action()
+        ];
     }
 
 }

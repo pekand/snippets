@@ -73,7 +73,7 @@ class File extends Controller
 
     public function uploadFile(Request $request)
     {
-        // header X-CSRF-TOKEN
+        // header X-CSRF-TOKEN (token is bonded to session => generate token with /dev/token)
 
         $file = $request->file('file');
         $filename = Storage::putFile('documents', $file);

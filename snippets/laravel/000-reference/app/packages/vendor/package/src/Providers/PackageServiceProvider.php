@@ -113,7 +113,7 @@ class PackageServiceProvider extends ServiceProvider
 
         // publish seeds to main seed directory (php artisan vendor:publish --tag=lang)
         $this->publishes([
-            __DIR__.'/../../resources/lang' => base_path('resources/lang')
+            __DIR__.'/../../resources/lang' => base_path('resources/lang/vendor/package')
         ], 'lang');
 
         $this->loadFactoriesFrom(__DIR__.'/../../database/factories');

@@ -5,7 +5,6 @@ namespace Pekand\DetailLog\Providers;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-
 use Pekand\DetailLog\Services\DetailLog;
 
 class DetailLogServiceProvider extends ServiceProvider

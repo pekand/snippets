@@ -19,9 +19,9 @@ class RouterTest extends TestCase
     protected function setUp(): void
     {
          parent::setUp();
-         DB::statement('SET FOREIGN_KEY_CHECKS = 0');    
+         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
          Artisan::call('migrate:reset --force');
-         Artisan::call('migrate --force --seed');  
+         Artisan::call('migrate --force --seed');
          DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 
@@ -29,32 +29,32 @@ class RouterTest extends TestCase
     {
         $this->assertDatabaseHas('users', [
             'email' => 'admin@admin',
-        ]);       
+        ]);
     }
 
     public function testCheckRouteStatus()
     {
         //App::environment(); //testing
 
-        $response = $this->get('/dev/unit/json');
+        $response = $this->get('/dev/examples/unit/json');
 
         //$response->dumpHeaders();
         //$response->dumpSession();
         //$response->dump();
 
-        $response->assertStatus(200);        
+        $response->assertStatus(200);
     }
 
     public function testCheckRouteWithCookie()
     {
-        $response = $this->withCookie('cookiname', 'cookievalue')->get('/dev/unit/json');
+        $response = $this->withCookie('cookiname', 'cookievalue')->get('/dev/examples/unit/json');
 
         $response->assertStatus(200);
 
         $response = $this->withCookies([
             'cookiname1' => 'cookievalue',
             'cookiname2' => 'cookievalue',
-        ])->get('/dev/unit/json');
+        ])->get('/dev/examples/unit/json');
 
         $response->assertStatus(200);
     }
@@ -64,7 +64,7 @@ class RouterTest extends TestCase
         $response = $this->withSession([
             'name1' => 'value',
             'name2' => 'value',
-        ])->get('/dev/unit/json');
+        ])->get('/dev/examples/unit/json');
 
         $response->assertStatus(200);
     }
@@ -73,7 +73,7 @@ class RouterTest extends TestCase
     {
         $response = $this->withHeaders([
             'customheader' => 'customValue',
-        ])->get('/dev/unit/json');
+        ])->get('/dev/examples/unit/json');
 
         $response->assertStatus(200);
     }
@@ -81,7 +81,7 @@ class RouterTest extends TestCase
     public function testCheckRouteJson()
     {
         // json with action type
-        $response = $this->json('POST', '/dev/unit/json/block', [
+        $response = $this->json('POST', '/dev/examples/unit/json/block', [
                 'name' => 'value'
             ]
         );
@@ -94,7 +94,7 @@ class RouterTest extends TestCase
 
 
         // partial json respone
-        $response = $this->postJson('/dev/unit/json/block', [
+        $response = $this->postJson('/dev/examples/unit/json/block', [
                 'name' => 'value'
             ]
         );
@@ -106,7 +106,7 @@ class RouterTest extends TestCase
             ]);
 
         // exact json respone
-        $response = $this->postJson('/dev/unit/json/block', [
+        $response = $this->postJson('/dev/examples/unit/json/block', [
                 'name' => 'value'
             ]
         );
@@ -120,8 +120,8 @@ class RouterTest extends TestCase
                 ],
             ]);
 
-        // json path - match value 
-        $response = $this->postJson('/dev/unit/json/block', [
+        // json path - match value
+        $response = $this->postJson('/dev/examples/unit/json/block', [
                 'name' => 'value'
             ]
         );
@@ -139,15 +139,19 @@ class RouterTest extends TestCase
         $avatar = UploadedFile::fake()->image('avatar.jpg', 100, 100)->size(100);
         $file = UploadedFile::fake()->create('document.pdf', 1024, 'application/pdf'); // size in kilobytes and mime type
 
-        $response = $this->json('POST', '/dev/unit/json/file', [
+        $response = $this->json('POST', '/dev/examples/unit/json/upload', [
             'file' => $file,
         ]);
 
-        $response->dump();
+        //$response->dump(); // get debug informations
 
         $response->assertStatus(200);
 
-        Storage::disk('local')->assertExists($file->hashName());
+        Storage::disk('documents')->assertExists($file->hashName());
+
+        if(Storage::disk('documents')->exists($file->hashName())) {
+            Storage::disk('documents')->delete($file->hashName());
+        }
 
        // Storage::disk('avatars')->assertMissing('missing.jpg');
     }
@@ -164,7 +168,7 @@ class RouterTest extends TestCase
 
     public function testCheckAssertationMethods()
     {
-        $response = $this->get('/dev/unit/json');
+        $response = $this->get('/dev/examples/unit/json');
 /*
         $this->assertAuthenticated($guard = null);
         $this->assertGuest($guard = null);

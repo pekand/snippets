@@ -40,12 +40,18 @@ class Unit extends Controller
         ];
     }
 
+    // header X-CSRF-TOKEN (token is bonded to session => generate token with /dev/token)
     public function uploadFile(Request $request)
     {
         $file = $request->file('file');
-        $file->store('documents');
 
-        $contents = Storage::disk('documents')->get($file->getClientOriginalName());
+        if($file === null){
+            return [];
+        }
+
+        $filename = $file->store('documents');
+
+        $contents = Storage::disk('documents')->get($file->hashName());
 
         return [
             "status"=>[
@@ -54,11 +60,14 @@ class Unit extends Controller
             ],
             "fileinfo" => [
                 'filename' => $file->getClientOriginalName(),
+                'hashName' => $file->hashName(),
                 'extension' => $file->getClientOriginalExtension(),
                 'path' => $file->getRealPath(),
                 'size' => $file->getSize(),
                 'mime' => $file->getMimeType(),
-            ]
+            ],
+            "filename" => $filename,
+            "content" => $contents,
         ];
     }
 
