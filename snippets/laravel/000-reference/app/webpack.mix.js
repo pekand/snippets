@@ -18,8 +18,8 @@ if (mix.inProduction()) {
 }
 
 mix
-.browserSync()
 //.webpackConfig({}) // custom webpack config
+//.browserSync()
 //.disableNotifications()
 //.copy('node_modules/source', 'public/destination'); // manuali copy files
 //.copyDirectory('resources/source/img', 'public/destination/img');

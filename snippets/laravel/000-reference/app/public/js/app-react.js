@@ -46699,7 +46699,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Example() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "I'm an example component! 12345");
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "I'm an example component!");
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Example);
