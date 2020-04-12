@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Page</title>
+<style></style>
+<main>
+    <h1></h1>
+    <p></p>
+</main>
+<script>
+function notifyMe(title, callback = null, options = {}) {
+    if (!("Notification" in window)) {
+        return;
+    }
+
+    if (Notification.permission === "denied" ) {
+        return;
+    }
+
+    if (Notification.permission !== "denied" && Notification.permission !== "granted") {
+        Notification.requestPermission().then(function(permission) {
+            notifyMe(title, options);
+        });
+        return;
+    }
+
+    var notification = new Notification(title, options);
+    notification.onclick = callback;
+}
+
+function init() {
+    var notificationTag = 'notification-'+(new Date().getTime());
+
+    notifyMe('New Message', function(e) {
+            console.log("Notification click");
+            console.log(e.target.tag);
+            console.log(e.target.data);
+        }, {
+        body: 'Description',
+        tag: notificationTag, // notification id (The same notification will not be displayed multiple times)
+        icon:'message.png',
+        badge:'message.png',
+        image: 'rubiks.jpg',
+        data: {action:'actionName'}, 
+        vibrate: [200, 100, 200],
+        renotify: false, // renotify if multiple notification appear in some time
+        requireInteraction: false, // show until not clicked
+        silent: false, // no sound and vibration
+    });
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>
+<script>
+</script>
+
+</html>
