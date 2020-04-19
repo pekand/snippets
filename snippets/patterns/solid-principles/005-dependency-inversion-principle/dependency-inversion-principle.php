@@ -1,8 +1,8 @@
 <?php
 
 //Dependency inversion principle
-//encapsulate dependency to abstract object and use is with interface (middle man)
-
+// encapsulate dependency to abstract object and use is with interface (middle man)
+// decoupling / remove binding to specific class
 
 interface DatabaseInterface {
 	public function query(string $query);
