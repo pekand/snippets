@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Page</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    
+
+    <style>
+
+    .drop {
+        width: 50px;
+        height: 50px;
+        background: #d2f1f2;
+        margin:5px;
+        float:left;
+    }
+
+    .space {
+        width: 10px;
+        height: 50px;
+        background: #e2e2e2;
+        margin:5px;
+        float:left;
+    }
+
+    .drag {
+        width: 50px;
+        height: 50px;
+        background: red;
+    }
+
+    </style>
+
+
+    <main>
+        <div class="drop"></div>
+        <div class="drop"></div>
+        <div class="drop">
+            <div class="drag"></div>
+        </div>
+        <div class="drop">
+            <div class="drag"></div>
+        </div>
+        <div class="drop">
+            <div class="drag"></div>
+        </div>
+        <div class="drop"></div>
+        <div class="drop"></div>
+        <div class="drop"></div>
+    </main>
+    <script>
+
+        var draggedElement = null;
+
+        function allowDropEvent(ev) {
+          ev.preventDefault();
+        }
+
+        function dragEvent(ev) {
+            draggedElement = ev.target;
+
+            //ev.dataTransfer.setData("sourceId", ev.target.id);
+        }
+
+        function dropEvent(ev) {
+            ev.preventDefault();
+            var sourceId = ev.dataTransfer.getData("sourceId");
+            var sourceElement = draggedElement;
+            draggedElement = null;
+
+            var targetElement = ev.target;
+
+            if(targetElement.classList.contains('drop')) {
+                targetElement.appendChild(sourceElement);
+            }
+
+            if(targetElement.classList.contains('space')) {
+
+                var space1 = document.createElement('div');
+                var drop = document.createElement('div');
+                var space2 = document.createElement('div');
+
+                space1.classList.add("space");
+                space2.classList.add("space");
+                drop.classList.add("drop");
+
+                targetElement.parentNode.replaceChild(drop, targetElement);
+                drop.parentNode.insertBefore(space1, drop);
+                drop.parentNode.insertBefore(space2, drop.nextSibling);
+
+                drop.appendChild(sourceElement);
+
+                space1.addEventListener('drop', dropEvent);
+                space1.addEventListener('dragover', allowDropEvent);
+                space2.addEventListener('drop', dropEvent);
+                space2.addEventListener('dragover', allowDropEvent);
+                drop.addEventListener('drop', dropEvent);
+                drop.addEventListener('dragover', allowDropEvent);
+
+            }
+        }
+
+        function init() {
+            
+            var drops = document.getElementsByClassName("drop");
+            for(i=0; i<drops.length;i++) {
+                drops[i].addEventListener('drop', dropEvent);
+                drops[i].addEventListener('dragover', allowDropEvent);
+
+                var space1 = document.createElement('div');
+                space1.classList.add("space");
+                drops[i].parentNode.insertBefore(space1, drops[i]);
+                space1.addEventListener('drop', dropEvent);
+                space1.addEventListener('dragover', allowDropEvent);
+
+                var isLat = true;
+                var node = drops[i].nextSibling
+                while ( node ) {
+                    if (node.nodeType == 3){
+                        node = node.nextSibling;
+                        continue;
+                    }
+
+                    if(node.classList.contains('drop')){
+                        isLat = false;
+                        break;
+                    }
+                    node = node.nextSibling;
+                }
+
+                if(isLat){
+                    var space2 = document.createElement('div');
+                    space2.classList.add("space");
+                    drops[i].parentNode.insertBefore(space2, drops[i]);
+                    space2.addEventListener('drop', dropEvent);
+                    space2.addEventListener('dragover', allowDropEvent);
+                    drops[i].parentNode.insertBefore(space2, drops[i].nextSibling);
+                }
+
+            }
+
+            var drags = document.getElementsByClassName("drag");
+            for(i=0; i<drags.length;i++) {
+                drags[i].draggable = true;
+                drags[i].addEventListener('dragstart', dragEvent);
+            }
+        }
+
+        window.addEventListener("load", init);
+    </script>
+</html>

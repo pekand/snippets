@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Page</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    
+
+    <style>
+
+    .drop {
+        width: 250px;
+        height: 30px;
+        background: #d2f1f2;
+        margin:0px;
+    }
+
+    .space {
+        width: 250px;
+        height: 5px;
+        margin:0px;
+    }
+
+    .space.over {
+        background: black;
+    }
+
+    .drag {
+        width: 250px;
+        height: 30px;
+        background: red;
+    }
+
+    </style>
+
+<style>
+
+    .drop2 {
+        width: 250px;
+        height: 30px;
+        background: #d2f1f2;
+        margin:0px;
+    }
+
+    .space2 {
+        width: 250px;
+        height: 5px;
+        margin:0px;
+    }
+
+    .space2.over2 {
+        background: black;
+    }
+
+    .drag2 {
+        width: 250px;
+        height: 30px;
+        background: green;
+    }
+
+    </style>
+
+    <main>
+        <div>
+            <div class="drop">
+                <div id='element-1' class="drag">1</div>
+            </div>
+            <div class="drop">
+                <div class="drag">2</div>
+            </div>
+            <div class="drop">
+                <div class="drag">3</div>
+            </div>
+            <div class="drop">
+                <div class="drag">4</div>
+            </div>
+            <div class="drop">
+                <div class="drag">5</div>
+            </div>
+        </div>
+
+        <div>
+            <div class="drop2">
+                <div class="drag2">1</div>
+            </div>
+            <div class="drop2">
+                <div class="drag2">2</div>
+            </div>
+            <div class="drop2">
+                <div class="drag2">3</div>
+            </div>
+            <div class="drop2">
+                <div class="drag2">4</div>
+            </div>
+            <div class="drop2">
+                <div class="drag2">5</div>
+            </div>
+            <div class="drop2">
+            </div>
+        </div>
+    </main>
+    <script>
+        function DragComponent(params) {
+            return {
+                dragoverEvent: function(ev) {
+                    ev.preventDefault();
+                },
+
+                dragenterEvent: function(ev) {
+                    if (this.draggedElement!= null) {
+                        ev.target.classList.add(this.params.overClass);
+                    }
+                },
+
+                dragleaveEvent: function(ev) {
+                    if (this.draggedElement!= null) {
+                        ev.target.classList.remove(this.params.overClass);
+                    }
+                },
+
+                dragEvent: function(ev) {
+                    if (ev.target.classList.contains(this.params.dragClass)) {
+                        this.draggedElement = ev.target;
+                    }
+                },
+
+                dropEvent: function(ev) {
+                    ev.preventDefault();
+
+                    if(this.draggedElement == null) {
+                        return;
+                    }
+
+                    var sourceElement = this.draggedElement;
+                    this.draggedElement = null;
+
+                    var targetElement = ev.target;
+
+                    if(targetElement.classList.contains(this.params.dropClass)) {
+                        targetElement.appendChild(sourceElement);
+                    }
+
+                    if(targetElement.classList.contains(this.params.spaceClass)) {
+
+                        var space1 = this.createSpace();
+                        var drop = document.createElement('div');
+                        var space2 = this.createSpace();
+
+                        drop.classList.add(this.params.dropClass);
+
+                        targetElement.parentNode.replaceChild(drop, targetElement);
+                        drop.parentNode.insertBefore(space1, drop);
+                        drop.parentNode.insertBefore(space2, drop.nextSibling);
+
+                        var sourceParentNode = sourceElement.parentNode;
+
+                        drop.appendChild(sourceElement);
+
+                        drop.addEventListener('drop', this.dropEvent.bind(this));
+                        drop.addEventListener('dragover', this.dragoverEvent.bind(this));
+
+                        sourceParentNode.previousSibling.remove();
+                        sourceParentNode.remove();
+                    }
+                },
+
+                createSpace: function(){
+                    var space = document.createElement('div');
+                    space.classList.add(this.params.spaceClass);
+                    space.addEventListener('drop', this.dropEvent.bind(this));
+                    space.addEventListener('dragover', this.dragoverEvent.bind(this));
+                    space.addEventListener('dragenter', this.dragenterEvent.bind(this));
+                    space.addEventListener('dragleave', this.dragleaveEvent.bind(this));
+                    return space;
+                },
+
+                addSpace: function(el) {
+                    var space1 = this.createSpace();
+                    el.parentNode.insertBefore(space1, el);
+
+                    var isLat = true;
+                    var node = el.nextSibling
+                    while ( node ) {
+                        if (node.nodeType != 1){
+                            node = node.nextSibling;
+                            continue;
+                        }
+
+                        if(node.classList.contains(this.params.dropClass)){
+                            isLat = false;
+                            break;
+                        }
+                        node = node.nextSibling;
+                    }
+
+                    if(isLat){
+                        var space2 = this.createSpace();
+                        el.parentNode.insertBefore(space2, el.nextSibling);
+                    }
+                },
+
+                init: function(params) {
+                    this.defaultParams = {
+                        dropClass:'drop',
+                        dragClass:'drag',
+                        overClass:'over',
+                        spaceClass:'space',
+                        usespaces: true,
+                    };
+
+                    this.params = this.defaultParams;
+                    for(key in params){
+                        this.params[key] = params[key];
+                    }
+
+                    this.draggedElement = null;
+
+                    var drops = document.getElementsByClassName(this.params.dropClass);
+                    for(i=0; i<drops.length; i++) {
+                        drops[i].addEventListener('drop', this.dropEvent.bind(this));
+                        drops[i].addEventListener('dragover', this.dragoverEvent.bind(this));
+                        if(this.params.usespaces) {
+                            this.addSpace(drops[i]);
+                        }
+                    }
+
+                    var drags = document.getElementsByClassName(this.params.dragClass);
+                    for(i=0; i<drags.length;i++) {
+                        drags[i].draggable = true;
+                        drags[i].addEventListener('dragstart', this.dragEvent.bind(this));
+                    }
+
+                    return this
+                }
+
+            }.init(params);
+        };
+
+        window.addEventListener("load", function () {
+
+            var dragComponent = DragComponent({
+                dropClass:'drop',
+                dragClass:'drag',
+                overClass:'over',
+                spaceClass:'space',
+            });
+
+            var dragComponent2 = DragComponent({
+                dropClass:'drop2',
+                dragClass:'drag2',
+                overClass:'over2',
+                spaceClass:'space2',
+                usespaces: false,
+            });
+
+        });
+    </script>
+</html>
