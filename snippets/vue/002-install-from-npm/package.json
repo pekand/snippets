@@ -1,0 +1,27 @@
+{
+  "name": "vue-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
+    "vue-router": "^3.1.6",
+    "vuex": "^3.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "@vue/cli": "^4.3.1",
+    "@vue/cli-service": "^4.3.1"
+  },
+  "scripts": {
+    "build": "cross-env BABEL_ENV=dev vue-cli-service build",
+    "serve": "cross-env BABEL_ENV=dev vue-cli-service serve"
+  }
+}
