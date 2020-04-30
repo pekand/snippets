@@ -1221,7 +1221,8 @@
 
 <main>
 	<h2>flex-grow: 1;</h2>
-	<h3>(split  container (width / 15) each items has relative size to one part)</h3>
+    <h3>(split  container (width / 15) each items has relative size to one part)</h3>
+    <h3>(item maximal relative size)</h3>
 	<style>
 		.container-48 {
 		    display: flex; 
@@ -1260,7 +1261,8 @@
 
 <main>
 	<h2>flex-shrink: 1</h2>
-	<h3>(flex-basis: 300px; is set for items) (if no space left in row (flex-wrap: nowrap;) then flex-shrink determine relative size of shrinked column )</h3>
+    <h3>(flex-basis: 300px; is set for items) (if no space left in row (flex-wrap: nowrap;) then flex-shrink determine relative size of shrinked column )</h3>
+    <h3>(item minimal relative size)</h3>
 	<style>
 		.container-49 {
 		    display: flex; 
@@ -1302,36 +1304,32 @@
 </main>
 
 <main>
-	<h2>flex-basis: 150px; - flex-basis: 350px;</h2>
-	<h3>(maximum item width)</h3>
+	<h2>flex-basis: 500px;</h2>
+	<h3>(size for element, remaining space of other items is distributet relativly | default value is auto)</h3>
 	<style>
 		.container-50 {
 		    display: flex; 
 		    flex-direction: row; 
 		}
-
-		.container-50 .item{
-		    flex-basis: 100px;
-		}
 		
 		.container-50 .item:nth-of-type(1){
-		    flex-basis: 150px;
+		    flex-basis: 500px; /* exact item size */
 		}
 		
 		.container-50 .item:nth-of-type(2){
-		    flex-basis: 200px;
+            flex-grow: 1; /* remaining length / n - items */
 		}
 		
 		.container-50 .item:nth-of-type(3){
-		    flex-basis: 250px;
+            flex-grow: 1;
 		}
 		
 		.container-50 .item:nth-of-type(4){
-		    flex-basis: 300px;
+            flex-grow: 1;
 		}
 		
 		.container-50 .item:nth-of-type(5){
-		    flex-basis: 350px;
+            flex-grow: 1;
 		}
 	</style>
 	<div class="container container-50">
@@ -1343,6 +1341,43 @@
 	</div>
 </main>
 
+<main>
+    <h2>flex: 1 1 0;</h2>
+    <h3>(shorthend | default values are 1 1 0)</h3>
+    <h3>(one value |  flex : [flex-grow])</h3>
+    <h3>(two values |  flex : [flex-grow] [flex-shrink]| flex-shrink as number)</h3>
+    <h3>(two values |  flex : [flex-grow] [flex-basis] | flex-basis as length)</h3>
+    <h3>(tree values | flex : [flex-grow] [flex-shrink] [flex-basis] )</h3>
+    <style>
+        .container-59 {
+            display: flex; 
+            flex-direction: row; 
+        }
+
+        .container-59 .item:nth-of-type(1){
+            flex: 1 1 0;
+        }
+        
+        .container-59 .item:nth-of-type(2){
+            flex: 2 1;
+        }
+        
+        .container-59 .item:nth-of-type(3){
+            flex: 3 100px;
+        }
+        
+        .container-59 .item:nth-of-type(4){
+            flex: 4;
+        }
+        
+    </style>
+    <div class="container container-59">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+    </div>
+</main>
 
 <main>
     <h2>align-self: auto;</h2>
