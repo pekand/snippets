@@ -1,0 +1,12 @@
+npm install -g @vue/cli
+
+#create new project
+vue create vue-project
+
+# serve with npm
+npm run serve
+http://localhost:8080/
+
+#serve with vue-cli (in src folder)
+npm install -g @vue/cli-service-global
+vue serve
