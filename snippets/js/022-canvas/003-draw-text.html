@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css">
+        body {padding:0px; margin:0px}
+    </style>
+
+    <main>
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </main>
+    <script>
+        function draw() {
+            var canvas = document.getElementById('canvas');
+
+            var ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, 100, 100);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+            ctx.fillText('Normal Text', 100, 100);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+            ctx.font = '10px sans-serif'; // default text
+            ctx.fillText('Normal Text', 100, 130);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('Maximum text width', 200, 100, 50);
+
+            ctx.font = '32px sans-serif';
+            ctx.strokeText('Stroke text', 100, 200);
+
+            ctx.font = '32px sans-serif';
+            ctx.strokeText('Stroke text mamimu width', 300, 200, 100);
+
+            ctx.font = '16px sans-serif';
+            ctx.textAlign = 'start'; //start end left right or center
+            ctx.textBaseline = 'alphabetic'; // top hanging middle alphabetic ideographic bottom
+            ctx.direction = 'inherit'; // ltr rtl
+            ctx.fillText('Custom text parameters', 100, 300);
+
+            var text1 = 'Measure text';
+            ctx.font = '32px sans-serif';
+            var text1Size = ctx.measureText(text1);
+            ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+            console.log(text1Size);
+            ctx.fillRect(100, 400, text1Size.width, -32);
+            ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+            ctx.fillText(text1, 100, 400);
+        }
+
+        window.addEventListener("load", draw);
+    </script>
+</html>

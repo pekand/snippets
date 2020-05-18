@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css"></style>
+
+    <main>
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </main>
+    <script>
+        function draw() {
+            var canvas = document.getElementById('canvas');
+            if (!canvas.getContext) {
+                return;
+            }
+
+            var ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = 'rgb(200, 0, 0)';
+            ctx.fillRect(10, 10, 50, 50);
+        }
+
+        window.addEventListener("load", draw);
+    </script>
+</html>

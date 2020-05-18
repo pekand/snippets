@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css">
+        body {padding:0px; margin:0px}
+    </style>
+
+    <main>
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </main>
+    <script>
+        var metronom = {
+            time: null,
+            angle: 0,
+            x: 250,
+            y: 250,
+            radius: 100,
+            intervals : [500, 1000, 5000, 10000, 20000, 30000, 60000],
+        };
+
+        
+        function drawMetronom(ctx, now, metronom) {
+            if (metronom.time = null) {
+                metronom.time = now; 
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for(i = 0; i<metronom.intervals.length; i++){
+                var p = ((Math.round(now - metronom.time) % metronom.intervals[i]) / metronom.intervals[i]);
+                ctx.beginPath();
+                ctx.moveTo(metronom.x, metronom.y);
+                x1=Math.cos(metronom.angle)*metronom.radius+metronom.x;
+                y1=Math.sin(metronom.angle)*metronom.radius+metronom.y;
+                metronom.angle = 2 * Math.PI * p -  Math.PI/2;
+                ctx.lineTo(x1,y1);
+                ctx.stroke();
+            }
+        }
+
+        function draw(now) {
+            var canvas = document.getElementById('canvas');
+
+            var ctx = canvas.getContext('2d');
+
+            drawMetronom(ctx, now, metronom);
+            
+            requestAnimationFrame(draw);
+        }
+
+        function init(){
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener("load", init);
+    </script>
+</html>

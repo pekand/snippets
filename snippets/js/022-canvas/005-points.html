@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css">
+        body {padding:0px; margin:0px}
+    </style>
+
+    <main>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </main>
+    <script>
+        var metronom = {
+            time: null,
+            angle: 0,
+            x: 250,
+            y: 250,
+            radius: 100,
+            intervals : [500, 1000, 5000, 10000, 20000, 30000, 60000],
+        };
+
+        function drawMetronom(ctx, now, metronom) {
+            if (metronom.time = null) {
+                metronom.time = now; 
+            }
+
+            for(i = 0; i<metronom.intervals.length; i++){
+                var p = ((Math.round(now - metronom.time) % metronom.intervals[i]) / metronom.intervals[i]);
+                ctx.beginPath();
+                ctx.moveTo(metronom.x, metronom.y);
+                x1=Math.cos(metronom.angle)*metronom.radius+metronom.x;
+                y1=Math.sin(metronom.angle)*metronom.radius+metronom.y;
+                metronom.angle = 2 * Math.PI * p -  Math.PI/2;
+                ctx.lineTo(x1,y1);
+                ctx.stroke();
+            }
+        }
+
+        var points = {
+            count: 20000,
+            items : [],
+        };
+
+        function getRndColor() {
+            var r = 255*Math.random()|0,
+                g = 255*Math.random()|0,
+                b = 255*Math.random()|0;
+            return 'rgb(' + r + ',' + g + ',' + b + ')';
+        }
+
+        function drawPoints(ctx, now, points) {
+            if(points.items.length == 0){
+                for (var i = 0; i < points.count; i++) {
+                    var point = {
+                        x: 500,
+                        y: 500,
+                        color: getRndColor(),
+                        size:10,
+                        angel: 0,
+                        sped: 1,
+                        directionX: 0,
+                        directionY: 0,
+                        directionCount: 0,
+                    }
+
+                    points.items.push(point);
+                }
+            }
+
+            for(i = 0; i<points.items.length; i++){
+
+                
+                if(points.items[i].directionCount == 0){
+                    points.items[i].directionX +=  Math.floor(Math.random() * 3) -1;
+                    points.items[i].directionY +=  Math.floor(Math.random() * 3) - 1;
+                    points.items[i].directionCount = 10;
+                }
+                points.items[i].directionCount -= 1;
+
+                points.items[i].x +=  points.items[i].directionX;
+                points.items[i].y +=  points.items[i].directionY;
+
+                if (points.items[i].x < -2000) points.items[i].x = 3000;
+                if (points.items[i].y < -2000) points.items[i].y = 3000;
+                if (points.items[i].x > 3000) points.items[i].x = -2000;
+                if (points.items[i].y > 3000) points.items[i].y = -2000;
+
+
+                ctx.fillStyle = points.items[i].color;
+                ctx.beginPath();
+                ctx.arc(points.items[i].x, points.items[i].y, points.items[i].size, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function draw(now) {
+            var canvas = document.getElementById('canvas');
+
+
+            var ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawMetronom(ctx, now, metronom);
+            drawPoints(ctx, now, points);
+            
+            requestAnimationFrame(draw);
+        }
+
+        function init(){
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener("load", init);
+    </script>
+</html>
