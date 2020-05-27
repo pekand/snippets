@@ -1,0 +1,5 @@
+
+    Promise
+    Generator
+    GeneratorFunction
+    AsyncFunction
