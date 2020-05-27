@@ -10,7 +10,7 @@
     </style>
 
     <main>
-        <canvas id="canvas" width="1000" height="1000"></canvas>
+        <canvas id="canvas" width="1700" height="1000"></canvas>
     </main>
     <script>
         var metronom = {
@@ -40,7 +40,7 @@
         }
 
         var points = {
-            count: 20000,
+            count: 10000,
             items : [],
         };
 
@@ -58,9 +58,9 @@
                         x: 500,
                         y: 500,
                         color: getRndColor(),
-                        size:10,
+                        size: Math.floor(Math.random() * 10)+5,
                         angel: 0,
-                        sped: 1,
+                        speed: 1,
                         directionX: 0,
                         directionY: 0,
                         directionCount: 0,
@@ -74,19 +74,21 @@
 
                 
                 if(points.items[i].directionCount == 0){
-                    points.items[i].directionX +=  Math.floor(Math.random() * 3) -1;
-                    points.items[i].directionY +=  Math.floor(Math.random() * 3) - 1;
+                    points.items[i].directionX =  Math.floor(Math.random() * 3) -1;
+                    points.items[i].directionY =  Math.floor(Math.random() * 3) - 1;
+                    points.items[i].speed =  3;
                     points.items[i].directionCount = 10;
                 }
+
                 points.items[i].directionCount -= 1;
 
-                points.items[i].x +=  points.items[i].directionX;
-                points.items[i].y +=  points.items[i].directionY;
+                points.items[i].x +=  points.items[i].directionX * points.items[i].speed;
+                points.items[i].y +=  points.items[i].directionY * points.items[i].speed;
 
-                if (points.items[i].x < -2000) points.items[i].x = 3000;
-                if (points.items[i].y < -2000) points.items[i].y = 3000;
-                if (points.items[i].x > 3000) points.items[i].x = -2000;
-                if (points.items[i].y > 3000) points.items[i].y = -2000;
+                if (points.items[i].x < -100) points.items[i].x = 1800;
+                if (points.items[i].y < -100) points.items[i].y = 1800;
+                if (points.items[i].x > 1800) points.items[i].x = -100;
+                if (points.items[i].y > 1800) points.items[i].y = -100;
 
 
                 ctx.fillStyle = points.items[i].color;
@@ -102,10 +104,11 @@
 
             var ctx = canvas.getContext('2d');
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            drawMetronom(ctx, now, metronom);
+           
             drawPoints(ctx, now, points);
+            //drawMetronom(ctx, now, metronom);
             
             requestAnimationFrame(draw);
         }

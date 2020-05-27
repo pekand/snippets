@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css"></style>
+
+    <main>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </main>
+    <script>
+        function draw() {
+            var canvas = document.getElementById('canvas');
+            if (!canvas.getContext) {
+                return;
+            }
+
+            var ctx = canvas.getContext('2d');
+
+            /******/
+
+            ctx.fillStyle = 'rgb(200, 0, 0)';
+            ctx.fillRect(10, 10, 50, 50); 
+
+            /******/
+
+            ctx.strokeRect(100, 10, 50, 50); 
+
+            /******/
+
+            ctx.fillRect(200, 10, 50, 50);
+            ctx.clearRect(210, 20, 30, 30); // make transparent center of rectangle
+
+            /******/
+
+            ctx.beginPath();
+            ctx.moveTo(300, 10);
+            ctx.lineTo(350, 10);
+            ctx.lineTo(350, 60);
+            ctx.stroke();
+
+            /******/
+
+            ctx.beginPath();
+            ctx.moveTo(400, 10);
+            ctx.lineTo(450, 10);
+            ctx.lineTo(450, 60);
+            ctx.closePath();
+            ctx.stroke();
+
+            /******/
+
+            ctx.beginPath();
+            ctx.moveTo(500, 10);
+            ctx.lineTo(550, 10);
+            ctx.lineTo(550, 60);
+            ctx.fill();
+
+            /******/
+
+            ctx.beginPath();
+            ctx.arc(10 + 25, 110, 25, 0, Math.PI * 2);
+            ctx.stroke();
+
+            /******/
+
+            ctx.beginPath();
+            ctx.arc(10 + 125, 110, 25, 0, Math.PI * 2);
+            ctx.fill();
+
+            /******/
+
+            var px = 200;
+            var py = 90;
+            ctx.beginPath();
+            ctx.moveTo(px, py);           
+            ctx.lineTo(px+25, py);          
+            ctx.arcTo(px+50, py, px+50, py+1, 25); // px1, py1 - is right corner, px2, py2 is next point in path, radius is corner radius (image https://www.w3schools.com/tags/canvas_arcto.asp)
+            ctx.lineTo(px+50, py+50);         
+            ctx.stroke();
+
+            /******/
+
+            var x = 300;
+            var y = 90;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.quadraticCurveTo(x+50, y, x+50, y+50); // cx, cy - control point; ex, ey - end point 
+            ctx.stroke();
+
+            /******/
+
+            var x = 400;
+            var y = 90;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(x+50, y, x+50, y, x+50, y+50); // c1x, c1y, c2x, c2y - control point; ex, ey - end point 
+            ctx.stroke();
+
+        }
+
+        window.addEventListener("load", draw);
+    </script>
+</html>

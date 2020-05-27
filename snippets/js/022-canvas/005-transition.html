@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css">
+        body {padding:0px; margin:0px}
+    </style>
+
+    <main>
+        <canvas id="canvas" width="1700" height="1000"></canvas>
+    </main>
+    <script>
+        var metronom = {
+            time: null,
+            angle: 0,
+            x: 200,
+            y: 200,
+            radius: 100,
+            intervals : [500, 1000, 5000, 10000, 20000, 30000, 60000],
+        };
+
+        function drawMetronom(ctx, now, metronom) {
+            if (metronom.time = null) {
+                metronom.time = now; 
+            }
+
+            for(i = 0; i<metronom.intervals.length; i++){
+                var p = ((Math.round(now - metronom.time) % metronom.intervals[i]) / metronom.intervals[i]);
+
+                var r = metronom.radius - 5;
+                var cx = metronom.x;
+                var cy = metronom.y;
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(metronom.x, metronom.y);
+                x1=Math.cos(metronom.angle)*metronom.radius+metronom.x;
+                y1=Math.sin(metronom.angle)*metronom.radius+metronom.y;
+                metronom.angle = 2 * Math.PI * p -  Math.PI/2;
+                ctx.lineTo(x1,y1);
+                ctx.stroke();
+            }
+        }
+
+        var transitions = [
+            { // square
+                repeat: true,
+                duration: 10000,
+                transition : function (ctx, t) {
+                    var cx = 700;
+                    var cy = 100;
+                    var s = 200;
+
+                    if (0 < t) {
+                        var i = (t> 1/4)? 1 : t / (1/4);
+                        ctx.beginPath();
+                        ctx.moveTo(cx, cy);
+                        ctx.lineTo(cx + s * i, cy);
+                        ctx.stroke();
+                    }
+
+                    if (1/4 < t) {
+                        var i = (t> 2/4)? 1 : (t - 1/4) / (1/4);
+                        ctx.beginPath();
+                        ctx.moveTo(cx+s, cy);
+                        ctx.lineTo(cx+s, cy + s * i);
+                        ctx.stroke();
+                    }
+
+                    if (2/4 < t) {
+                        var i = (t> 3/4)? 1 : (t -2/4) / (1/4);
+                        ctx.beginPath();
+                        ctx.moveTo(cx+s, cy+s);
+                        ctx.lineTo(cx+s - s * i, cy+s);
+                        ctx.stroke();
+                    }
+
+                    if (3/4 < t) {
+                         var i = (t> 1)? 1 : (t - 3/4) / (1/4);
+                        ctx.beginPath();
+                        ctx.moveTo(cx, cy+s);
+                        ctx.lineTo(cx, cy+s - s * i);
+                        ctx.stroke();
+                    }
+                }
+            },
+            { // circle
+                repeat: true,
+                duration: 10000,
+                transition : function (ctx, t) {
+
+                    var a = t * 2 * Math.PI;
+                    var r = 100;
+                    var cx = 500;
+                    var cy = 200;
+
+                    x=Math.cos(a)*r+cx;
+                    y=Math.sin(a)*r+cy;
+
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+            },
+            { // line
+                repeat: true,
+                duration: 5000,
+                transition : function (ctx, t) {
+
+                    var cx = 100;
+                    var cy = 500;
+                    var s = 500;
+
+                    if (0 < t) {
+                        var i = t;
+                        ctx.beginPath();
+                        ctx.moveTo(cx, cy);
+                        ctx.lineTo(cx + s * i, cy);
+                        ctx.stroke();
+                    }
+                }
+            }
+        ];
+
+
+        function drawTransition(ctx, now, transitions) {
+
+            for(i = 0; i< transitions.length; i++){
+                if (transitions[i].timeStart == null) {
+                    transitions[i].timeStart = now; 
+                    transitions[i].timeDuration = transitions[i].duration; 
+                    transitions[i].timeStop = now + transitions[i].duration; 
+                    transitions[i].timeRelative = 0; 
+                }
+
+                if ( transitions[i].timeStop <= now ) {
+
+                    if (!transitions[i].repeat){
+                        return 
+                    }
+
+                    transitions[i].timeStart = now;
+                    transitions[i].timeStop = now + transitions[i].duration; 
+                }
+
+                transitions[i].timeRelative =  (now  - transitions[i].timeStart) / transitions[i].timeDuration;
+
+                transitions[i].transition(ctx, transitions[i].timeRelative);
+            }
+            
+        }
+
+        function draw(now) {
+            var canvas = document.getElementById('canvas');
+
+
+            var ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawMetronom(ctx, now, metronom);
+            drawTransition(ctx, now, transitions);
+            
+            requestAnimationFrame(draw);
+        }
+
+        function init(){
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener("load", init);
+    </script>
+</html>

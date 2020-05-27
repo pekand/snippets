@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css"></style>
+
+    <main>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </main>
+    <script>
+        function draw() {
+            var canvas = document.getElementById('canvas');
+            if (!canvas.getContext) {
+                return;
+            }
+
+            var ctx = canvas.getContext('2d');
+
+            /******/
+            var x = 10;
+            var y = 10;
+            ctx.fillStyle = 'red';
+            ctx.fillRect(x, y, 50, 50); 
+
+            /******/
+
+            var x = 100;
+            var y = 10;
+            ctx.fillStyle = '#00FF00';
+            ctx.fillRect(x, y, 50, 50);
+
+            /******/
+
+            var x = 200;
+            var y = 10;
+            ctx.fillStyle = 'rgb(0, 0, 255)';
+            ctx.fillRect(x, y, 50, 50);
+
+            /******/
+
+            var x = 300;
+            var y = 10;
+            ctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+            ctx.fillRect(x, y, 50, 50);
+
+            /******/
+
+            var x = 10;
+            var y = 100;
+            ctx.strokeStyle  = 'red';
+            ctx.beginPath();
+            ctx.rect(x, y, 50, 50);
+            ctx.stroke();
+
+            /******/
+            
+            var x = 100;
+            var y = 100;
+            ctx.strokeStyle  = 'green';
+            ctx.lineWidth = '5';
+            ctx.beginPath();
+            ctx.rect(x, y, 50, 50);
+            ctx.stroke();
+
+            /******/
+            
+            var x = 200;
+            var y = 100;
+            ctx.strokeStyle  = 'black';
+            ctx.lineCap  = 'round'; // butt round square
+            ctx.beginPath();
+            ctx.moveTo(x, y, 50, 50);
+            ctx.lineTo(x+50, y+50);
+            ctx.stroke();
+
+            /******/
+            
+            var x = 300;
+            var y = 100;
+            ctx.strokeStyle  = 'black';
+            ctx.lineJoin   = 'miter'; //bevel round miter
+            ctx.miterLimit  = '100'; // default 10  (limit spike size between two lines)
+            ctx.beginPath();
+            ctx.moveTo(x, y, 50, 50);
+            ctx.lineTo(x+50, y+50);
+            ctx.lineTo(x, y+50);
+            ctx.stroke();
+
+
+            /******/
+            
+            var x = 400;
+            var y = 100;
+            ctx.strokeStyle  = 'black';
+            console.log(ctx.getLineDash());
+            ctx.setLineDash([5, 10]); // default []
+            ctx.lineDashOffset  = 10; // default 0.0 (space from left)
+            ctx.beginPath();
+            ctx.moveTo(x, y, 50, 50);
+            ctx.lineTo(x+50, y+50);
+            ctx.lineTo(x, y+50);
+            ctx.stroke();
+
+        }
+
+        window.addEventListener("load", draw);
+    </script>
+</html>
