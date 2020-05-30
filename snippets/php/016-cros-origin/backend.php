@@ -17,7 +17,9 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, Accept, Accept-Language, Content-Language, Content-Type, If-Modified-Since, Cache-Control, X-Auth-Token, X-CSRF-TOKEN, Authorization, Accesstoken");
 header("Access-Control-Max-Age: 86400");
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTION') {        
+if ($_SERVER['REQUEST_METHOD'] === 'OPTION') {   
+    header('Content-type: text/plain; charset=utf-8');     
+    header('Content-Length: 0');
     exit(0);
 }
 
