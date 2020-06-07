@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css"></style>
+
+    <main>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </main>
+    <script>
+
+        var img = new Image();
+        
+        function loadImages(){
+            img.src = 'assets/pattern.png';
+            img.onload = function() {
+                console.log('image is loaded');
+                console.log(img.complete); // detect if image is already loaded
+            } 
+        }
+
+        function draw() {
+
+            console.log('render canvas');
+            var canvas = document.getElementById('canvas');
+            if (!canvas.getContext) {
+                return;
+            }
+
+            var ctx = canvas.getContext('2d');
+
+            /*
+                image pattern
+            */
+            var x = 10;
+            var y = 10;
+
+            var img = new Image();
+            img.src = 'assets/pattern.png';
+            var ptrn = ctx.createPattern(img, 'repeat'); // repeat repeat-x repeat-y no-repeat
+            ctx.fillStyle = ptrn;
+            ctx.fillRect(x, y, 50, 50);
+
+        }
+
+        window.addEventListener("load", draw);
+        loadImages();
+        
+    </script>
+</html>

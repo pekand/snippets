@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css"></style>
+
+    <main>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </main>
+    <script>
+        function draw() {
+
+            var canvas = document.getElementById('canvas');
+            if (!canvas.getContext) {
+                return;
+            }
+
+            var ctx = canvas.getContext('2d');
+
+            /*
+                image pattern
+            */
+            var x = 10;
+            var y = 10;
+
+            ctx.shadowOffsetX = -2.0; // default 0.0
+            ctx.shadowOffsetY = -2.0; // default 0.0
+            ctx.shadowBlur = 2; // default 0.0
+            ctx.shadowColor = 'rgba(255, 0, 0, 0.5)'; // default transparent black
+            
+            ctx.font = '20px Times New Roman';
+            ctx.fillStyle = 'Black';
+            ctx.fillText('Lorem Ipsum is simply dummy text of the printing and typesetting industry', 5, 30);
+
+        }
+
+        window.addEventListener("load", draw);
+        
+    </script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Canvas - Minimal Example</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css"></style>
+
+    <main>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+    </main>
+    <script>
+        function draw() {
+
+            var canvas = document.getElementById('canvas');
+            if (!canvas.getContext) {
+                return;
+            }
+
+            var ctx = canvas.getContext('2d');
+
+            /*
+                fill rule default (two overlaping circles example)
+            */
+            var x = 10;
+            var y = 10;
+
+            ctx.beginPath(); 
+            ctx.arc(x+50, y+50, 30, 0, Math.PI * 2, true);
+            ctx.arc(x+50, y+50, 15, 0, Math.PI * 2, true);
+            ctx.fill(); // default nonzero
+
+
+            /*
+                fill rule evenodd (two overlaping circles example)
+            */
+            var x = 110;
+            var y = 10;
+
+            ctx.beginPath(); 
+            ctx.arc(x+50, y+50, 30, 0, Math.PI * 2, true);
+            ctx.arc(x+50, y+50, 15, 0, Math.PI * 2, true);
+            ctx.fill('evenodd'); // evenodd
+
+        }
+
+        window.addEventListener("load", draw);
+        
+    </script>
+</html>

@@ -11,7 +11,10 @@
         <canvas id="canvas" width="1000" height="1000"></canvas>
     </main>
     <script>
+
         function draw() {
+
+            console.log('render canvas');
             var canvas = document.getElementById('canvas');
             if (!canvas.getContext) {
                 return;
@@ -19,34 +22,44 @@
 
             var ctx = canvas.getContext('2d');
 
-            /******/
+            /*
+                fillStyle with color name
+            */
             var x = 10;
             var y = 10;
             ctx.fillStyle = 'red';
             ctx.fillRect(x, y, 50, 50); 
 
-            /******/
+            /*
+                fillStyle by hex color
+            */
 
             var x = 100;
             var y = 10;
             ctx.fillStyle = '#00FF00';
             ctx.fillRect(x, y, 50, 50);
 
-            /******/
+            /*
+                fillStyle by rgb
+            */
 
             var x = 200;
             var y = 10;
             ctx.fillStyle = 'rgb(0, 0, 255)';
             ctx.fillRect(x, y, 50, 50);
 
-            /******/
+            /*
+                fillStyle by rgba
+            */
 
             var x = 300;
             var y = 10;
             ctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
             ctx.fillRect(x, y, 50, 50);
 
-            /******/
+            /*
+                fillStyle by rgba
+            */
 
             var x = 10;
             var y = 100;
@@ -55,7 +68,9 @@
             ctx.rect(x, y, 50, 50);
             ctx.stroke();
 
-            /******/
+            /*
+                line color
+            */
             
             var x = 100;
             var y = 100;
@@ -65,7 +80,9 @@
             ctx.rect(x, y, 50, 50);
             ctx.stroke();
 
-            /******/
+            /*
+                line color and round line endings
+            */
             
             var x = 200;
             var y = 100;
@@ -76,7 +93,9 @@
             ctx.lineTo(x+50, y+50);
             ctx.stroke();
 
-            /******/
+            /*
+                line spikes
+            */
             
             var x = 300;
             var y = 100;
@@ -90,7 +109,9 @@
             ctx.stroke();
 
 
-            /******/
+            /*
+                line dash
+            */
             
             var x = 400;
             var y = 100;
@@ -104,8 +125,50 @@
             ctx.lineTo(x, y+50);
             ctx.stroke();
 
+            /*
+                linear gradient
+            */
+            var x = 10;
+            var y = 210;
+
+            var lingrad = ctx.createLinearGradient(x, y, x+50, y+50); // point1 and point2 positin
+            lingrad.addColorStop(0, 'red'); // intervel between 0-1 and color
+            lingrad.addColorStop(0.5, 'green');
+            lingrad.addColorStop(1, 'blue');
+
+            ctx.fillStyle = lingrad;
+            ctx.fillRect(x, y, 50, 50); 
+
+            /*
+                radial gradient
+            */
+            var x = 110;
+            var y = 210;
+
+            var lingrad = ctx.createRadialGradient(x+25, y+25, 50, x+25, y+25, 10); // circle1 with radius and circle2 with radius
+            lingrad.addColorStop(0, 'red'); // intervel between 0-1 and color
+            lingrad.addColorStop(0.5, 'green');
+            lingrad.addColorStop(1, 'blue');
+
+            ctx.fillStyle = lingrad;
+            ctx.fillRect(x, y, 50, 50); 
+
+
+            /*
+                image pattern
+            */
+            var x = 210;
+            var y = 210;
+
+            var img = new Image();
+            img.src = 'assets/pattern.png';
+            var ptrn = ctx.createPattern(img, 'repeat');
+            ctx.fillStyle = ptrn;
+            ctx.fillRect(x, y, 50, 50);
+
         }
 
         window.addEventListener("load", draw);
+        
     </script>
 </html>
