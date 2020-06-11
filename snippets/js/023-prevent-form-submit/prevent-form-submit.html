@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Prevent form submit</title>
+  </head>
+  <body>
+    <form id="form1">
+        <input type="text">
+        <input type="submit">
+    </form>
+    <script>
+
+    function formSubmit(e) {
+        console.log('formSubmit');
+        e.preventDefault();
+        return false;
+    }
+
+    function init() {
+        document.getElementById('form1').addEventListener("submit", formSubmit);
+    }
+
+    window.addEventListener("load", init);
+    </script>
+
+  </body>
+</html>
