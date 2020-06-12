@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    /*
+       scale - scale up
+    */
+    ctx.save();
+    ctx.scale(2, 2); // 2x more
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, 100, 100);   
+    ctx.restore();
+
+    /*
+       scale - scale in one direction
+    */
+    ctx.save();
+    ctx.scale(1, 2); // 2x more
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(0, 0, 100, 100);   
+    ctx.restore();
+
+    /*
+       scale - scale down
+    */
+    ctx.save();
+    ctx.scale(0.5, 0.5); // 2x more
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0, 0, 100, 100);   
+    ctx.restore();
+
+    /*
+       scale - mirror  horizontally
+    */
+    ctx.save();
+    ctx.scale(-1, 1);
+    ctx.font = '48px serif';
+    ctx.fillText('ABC', -200, 50);
+    ctx.restore();
+
+    /*
+       scale - mirror  verticaly
+    */
+    ctx.save();
+    ctx.scale(1, -1);
+    ctx.font = '48px serif';
+    ctx.fillText('DEF', 100, -70);
+    ctx.restore();
+
+    /*
+       scale - mirror  horizontal and verticaly
+    */
+    ctx.save();
+    ctx.scale(-1, -1);
+    ctx.font = '48px serif';
+    ctx.fillText('GHI', -200, -120);
+    ctx.restore();
+}
+
+function init() {
+    requestAnimationFrame(draw);
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

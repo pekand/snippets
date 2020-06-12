@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    /*
+       translate
+    */
+    ctx.save();
+    ctx.rotate((Math.PI / 180) * 45);
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, 150, 150);   
+    ctx.restore();
+}
+
+function init() {
+    requestAnimationFrame(draw);
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

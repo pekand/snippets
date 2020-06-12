@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    /*
+      clip path
+    */
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0, 0, 200, 200);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(100, 100, 100, 0, Math.PI * 2, true);
+    ctx.clip();
+
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, 200, 200);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(200, 200);
+    ctx.stroke();
+
+    ctx.restore();
+
+    ctx.beginPath();
+    ctx.moveTo(200, 0);
+    ctx.lineTo(0, 200);
+    ctx.stroke();
+
+    
+}
+
+function init() {
+    requestAnimationFrame(draw);
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

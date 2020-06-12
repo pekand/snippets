@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    /*
+       Transforms matrix
+
+       |a c e|
+       |b d f|
+       |0 0 1|
+
+        transform(a, b, c, d, e, f)
+
+        a Horizontal scaling.
+        b Horizontal skewing.
+        c Vertical skewing.
+        d Vertical scaling.
+        e Horizontal moving.
+        f Vertical moving.
+
+    */
+    ctx.save();
+    ctx.transform(1, 0, 0, 1, 100, 100); // 2x more
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, 100, 100);   
+    ctx.restore();
+
+    /*
+       resetTransform 
+       -set identity matrix: setTransform(1, 0, 0, 1, 0, 0)
+    */
+    ctx.save();
+    ctx.resetTransform();
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0, 0, 100, 100);   
+    ctx.restore();
+
+    /*
+       setTransform
+       -resetTransform then transform
+    */
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 200, 200); // 2x more
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(0, 0, 100, 100);   
+    ctx.restore();
+
+
+
+    
+}
+
+function init() {
+    requestAnimationFrame(draw);
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

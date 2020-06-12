@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas - Images</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+var images = {
+    'assets/img-01.png':null,
+    'assets/img-02.png':null,
+    'assets/img-03.png':null,
+    'assets/img-04.png':null,
+    'assets/img-05.png':null,
+    'assets/img-06.png':null,
+};
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    for (src in images) {
+        if(images[src] != null) ctx.drawImage(images[src], 0, 0);
+    }
+}
+
+function loadImages() {
+    for (src in images) {
+        var img = new Image();
+        img.onload = function() {
+            images[src] = img;
+
+            for(src in images) {
+                if (images[src] === null) return;
+            }
+
+            requestAnimationFrame(draw);
+        };
+        img.src = src;
+    }
+}
+
+function init() {
+    loadImages();
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

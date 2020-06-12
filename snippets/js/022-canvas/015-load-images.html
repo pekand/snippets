@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas - Images</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJzdmcwMSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBzdHlsZT0iZGlzcGxheTpub25lOyI+CiAgICAgIDxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjIwIiBzdHJva2U9ImdyZWVuIiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9InllbGxvdyIvPgogICAgPC9zdmc+" alt="">
+    <!-- Resources -->
+
+    <img id="image01" src="assets/img-01.png" style="display:none;">
+
+    <video id="video01" controls style="display:none;">
+        <source src="assets/video.mp4" type="video/mp4">
+        Sorry, your browser doesn't support embedded videos.
+    </video>
+
+    <canvas id="canvas01" width="50" height="50" style="display:none;"></canvas>
+
+    <div style="display:none;">
+        <svg id="svg01" width="50" height="50" >
+          <circle cx="25" cy="25" r="20" stroke="green" stroke-width="4" fill="yellow" />
+        </svg>
+    </div>
+    
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+var image01 = null;
+var image02 = null;
+var image03 = null;
+var image04 = null;
+var image05 = null;
+var image06 = null;
+var video01 = null;
+var canvas01 = null;
+var svg01 = null;
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+    if(image01 != null) ctx.drawImage(image01, 0, 0, 50, 50);
+    if(image02 != null) ctx.drawImage(image02, 50, 0, 50, 50);
+    if(image03 != null) ctx.drawImage(image03, 100, 0, 50, 50);
+    if(image04 != null) ctx.drawImage(image04, 150, 0, 15, 16);
+    if(image05 != null) ctx.drawImage(image05, 200, 0, 50, 50);
+    if(image06 != null) ctx.drawImage(image06, 250, 0, 50, 50);
+    if(video01 != null) ctx.drawImage(video01, 300, 0, 50, 50);
+    if(canvas01 != null) ctx.drawImage(canvas01, 350, 0);
+    if(svg01 != null) ctx.drawImage(svg01, 400, 0);
+}
+
+function loadImages() {
+
+    /*
+        load image from hidden element
+    */
+    image01 = document.getElementById('image01');
+
+    /*
+        create image object
+    */
+    image02 = new Image();
+    image02.onload = function() {
+        requestAnimationFrame(draw);
+    };
+    image02.src = 'assets/img-02.png'; 
+
+    /*
+        create image object
+    */
+    image03 = new Image();
+    image03.addEventListener('load', function() {
+        requestAnimationFrame(draw);
+    });
+    image03.src = 'assets/img-03.png'; 
+
+    /*
+        load from base64 
+        (https://www.base64-image.de/)
+    */
+    image04 = new Image();
+    image04.onload = function() {
+        requestAnimationFrame(draw);
+    };
+    image04.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAACoklEQVQ4jY2SzWucVRTGf+fce2eGeZNx0jSUVMTP1lapk+kmWm0aKjQRbNFI60rqsot0oYKgf4EL3Yi7buxO0Y34sSrUhJhkE+rXWpsqhrRZ2Jg4nfe+7z0uJsEpKPps7uHA89yHww/+QaoowAvH5fkXj8vp/t3/kogIwLcfjax8//HItf7df2r3p0P380g+V+/G+Xp++AE5+G8ttJeOqKBO0eAJANPjTIXGQMU3BsJzT9oUQPAEp6gKKoIAvcFMLBmpTKQYiQCnnwlnyLegu9WbgTwSy0RKRjITE0EcQL1Kbf+IjD56nxx44mE9cvakn3nllL3q3T0eq7B/qHOv4fKBGtmeQZrBi4+F5XlBIW+8rBffuTj6bmf79zuDDW0QcpBE2lYT69U0wTRLginEClubabOWNWtvfbD2pn7zgy2vrm1fHxy1RkzNIt/0sejsK3tmAwwxpOjsK/NNH2NqFgOj1vhlfWt18Udbcr/e4rdLn925lJlVj7W2n3YBr2VSrAthCLQG5Z8oqKtG5/QPef/D8r2X3u6c/WmNG6iiTnEAEy19avWTys+2EKy86so0n1maz6y86kpbCHbj08r1ybYeA3CKU0U17Vy1GqjOf5eWvlxKn5MFSjeULOVmKbfSDSWywFdL6Yuvr6XFaqCajJQSyQNgWDfSDR53oq2T5IqZN/E9+Kz0Rq6caOtk8LhupCvscAAgO4SNHaD12ENyJMbhopJthI3bcnPjttysZBshxuHi0IPyePsgYzuevwNUeu/0eJiiuZdQX/dzi3pl7Hzeap/PW3OLeiXU1z3NvUyPh1P9HnZRBli+XF2wlWF77ZybBRCQ3aqvn3OztjJsy5erC/2euwJmZ9yFk0dlAsA7vEqPe+/wAM8elYnZGXeh3/MXtV0OKXsTzPIAAAAASUVORK5CYII="
+
+    /*
+        load from image
+    */
+    video01 = document.getElementById('video01');
+
+    /*
+        use canvas as image
+    */
+    canvas01 = document.getElementById('canvas01');
+    var ctx01 = canvas01.getContext('2d');
+    ctx01.fillStyle = 'rgb(200, 0, 0)';
+    ctx01.fillRect(0, 0, 50, 50);
+
+    /*
+        use svg as image in canvas
+    */
+    svg01 = document.getElementById('svg01');
+    var xml = new XMLSerializer().serializeToString(svg01);
+    var svg64 = btoa(xml);
+    var b64Start = 'data:image/svg+xml;base64,';
+    var image64 = b64Start + svg64;
+
+    image05 = new Image();
+    image05.onload = function() {
+        requestAnimationFrame(draw);
+    };
+    image05.src = image64;  
+    
+    requestAnimationFrame(draw);
+}
+
+function init() {
+    loadImages();
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

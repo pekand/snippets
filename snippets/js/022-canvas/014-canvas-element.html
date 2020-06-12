@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas - Hit region</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+</main>
+<script>
+function init() {
+    var c = document.createElement('canvas');
+    c.setAttribute('width', 500);
+    c.setAttribute('height', 500);
+
+    var ctx = c.getContext('2d');
+
+    ctx.beginPath();
+    ctx.arc(50, 50, 25, 0, 2 * Math.PI, false);
+    ctx.fill();
+
+    var img = new Image();
+    var data = c.toDataURL('image/png')
+    console.log(data);
+    img.src = data;
+
+
+    var  canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(c, 0,0);
+    ctx.drawImage(c, 100 ,0);
+    ctx.drawImage(img, 200 ,0);
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

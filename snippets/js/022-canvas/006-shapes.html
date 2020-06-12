@@ -19,30 +19,35 @@
 
             var ctx = canvas.getContext('2d');
 
-            /******/
-
+            /*
+                fillRect
+            */
             ctx.fillStyle = 'rgb(200, 0, 0)';
             ctx.fillRect(10, 10, 50, 50); 
 
-            /******/
-
+            /*
+                strokeRect
+            */
             ctx.strokeRect(100, 10, 50, 50); 
 
-            /******/
-
+            /*
+                clearRect
+            */
             ctx.fillRect(200, 10, 50, 50);
             ctx.clearRect(210, 20, 30, 30); // make transparent center of rectangle
 
-            /******/
-
+            /*
+                path - line
+            */
             ctx.beginPath();
             ctx.moveTo(300, 10);
             ctx.lineTo(350, 10);
             ctx.lineTo(350, 60);
             ctx.stroke();
 
-            /******/
-
+            /*
+                path - closePath
+            */
             ctx.beginPath();
             ctx.moveTo(400, 10);
             ctx.lineTo(450, 10);
@@ -50,28 +55,33 @@
             ctx.closePath();
             ctx.stroke();
 
-            /******/
-
+            /*
+                path - fill 
+            */
             ctx.beginPath();
             ctx.moveTo(500, 10);
             ctx.lineTo(550, 10);
             ctx.lineTo(550, 60);
             ctx.fill();
 
-            /******/
-
+            /*
+                arc - stroke
+                x y r a_start a_end 
+            */
             ctx.beginPath();
             ctx.arc(10 + 25, 110, 25, 0, Math.PI * 2);
             ctx.stroke();
 
-            /******/
-
+            /*
+                arc - fill
+            */
             ctx.beginPath();
             ctx.arc(10 + 125, 110, 25, 0, Math.PI * 2);
             ctx.fill();
 
-            /******/
-
+            /*
+                arcTo
+            */
             var px = 200;
             var py = 90;
             ctx.beginPath();
@@ -81,8 +91,9 @@
             ctx.lineTo(px+50, py+50);         
             ctx.stroke();
 
-            /******/
-
+            /*
+                quadraticCurveTo
+            */
             var x = 300;
             var y = 90;
             ctx.beginPath();
@@ -90,8 +101,9 @@
             ctx.quadraticCurveTo(x+50, y, x+50, y+50); // cx, cy - control point; ex, ey - end point 
             ctx.stroke();
 
-            /******/
-
+            /*
+                bezierCurveTo
+            */
             var x = 400;
             var y = 90;
             ctx.beginPath();

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    /*
+        save state
+        - save transformations 
+        - save canvas settings:  strokeStyle fillStyle globalAlpha lineWidth lineCap lineJoin miterLimit lineDashOffset shadowOffsetX shadowOffsetY shadowBlur shadowColor globalCompositeOperation font textAlign textBaseline direction imageSmoothingEnabled
+        - save clipping path
+    */
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, 150, 150);
+    ctx.save(); // save canvas settings
+    ctx.fillStyle = 'green'; 
+    ctx.fillRect(15, 15, 120, 120);
+    ctx.restore();  // restore canvas settings  
+    ctx.fillRect(30, 30, 90, 90);
+
+}
+
+function init() {
+    requestAnimationFrame(draw);
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

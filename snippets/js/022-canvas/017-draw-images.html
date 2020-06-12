@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas - Images</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="600"></canvas>    
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+var image01 = null;
+
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    /*
+        draw image
+    */
+    if(image01 != null) {
+        ctx.drawImage(image01, 0, 0);
+        ctx.strokeRect(0, 0, 255, 255); 
+        ctx.strokeRect(50, 50, 160, 160);
+    }
+
+    /*
+        scale image
+    */
+    if(image01 != null) ctx.drawImage(image01, 300, 0, image01.width/2, image01.height/2);
+
+    /*
+        Slicing image ( cut image)
+    */
+    if(image01 != null) ctx.drawImage(image01,
+        50, 50, 160, 160, // inner area in image (s1, s2, sw, sh)
+        500, 0, 160, 160
+    );
+
+    
+}
+
+function loadImages() {
+    
+    image01 = new Image();
+    image01.onload = function() {
+        requestAnimationFrame(draw);
+    };
+    image01.src = 'assets/img-02.png'; 
+
+    
+    
+    requestAnimationFrame(draw);
+}
+
+function init() {
+    loadImages();
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>
