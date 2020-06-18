@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas</title>
+<style type="text/css"></style>
+<main>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+</main>
+<script>
+
+var canvas = document.getElementById('canvas');
+
+var image01 = null;
+
+
+function draw(now) {
+    var ctx = canvas.getContext('2d');
+
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(image01, 0, 0, 500, 500);
+
+    ctx.imageSmoothingEnabled = true; // default is true
+    //ctx.mozImageSmoothingEnabled = true;
+    //ctx.webkitImageSmoothingEnabled = true;
+    //ctx.msImageSmoothingEnabled = true;
+    ctx.drawImage(image01, 500, 0, 500, 500);
+
+}
+
+function init() {
+    image01 = new Image();
+    image01.onload = function() {
+        requestAnimationFrame(draw);
+    };
+    image01.src = 'assets/img-02.png';
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>

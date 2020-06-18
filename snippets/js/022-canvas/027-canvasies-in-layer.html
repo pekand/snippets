@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="Description" content="description here.">
+<title>Canvas</title>
+
+<style type="text/css">
+    main{width: 100px;height: 100px;position: relative;} 
+    canvas{position: absolute;}
+    #canvas1{z-index: 1;}
+    #canvas2{z-index: 2;}
+    #canvas3{z-index: 3;}
+</style>
+
+    <main>
+        <canvas id="canvas1" width="200" height="200"></canvas>
+        <canvas id="canvas2" width="200" height="200"></canvas>
+        <canvas id="canvas3" width="200" height="200"></canvas>
+    </main>
+
+<script>
+
+var canvas1 = document.getElementById('canvas1');
+var canvas2 = document.getElementById('canvas2');
+var canvas3 = document.getElementById('canvas3');
+
+function draw1(now) { // draw background (low frequency)
+    var ctx1 = canvas1.getContext('2d', { alpha: false });
+     ctx1.fillStyle = 'rgb(255, 0, 0)';
+     ctx1.fillRect(10, 10, 50, 50); 
+}
+
+function draw2(now) { // draw layer1
+    var ctx2 = canvas1.getContext('2d');
+     ctx2.fillStyle = 'rgb(0, 255, 0)';
+     ctx2.fillRect(70, 10, 50, 50); 
+}
+
+function draw3(now) { // draw layer2
+    var ctx3 = canvas1.getContext('2d');
+
+     ctx3.fillStyle = 'rgb(0, 0, 255)';
+     ctx3.fillRect(130, 10, 50, 50); 
+
+     requestAnimationFrame(draw3);
+}
+
+function init() {
+    requestAnimationFrame(draw1);
+    requestAnimationFrame(draw2);
+    requestAnimationFrame(draw3);
+}
+
+window.addEventListener("load", init);
+</script>
+
+</html>
