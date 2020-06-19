@@ -5,10 +5,6 @@
     <meta charset="utf-8">
     <title>CSS Positioning</title>
     <style>
-    .clear {
-        clear: both;
-    }
-
     .example {
         margin: 10px;
         padding: 10px;
@@ -19,7 +15,6 @@
     .box {
         width: 50px;
         height: 50px;
-        float: left;
         background-color: red;
     }    
     </style>
@@ -28,7 +23,7 @@
 <body>
     <main>
        
-       <style>
+        <style>
              .example1 .box {
                 position: static;
             }
@@ -38,31 +33,77 @@
             <div class="box">
                 static 
             </div>
-            <div class="clear"></div>
+            
         </div>
+
         <!---->
+
         <style>
             .example2 .box {
                 position: relative;
                 left: 50px;
-                top: -10px;
+                top: -20px;
             }
 
             
         </style>
-        <h3>Relative (move div around initial position)</h3>
+        <h3>Relative (move div around own initial position) (not remove from document flow)</h3>
         <div class="example example2">
             <div class="box">
                 relative 
             </div>
-            <div class="clear"></div>
+            
         </div>
+
         <!---->
+
+        <style>
+            .example10 .box {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+
+            }
+        </style>
+        <h3>Absolute (move relative to first perent with no static position - example of document body parent) (remove from document flow)</h3>
+        <div class="example example10">
+            <div class="box">
+                absolute1 
+            </div>
+            
+        </div>
+
+        <!---->
+
+        <style>
+            .example4 {
+                position: relative;
+            }
+
+            .example4 .box {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                background-color: blue;
+            }
+            
+            
+        </style>
+        <h3>Absolute (move relative to first perent with no static position - example of parent with relative position) (remove from document flow)</h3>
+        <div class="example example4">
+            <div class="box">
+                absolute2
+            </div>
+            
+        </div>
+
+        <!---->
+
         <style>
             .example3 .box {
                 position: fixed;
                 top: 10px;
-                right: 10px;
+                right: 100px;
                 background-color: green;
             }
 
@@ -73,31 +114,11 @@
             <div class="box">
                 fixed 
             </div>
-            <div class="clear"></div>
+            
         </div>
-        <!---->
-        <style>
-            .example4 {
-                position: relative;
-            }
 
-            .example4 .box {
-                position: absolute;
-                right: 10px;
-                top: 10px;
-                background-color: blue;
-            }
-            
-            
-        </style>
-        <h3>Absolute (fixed according to relative perent)</h3>
-        <div class="example example4">
-            <div class="box">
-                absolute 
-            </div>
-            <div class="clear"></div>
-        </div>
         <!---->
+
         <style>
             .example5 {
                 height:200px;
@@ -114,15 +135,45 @@
         </style>
         <h3>Sticky (stick  to top)</h3>
         <div class="example example5">
-            <div class="random-content" data-count="500"></div>
+            <div>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+            </div>
             <div class="box">
                 sticky
             </div>
-            <div class="clear"></div>
-            
-            <div class="random-content" data-count="2000"></div>
+            <div>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+            </div>
         </div>
+
         <!---->
+
         <style>
             .example6 {
                 height:200px;
@@ -137,15 +188,56 @@
         </style>
         <h3>Sticky (stick  to bottom)</h3>
         <div class="example example6">
-            <div class="random-content" data-count="2000"></div>
+            <div>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+            </div>
             <div class="box">
                 sticky
             </div>
-            <div class="clear"></div>
-            
-            <div class="random-content" data-count="2000"></div>
+            <div>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+                aaaaaaaaaa<br>
+            </div>
         </div>
+
         <!---->
+
         <style>
             .example7 {
                 height:200px;
@@ -154,11 +246,11 @@
             .example7 .container{
                 position: relative;
                 background-color: red;
-                width: 100%;
-                height: 100%;
+                width: 200px;
+                height: 200px;
             }
             
-            .example7 .container .text {
+            .example7 .container .description {
                 position: absolute;
                 right: 0;
                 top: 0;
@@ -167,23 +259,25 @@
             
             .example7 .container .image{
                 background-color: blue;
-                width: 100%;
-                height: 100%;
+                width: 200px;
+                height: 200px;
             }
         </style>
-        <h3>Place text to corner</h3>
+        <h3>Place text to right corner of image</h3>
         <div class="example example7">
             <div class="container">
                 <div class="image">
                     image
                 </div>    
                 
-                <div class="text">
-                    text
+                <div class="description">
+                    description
                 </div>    
             </div>
         </div>
+
         <!---->
+
         <style>
             .example8 {
                 height:200px;
@@ -242,7 +336,9 @@
                 </div>    
             </div>
         </div>
+
         <!---->
+
         <style>
             .example9 {
                 height:200px;
@@ -273,10 +369,9 @@
                 </div>      
             </div>
         </div>
+
         <!---->
         
     </main>
 </body>
-<script src="/js/003-random-text-generator/random-text-generator.js"></script>
-
 </html>
