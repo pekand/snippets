@@ -1,7 +1,7 @@
 <?php
 
 /*
-setup gmail account for less csecure apps: https://myaccount.google.com/lesssecureapps
+    NOTE: setup gmail account for less csecure apps: https://myaccount.google.com/lesssecureapps
 */
 
 
@@ -55,7 +55,6 @@ $mail->setFrom($from, 'Mailer');
 $mail->addAddress($to, 'pekand');
 
 $mail->addAttachment('attachment.png', 'screenshot');    
-
 
 $mail->isHTML(true);
 
