@@ -1,2 +1,2 @@
 cd $(dirname $0)/..
-composer create-project --prefer-dist laravel/laravel app
+php composer.phar create-project --prefer-dist laravel/laravel app "6.*"

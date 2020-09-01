@@ -1,0 +1,35 @@
+{
+    "name": "pekand/detailog",
+    "description": "Detail log",
+    "keywords": ["log"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrej Pekar",
+            "email": "pekand@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pekand\\DetailLog\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pekand\\DetailLog\\Providers\\DetailLogServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
