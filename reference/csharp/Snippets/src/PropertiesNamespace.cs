@@ -24,13 +24,13 @@ namespace Snippets.PropertiesNamespace
         {
             Console.WriteLine("-Properties");
 
-            Person obj = new Person();
-
-            obj.Name = "Joe";
+            Person obj = new Person
+            {
+                Name = "Joe",
+                Surname = "Smith"
+            };
 
             Console.WriteLine(obj.Name);
-
-            obj.Surname = "Smith";
 
         }
     }

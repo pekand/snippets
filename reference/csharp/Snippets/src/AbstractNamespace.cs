@@ -24,7 +24,7 @@ namespace Snippets.AbstractNamespace
 
         public static void Run()
         {
-            Console.WriteLine("-Abstract");
+            Console.WriteLine("\n====Abstract====\n");
 
             AbstractNamespace.Square square = new AbstractNamespace.Square();
             int area = square.GetArea();

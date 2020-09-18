@@ -14,7 +14,8 @@ namespace Snippets.BaseClassNamespace
     }
     class Class2 : Class1
     {
-        public Class2(int i, int j) { 
+        public Class2(int i, int j) {
+            Console.WriteLine("{0} {0}", i, j);
         }
 
         public override void GetInfo()
@@ -26,6 +27,7 @@ namespace Snippets.BaseClassNamespace
     {
         public Class3(int i): base(i, i) // call base clas constructor
         {
+            Console.WriteLine(i);
         }
 
         public override void GetInfo()
@@ -40,7 +42,7 @@ namespace Snippets.BaseClassNamespace
 
         public static void Run()
         {
-            Console.WriteLine("-Base");
+            Console.WriteLine("\n====Base====\n");
 
             BaseClassNamespace.Class3 obj = new BaseClassNamespace.Class3(1);
             obj.GetInfo();

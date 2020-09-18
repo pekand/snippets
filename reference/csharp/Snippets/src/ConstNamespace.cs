@@ -12,6 +12,8 @@ namespace Snippets.ConstNamespace
             Console.WriteLine("-Const");
 
             const int val = 0;
+
+            Console.WriteLine("{0}", val);
         }
     }
 }

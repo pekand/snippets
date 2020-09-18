@@ -13,8 +13,8 @@ namespace Snippets.FunctionNamespace
             Console.WriteLine("-Function");
 
             ClassNamespace.Class1 obj = new ClassNamespace.Class1();
-            obj.method1();
-            obj.method2();
+            obj.Method1();
+            obj.Method2();
         }
     }
 }

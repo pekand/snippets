@@ -7,7 +7,7 @@ namespace Snippets.NestedNamespace
     class Class1
     {
 
-        public static void method1()
+        public static void Method1()
         {
 
         }
@@ -16,10 +16,10 @@ namespace Snippets.NestedNamespace
 
     class Class2
     {
-        public static void method1()
+        public static void Method1()
         {
-            Class1.method1();
-            NestedNamespace.Class1.method1();
+            Class1.Method1();
+            NestedNamespace.Class1.Method1();
         }
 
     }
@@ -28,7 +28,7 @@ namespace Snippets.NestedNamespace
     {
         public class Class1
         {
-            public static void method1()
+            public static void Method1()
             {
                 Console.WriteLine("Message");
             }

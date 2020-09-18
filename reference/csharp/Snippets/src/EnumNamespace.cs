@@ -40,17 +40,18 @@ namespace Snippets.EnumNamespace
         {
             Console.WriteLine("-Enum");
 
-            EnumNamespace.Month month = new EnumNamespace.Month();
-            month = EnumNamespace.Month.February;
+            EnumNamespace.Month month = Month.February;
+
             Console.WriteLine(month);
+
             Console.WriteLine((int)EnumNamespace.Month.August);
+
             month = (EnumNamespace.Month)11;
             Console.WriteLine(month);
 
 
 
-            EnumNamespace.Days days = new EnumNamespace.Days();
-            days = EnumNamespace.Days.Monday | EnumNamespace.Days.Wednesday | EnumNamespace.Days.Friday;
+            EnumNamespace.Days days = EnumNamespace.Days.Monday | EnumNamespace.Days.Wednesday | EnumNamespace.Days.Friday;
 
             if ((days & EnumNamespace.Days.Monday) == EnumNamespace.Days.Monday)
             {

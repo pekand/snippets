@@ -8,7 +8,7 @@ namespace Snippets.StaticClassNamespace
     {
         public static int attrib1 = 0;
 
-        public static void method1()
+        public static void Method1()
         {
             Console.WriteLine(attrib1);
             Console.WriteLine(Class1.attrib1);
@@ -21,7 +21,7 @@ namespace Snippets.StaticClassNamespace
         public static void Run()
         {
             Console.WriteLine("-static class");
-            Class1.method1();
+            Class1.Method1();
         }
     }
 }

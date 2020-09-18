@@ -48,6 +48,12 @@ namespace Snippets.DataNamespace
             string s2 = @"string"; // Verbatim string literals
 
             Console.WriteLine("", s1, s2);
+
+            dynamic dyn = 1; // resolve type at runtime
+            object obj = 1; // alias fro System.Object, all basic types are derived from this type
+
+            System.Console.WriteLine(dyn.GetType());
+            System.Console.WriteLine(obj.GetType());
         }
     }
 }

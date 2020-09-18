@@ -19,7 +19,12 @@ namespace Snippets.EventNamespace
     {
 
         public static void OnActionOccured(string message) {
-            Console.WriteLine(message);
+            Console.WriteLine("A1: " + message);
+        }
+
+        public static void OnActionOccured2(string message)
+        {
+            Console.WriteLine("A2: " + message);
         }
 
         public static void Run()
@@ -28,6 +33,9 @@ namespace Snippets.EventNamespace
 
             Class1 obj = new Class1();
             obj.AfterAction += OnActionOccured;
+
+            obj.AfterAction += OnActionOccured2;
+            obj.AfterAction -= OnActionOccured2;
 
             obj.Action();
 

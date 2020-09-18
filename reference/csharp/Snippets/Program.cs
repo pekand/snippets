@@ -10,7 +10,12 @@ namespace Snippets
     {
         static void Main(string[] args)
         {
+            foreach (string arg in args) {
+                Console.WriteLine(arg);
+            }
+
             DataNamespace.App.Run();
+            ArrayNamespace.App.Run();
             ConstNamespace.App.Run();
             IfNamespace.App.Run();
             GotoNamespace.App.Run();
@@ -30,6 +35,7 @@ namespace Snippets
             EnumNamespace.App.Run();
             StructNamespace.App.Run();
             ClassNamespace.App.Run();
+            ClassOperatorsNamespace.App.Run();
             BaseClassNamespace.App.Run();
             AbstractNamespace.App.Run();
             PropertiesNamespace.App.Run();
@@ -37,13 +43,15 @@ namespace Snippets
             EventNamespace.App.Run();
             DelegateNamespace.App.Run();
             ConversionNamespace.App.Run();
+            ExternNamespace.App.Run();
+            UnsafeNamespace.App.Run();
+            ThreadNamespace.App.Run();
 
             Console.WriteLine("Done");
         }
     }
 }
 
-// const
 
 // new 
 // this
