@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
-
 namespace Snippets
 {
     class Program
@@ -51,42 +49,3 @@ namespace Snippets
         }
     }
 }
-
-
-// new 
-// this
-
-// class
-
-
-// abstract
-// base
-// checked 
-
-// delegate
-// event
-// explicit
-// extern
-// fixed
-// implicit
-// interface
-// internal
-// lock
-
-// typeof
-
-// void
-
-// object
-// operator
-// out
-// override
-// params
-// readonly
-// ref 
-// sealed
-// stackalloc
-// unchecked
-// unsafe
-// virtual 
-// volatile
