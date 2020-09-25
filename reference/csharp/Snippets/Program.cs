@@ -44,6 +44,10 @@ namespace Snippets
             ExternNamespace.App.Run();
             UnsafeNamespace.App.Run();
             ThreadNamespace.App.Run();
+            RefNamespace.App.Run();
+            ReadonlyNamespace.App.Run();
+            ParamsNamespace.App.Run();
+            UncheckedNamespace.App.Run();
 
             Console.WriteLine("Done");
         }

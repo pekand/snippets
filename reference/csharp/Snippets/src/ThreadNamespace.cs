@@ -14,7 +14,7 @@ namespace Snippets.ThreadNamespace
             lock (obj)  
             {  
                 Thread.Sleep(100);  
-                Console.WriteLine(Environment.TickCount);  
+                Console.WriteLine("Thread: "+ Environment.TickCount.ToString());  
             }  
         }  
 
@@ -22,7 +22,7 @@ namespace Snippets.ThreadNamespace
         {
             Console.WriteLine("-Thread");
 
-            for (int i = 0; i < 10; i++)  
+            for (int i = 0; i < 3; i++)  
             {  
                 ThreadStart start = new ThreadStart(TestLock);  
                 new Thread(start).Start();  
