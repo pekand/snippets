@@ -5,7 +5,7 @@ using System.Text;
 namespace Snippets.AbstractNamespace
 {
 
-    abstract class Shape
+    abstract class Shape // class can by abstract without abstract method
     {
         public abstract int GetArea();
     }
@@ -13,7 +13,7 @@ namespace Snippets.AbstractNamespace
     class Square : Shape
     {
 
-        public override int GetArea()
+        public override int GetArea() // must have same access level
         {
             return 0;
         }
@@ -26,7 +26,7 @@ namespace Snippets.AbstractNamespace
         {
             Console.WriteLine("\n====Abstract====\n");
 
-            AbstractNamespace.Square square = new AbstractNamespace.Square();
+            Square square = new Square();
             int area = square.GetArea();
             Console.WriteLine("square area = " + area);
         }

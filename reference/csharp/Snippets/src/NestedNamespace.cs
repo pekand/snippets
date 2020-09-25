@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Snippets.NestedNamespace
 {
+
+    using Class1Alias = Snippets.NestedNamespace.Class1; // create alias
+
     class Class1
     {
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Snippets.StructNamespace
 {
-    public readonly struct Coords
+    public readonly struct Coords // readonly struct prevent modification in methods
     {
         public Coords(double x, double y)
         {
@@ -12,7 +12,7 @@ namespace Snippets.StructNamespace
             Y = y;
         }
 
-        public readonly double Sum()
+        public readonly double Sum() // readonly prevent data modification from method
         {
             return X + Y;
         }

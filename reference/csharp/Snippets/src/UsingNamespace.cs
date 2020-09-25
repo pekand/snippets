@@ -69,15 +69,17 @@ namespace Snippets.UsingNamespace
         {
             Console.WriteLine("-Using statement");
 
-            using (Disposable obj1 = new Disposable("res"))
+            using (Disposable obj1 = new Disposable("res"), obj2 = new Disposable("res2"))
             {
                 obj1.Action();
+                obj2.Action();
             }
 
             // or 
 
-            using Disposable obj2 = new Disposable("res2");
-            obj2.Action();
+            using Disposable obj3 = new Disposable("res3"), obj4 = new Disposable("res4");
+            obj3.Action();
+            obj4.Action();
 
             Console.WriteLine(Math2.Sqrt(2)); // using Math2 = System.Math;
             Console.WriteLine(Sqrt(2)); // using static System.Math;

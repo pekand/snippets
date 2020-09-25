@@ -32,6 +32,8 @@ namespace Snippets.ClassNamespace
 
             Console.WriteLine("method1");
         }
+
+        protected virtual void F() {}
     }
 
 
@@ -68,6 +70,12 @@ namespace Snippets.ClassNamespace
         }
     }
 
+    sealed class Class2 : BaseClass // mark class as final, prevent to extending class
+    {
+        sealed protected override void F() { } // prevent override this method by child
+    }
+    
+    
     class App
     {
         private static void Action(IBase obj) {

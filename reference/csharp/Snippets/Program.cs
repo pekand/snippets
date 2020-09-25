@@ -36,6 +36,7 @@ namespace Snippets
             ClassOperatorsNamespace.App.Run();
             BaseClassNamespace.App.Run();
             AbstractNamespace.App.Run();
+            VirtualNamespace.App.Run();
             PropertiesNamespace.App.Run();
             CheckedNamespace.App.Run();
             EventNamespace.App.Run();
@@ -44,10 +45,12 @@ namespace Snippets
             ExternNamespace.App.Run();
             UnsafeNamespace.App.Run();
             ThreadNamespace.App.Run();
+            Thread2Namespace.App.Run();
             RefNamespace.App.Run();
             ReadonlyNamespace.App.Run();
             ParamsNamespace.App.Run();
             UncheckedNamespace.App.Run();
+            StackallocNamespace.App.Run();
 
             Console.WriteLine("Done");
         }
