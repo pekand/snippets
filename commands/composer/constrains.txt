@@ -1,0 +1,38 @@
+
+-composer check repository tags for specific version (v1.0)
+-composer can check branch with dev prefix (dev-branch)
+
+Exact Version 
+1.0.2
+
+Version Range > >= < <= !=  space(and) ||(or)
+>=1.0
+>=1.0 <2.0
+>=1.0 <1.1 || >=1.2
+
+Hyphenated Version Range
+1.0 - 2.0 (quivalent to >=1.0.0 <2.1)
+
+Wildcard Version Range
+1.0.* (equivalent of >=1.0 <1.1)
+
+Next Significant Release Operators
+
+Tilde Version Range ~ (until new version specified by digit before last digit) (allows the last digit specified to go up to next version)
+~1.2  (equivalent to >=1.2 <2.0.0)  (example 1.2 1.3 1.4 but not 2.0)
+~1.2.3 (equivalent to  >=1.2.3 <1.3.0)  (example 1.2.3 1.2.4 1.2.54 but not 1.3.0)
+
+Caret Version Range ^ (until new mayor version) (allows the digit specified to go up until new braking version)
+^1.2.3 (equivalent to >=1.2.3 <2.0.0  (until new braking version)) (example 1.2.3 1.3.1 1.4 but not 2.0)
+^0.3 (equivalent to >=0.3.0 <0.4.0 (for version befor stable  1.0 release))
+
+Stability Constraints
+1.2.3            (equivalent to =1.2.3.0-stable)
+>1.2             (equivalent to >1.2.0.0-stable)
+>=1.2            (equivalent to >=1.2.0.0-dev)
+>=1.2-stable     (equivalent to >=1.2.0.0-stable)
+<1.3             (equivalent to <1.3.0.0-dev)
+<=1.3            (equivalent to <=1.3.0.0-stable)
+1 - 2            (equivalent to >=1.0.0.0-dev <3.0.0.0-dev)
+~1.3             (equivalent to >=1.3.0.0-dev <2.0.0.0-dev)
+1.4.*            (equivalent to >=1.4.0.0-dev <1.5.0.0-dev)

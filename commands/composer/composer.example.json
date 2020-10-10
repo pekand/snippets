@@ -3,7 +3,14 @@
     "description": "Description",
     "type": "project",
     "homepage": "https://www.homepage.com",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./LocalVendor/LocalPackage/"
+        }
+    ],
     "require": {
+        "local-vendor/local-package": "^1.0",
         "phpmailer/phpmailer": "v6.1.7"
     },
     "require-dev": {
@@ -21,7 +28,9 @@
         "process-timeout": 300
     },
     "autoload": {
-        "psr-4": {"MyVendor\\": "MyVendor/"}
+        "psr-4": {
+            "MyVendor\\": "MyVendor/"
+        }
     },
     "scripts": {
         "pre-install-cmd":["echo pre-install-cmd"],
