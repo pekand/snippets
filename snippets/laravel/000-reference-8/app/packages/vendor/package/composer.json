@@ -17,7 +17,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Vendor\\Package\\": "src/"
+            "Vendor\\Package\\": "src/",
+            "Database\\Factories\\Vendor\\Package\\": "database/factories/",
+            "Database\\Seeders\\Vendor\\Package\\": "database/seeders/"
         }
     },
     "extra": {

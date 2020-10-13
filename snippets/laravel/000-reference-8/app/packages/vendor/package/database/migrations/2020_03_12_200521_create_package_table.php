@@ -16,6 +16,7 @@ class CreatePackageTable extends Migration
         Schema::create('package', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

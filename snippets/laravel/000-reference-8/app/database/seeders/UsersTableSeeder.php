@@ -44,10 +44,10 @@ class UsersTableSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        /*
-        User::factory(App\Models\Users\User::class, 5)->create()->each(function ($user) {
+
+        User::factory(App\Models\Users\User::class)->count(5)->create()->each(function ($user) {
             $user->save();
         });
-        */
+
     }
 }

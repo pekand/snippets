@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Factory;
+use Vendor\Package\Models\Package;
 
 class PackageTableSeeder extends Seeder
 {
@@ -22,12 +22,12 @@ class PackageTableSeeder extends Seeder
         }
 
         $ticketId = DB::table('package')->insertGetId(
-            ['name' => 'item1', 'created_at'=>now()],            
+            ['name' => 'item1', 'created_at'=>now()],
         );
 
-        /*factory(\Vendor\Package\Models\Package::class, 5)->create()->each(function ($package) {
+        Package::factory(\Vendor\Package\Models\Package::class)->count(5)->create()->each(function ($package) {
             $package->save();
-        });*/
+        });
 
     }
 }
