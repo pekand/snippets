@@ -2,6 +2,8 @@
 
 @section('main')
 
+    <h1>Control</h1>
+    
     @if (count($records) === 1)
         I have one record!<br>
     @elseif (count($records) > 1)
@@ -111,13 +113,15 @@
 
     @foreach ($users as $user)
         User: {{ $user->name }}<br>
-        @foreach ($user->tickets as $ticket)
-            @if ($loop->parent->first)
-                This is first iteration of the parent loop.<br>
-            @endif
+        @if($user->tickets != null)
+            @foreach ($user->tickets as $ticket)
+                @if ($loop->parent->first)
+                    This is first iteration of the parent loop.<br>
+                @endif
 
-            Ticket: {{ $ticket->name }}<br>
-        @endforeach
+                Ticket: {{ $ticket->name }}<br>
+            @endforeach
+        @endif
     @endforeach
 
 <hr>

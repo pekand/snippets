@@ -25,9 +25,9 @@ class PackageTableSeeder extends Seeder
             ['name' => 'item1', 'created_at'=>now()],            
         );
 
-        factory(\Vendor\Package\Models\Package::class, 5)->create()->each(function ($package) {
+        /*factory(\Vendor\Package\Models\Package::class, 5)->create()->each(function ($package) {
             $package->save();
-        });
+        });*/
 
     }
 }

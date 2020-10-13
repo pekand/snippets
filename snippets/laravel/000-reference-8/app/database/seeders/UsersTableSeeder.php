@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Users\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -33,8 +34,20 @@ class UsersTableSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        factory(App\Models\Users\User::class, 5)->create()->each(function ($user) {
+        DB::table('users')->insert([
+            'name' => 'user',
+            'email' => 'user@user',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        /*
+        User::factory(App\Models\Users\User::class, 5)->create()->each(function ($user) {
             $user->save();
         });
+        */
     }
 }

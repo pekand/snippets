@@ -2,6 +2,8 @@
 
 @section('title', 'Page Title')
 
+<h1>Extend</h1>
+
 @section('header')
     @parent
 

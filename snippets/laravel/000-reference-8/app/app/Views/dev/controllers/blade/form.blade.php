@@ -2,8 +2,11 @@
 
 @section('main')
 
-    <h1>Add ticket</h1>
-    <form name="ticket" class="form1" method="POST" action="/dev/blade/form">
+    <h1>Forms</h1>
+
+    @if($ticket != null)
+    <h2>Add ticket</h2>
+    <form name="ticket" class="form1" method="POST" action="/dev/blade/form-ticket-save">
         @csrf
         @method('POST')  {{-- hidden element for PUT, PATCH, or DELETE --}}
 
@@ -21,10 +24,15 @@
 
         <input type="submit" value="Submit">
     </form>
+    @endif
 
-    <h1>Add ticket comment</h1>
-    <form name="ticket-comment" class="form2" method="POST" action="/dev/blade/form2">
+    @if($ticket != null && $ticketComment != null)
+    <h2>Add ticket comment</h2>
+    <form name="ticket-comment" class="form2" method="POST" action="/dev/blade/form-ticket-comment-save">
         @csrf
+
+        <input name="id" type="hidden" value="{{ $ticketComment->id }}">
+        <input name="ticket_id" type="hidden" value="{{ $ticket->id }}">
 
         @error('message', 'ticket-comment')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -33,4 +41,6 @@
 
         <input type="submit" value="Submit">
     </form>
+    @endif
+
 @endsection

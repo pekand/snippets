@@ -18,39 +18,41 @@ class Blade extends Controller
 {
     public function comment(Request $request)
     {
-        return view('dev/controllers/comment');
+        return view('dev/controllers/blade/comment');
     }
 
     public function variables(Request $request)
     {
-        return view('dev/controllers/variables', [
-            'pageHeader' => 'Blade',
+        return view('dev/controllers/blade/variables', [
+            'pageHeader' => '<i>Blade</i>',
+            'pageHeader2' => '<i>Blade</i>',
+            'name' => 'xxx',
         ]);
     }
 
     public function components(Request $request)
     {
-        return view('dev/controllers/components');
+        return view('dev/controllers/blade/components');
     }
 
     public function extend(Request $request)
     {
-        return view('dev/controllers/extend');
+        return view('dev/controllers/blade/extend');
     }
 
     public function include(Request $request)
     {
-        return view('dev/controllers/include');
+        return view('dev/controllers/blade/include');
     }
 
     public function aliasing(Request $request)
     {
-        return view('dev/controllers/aliasing');
+        return view('dev/controllers/blade/aliasing');
     }
 
     public function extending(Request $request)
     {
-        return view('dev/controllers/extending', [
+        return view('dev/controllers/blade/extending', [
             'time' => new \DateTime(),
         ]);
     }
@@ -59,29 +61,29 @@ class Blade extends Controller
     {
         $users = User::get();
 
-        return view('dev/controllers/collection', [
+        return view('dev/controllers/blade/collection', [
             'users' => $users,
         ]);
     }
 
     public function stacks(Request $request)
     {
-        return view('dev/controllers/stacks', []);
+        return view('dev/controllers/blade/stacks', []);
     }
 
     public function injection(Request $request)
     {
-        return view('dev/controllers/injection', []);
+        return view('dev/controllers/blade/injection', []);
     }
 
     public function phpblock(Request $request)
     {
-        return view('dev/controllers/phpblock');
+        return view('dev/controllers/blade/phpblock');
     }
 
     public function json(Request $request)
     {
-        return view('dev/controllers/json', [
+        return view('dev/controllers/blade/json', [
             'data' => [
                 'param1' => 'value1',
                 'param2' => 'value2'
@@ -93,7 +95,7 @@ class Blade extends Controller
     {
         $users = User::get();
 
-        return view('dev/controllers/control', [
+        return view('dev/controllers/blade/control', [
             'num' => 1,
             'users' => $users,
             'records' => [
@@ -103,18 +105,17 @@ class Blade extends Controller
         ]);
     }
 
-    public function form(Request $request)
+    public function formTicket(Request $request)
     {
         $ticket = Ticket::find(1);
-        $ticketComment = TicketComment::find(1);
 
-        return view('dev/controllers/form', [
+        return view('dev/controllers/blade/form', [
             'ticket' => $ticket,
-            'ticketComment' => $ticketComment,
+            'ticketComment' => new TicketComment(),
         ]);
     }
 
-    public function formSave(Request $request)
+    public function formTicketSave(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -127,19 +128,25 @@ class Blade extends Controller
                 ->withInput();
         }
 
-        $ticket = new Ticket($request->all());
-        $ticket->assigned()->associate(Auth::user());
-        $ticket->status()->associate(
-            TicketStatus::where('name','new')->first()
-        );
-        $ticket->save();
+        $inputs = $request->all();
+
+        if($inputs['id'] == null) {
+            $ticket = new Ticket($inputs);
+            $ticket->assigned()->associate(Auth::user());
+            $ticket->status()->associate(
+                TicketStatus::where('name','new')->first()
+            );
+            $ticket->save();
+        } else {
+            $ticket = Ticket::find($inputs['id']);
+            $ticket->update($inputs);
+        }
 
         return redirect('dev/blade/form');
     }
 
-    public function form2Save(Request $request)
+    public function formTicketCommentSave(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'message' => 'required',
         ]);
@@ -150,15 +157,24 @@ class Blade extends Controller
                 ->withInput();
         }
 
-        $ticket = Ticket::where('name','ticket1')->first();
-        $user = Auth::user();
-        $ticket = new TicketComment($request->all());
-        $ticket->user()->associate($user);
-        $ticket->ticket()->associate($ticket);
-        $ticket->save();
+        $inputs = $request->all();
+
+        $ticketComment = null;
+        if($inputs['id'] == null) {
+            $ticketComment = new TicketComment($inputs);
+            $ticketId = $inputs['ticket_id'];
+            $ticket = Ticket::find($ticketId);
+            $user = Auth::user();
+            $ticketComment->user()->associate($user);
+            $ticketComment->ticket()->associate($ticket);
+            $ticketComment->save();
+        } else {
+            $ticketComment = TicketComment::find($inputs['id']);
+            $ticketComment->update($inputs);
+        }
 
         return redirect('dev/blade/form');
     }
 
-    
+
 }

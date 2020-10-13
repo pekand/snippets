@@ -5,12 +5,13 @@ namespace App\Controllers\Dev;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Router;
 
 class Info extends Controller
 {
     public function show(Request $request)
     {
-        return view('dev/dev');
+        return view('info/empty');
     }
 
     public function info(Request $request)
@@ -61,4 +62,19 @@ class Info extends Controller
             'session' => $data,
         ];
     }
+
+    public function routes(Request $request)
+    {
+        $routes = \Route::getRoutes();
+
+        foreach ($routes as $route) {  
+            echo "<a href='/".$route->uri()."'>".$route->uri().'</a> (';
+            foreach ($route->methods() as $method) {  
+               echo "{$method} ";
+            }
+            echo ")<br>";
+        }
+    }
+
+    
 }

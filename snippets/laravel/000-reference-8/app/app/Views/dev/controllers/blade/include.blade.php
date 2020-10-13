@@ -1,6 +1,9 @@
 @extends('dev/layouts/empty')
 
 @section('main')
+    
+    <h1>Include</h1>
+
     @include('dev/parts/header')
 
     @include('dev/parts/footer', ['extraVariable' => 'value']) {{-- variables are not required, include has access to all parent variables --}}

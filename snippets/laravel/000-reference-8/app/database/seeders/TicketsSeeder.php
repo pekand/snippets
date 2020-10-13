@@ -20,7 +20,7 @@ class TicketsSeeder extends Seeder
             return;
         }
 
-        $status =  DB::table('ticket_status')->where('name', 'new')->first();        
+        $status = DB::table('ticket_status')->where('name', 'new')->first();        
 
         $admin = DB::table('users')->where('name', 'admin')->first(); 
 

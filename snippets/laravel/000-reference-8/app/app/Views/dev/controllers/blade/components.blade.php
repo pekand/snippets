@@ -1,6 +1,8 @@
 @extends('dev/layouts/empty')
 
 @section('main')
+    <h1>Include alert component to template</h1>
+    
     @component('dev/components/alert', ['extraInfo' => 'extra info'])
         @slot('title')
             info
@@ -21,7 +23,7 @@
         @slot('title')
             info
         @endslot
-        You are not allowed to access this resource!
+        Alert message 3
     @endalert
 @endsection
 

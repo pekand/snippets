@@ -16,6 +16,8 @@
 
     @stack('scripts')
 
+    <h1>Stacks example (view code)</h1>
+
 @endsection
 
 

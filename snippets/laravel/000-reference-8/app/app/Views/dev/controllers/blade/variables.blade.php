@@ -3,14 +3,16 @@
 @section('main')
     <h1>{{ $pageHeader }}</h1> {{-- use htmlspecialchars --}}  
 
+    <h2>{!! $pageHeader2 !!}</h2> {{-- raw string --}} 
+
     <h2>{{ now() }}</h2>
 
-    @{{ name }} {{-- escape --}}  
+    @{{ text with brackets }} {{-- escape brackets--}}  
 
-    {{-- escape  block --}}  
+    {{-- escape brackets in block --}}  
     @verbatim 
         <div>
-            {{ name }}.
+            {{ text with brackets }}.
         </div>
     @endverbatim
 @endsection

@@ -19,6 +19,8 @@ Route::get('/dev/', 'Dev@show')->middleware(['auth', 'web']);
 Route::group(['middleware' => [ 'web']], function()
 {
 
+
+Route::get('/info', 'Info@show');
 Route::get('/info/info', 'Info@info');
 Route::get('/info/env', 'Info@env');
 Route::get('/info/server', 'Info@server');
@@ -26,6 +28,7 @@ Route::get('/info/session', 'Info@session');
 Route::get('/info/csfr', 'Info@csfr');
 Route::get('/info/token', 'Info@csfr');
 Route::get('/info/user', 'Info@user');
+Route::get('/info/routes', 'Info@routes');
 
 /*
     Getting Started
@@ -83,9 +86,9 @@ Route::get('/dev/blade/collection', 'Blade@collection');
 Route::get('/dev/blade/stacks', 'Blade@stacks');
 Route::get('/dev/blade/injection', 'Blade@injection');
 Route::get('/dev/blade/extending', 'Blade@extending');
-Route::get('/dev/blade/form', 'Blade@form');
-Route::post('/dev/blade/form', 'Blade@formSave');
-Route::post('/dev/blade/form2', 'Blade@form2Save');
+Route::get('/dev/blade/form', 'Blade@formTicket');
+Route::post('/dev/blade/form-ticket-save', 'Blade@formTicketSave');
+Route::post('/dev/blade/form-ticket-comment-save', 'Blade@formTicketCommentSave');
 
 /* localization */
 Route::get('/dev/localization/{locale}', 'Localization@main');

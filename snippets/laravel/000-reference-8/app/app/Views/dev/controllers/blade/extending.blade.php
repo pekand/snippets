@@ -1,7 +1,8 @@
 @extends('dev/layouts/empty')
 
 @section('main')
-
+    <h1>Extend empty template with main section</h1>
+    
     @datetime($time) {{-- defined in BladeServiceProvider --}}
 
 <br>
