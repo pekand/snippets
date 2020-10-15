@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Controllers\Dev;
+namespace App\Controllers\Info;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\App;
 
 class Info extends Controller
 {
@@ -24,6 +25,7 @@ class Info extends Controller
     public function env(Request $request)
     {
         return [
+            'APP_ENV' => App::environment(),
             'env' => $_ENV,
             'server' => $_SERVER,
         ];
@@ -67,14 +69,29 @@ class Info extends Controller
     {
         $routes = \Route::getRoutes();
 
-        foreach ($routes as $route) {  
-            echo "<a href='/".$route->uri()."'>".$route->uri().'</a> (';
-            foreach ($route->methods() as $method) {  
-               echo "{$method} ";
+        $data = ['routes'=>[]];
+        foreach ($routes as $route) {
+
+            $routeData = [];
+
+            $routeData['uri'] = $route->uri();
+            $routeData['methods'] = [];
+            foreach ($route->methods() as $method) {
+                $routeData['methods'][] = $method;
             }
-            echo ")<br>";
+
+            $data['routes'][] = $routeData;
         }
+
+        if(isset($_GET['RAW'])){
+            foreach ($data['routes'] as $route) {
+               echo  '<a href="/'.$route['uri'].'">'.$route['uri'].'</a><br>';
+            }
+            return null;
+        }
+
+        return $data;
     }
 
-    
+
 }

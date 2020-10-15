@@ -14,6 +14,8 @@ class Eloquent extends Controller
     public function test(Request $request)
     {
 
+        $out = [];
+
         $admin = User::where('name','admin')->first();
 
         $newStatus = TicketStatus::where('name','new')->first();
@@ -46,35 +48,48 @@ class Eloquent extends Controller
         }
 
         $ticket = Ticket::find($ticket->id);
+        $out['ticket_id'] = $ticket->id;
+        $out['ticket_name'] = $ticket->name;
 
         $status = $ticket->status;
-        var_dump($status->name);
+        $out['ticket_status'] = $status->name;
 
         $ticketInfoId = $ticket->info->id;
-        var_dump($ticketInfoId);
+        $out['ticket_info_id'] = $ticketInfoId;
 
         $watchers  = $ticket->watchers;
 
 
+        $watchersOut = [];
         foreach ($watchers as $watcher) {
-           var_dump($watcher->name);
+           $watchersOut[] = $watcher->name;
         }
+
+        $out['ticket_watchers'] = $watchersOut;
 
         $watching = $admin->watching;
 
+        $out['admin_id'] = $admin->id;
+
+        $ticketsOut = [];
         foreach ($watching as $ticket) {
-           var_dump($ticket->name);
-           var_dump($ticket->subscription->active); // access to join table column
+            $ticketsOut[] = [
+                $ticket->name,
+                $ticket->subscription->active,
+            ];
         }
+        $out['user_watching'] = $ticketsOut;
 
         $comments = $ticket->comments;
 
+        $comentOut = [];
         foreach ($comments as $comment) {
-           var_dump($comment->message);
-           var_dump($comment->ticket->name);
+           $comentOut[] = [
+                $comment->message,
+                $comment->ticket->name,
+           ];
         }
-
-        echo "New item id:".$ticket->id."<br>";
+        $out['ticket_comments'] = $comentOut;
 
         // get fresh model from database
         $ticket = $ticket->fresh();
@@ -113,9 +128,12 @@ class Eloquent extends Controller
             // read with cursor
         }
 
+        $ticketsOut = [];
         foreach ($tickets as $ticket) {
-            echo $ticket->name."<br>";
+            $ticketsOut[] = [$ticket->name];
         }
+        $out['tickets'] = $ticketsOut;
 
+        return $out;
     }
 }

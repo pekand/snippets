@@ -2,20 +2,23 @@
 
 namespace App\Listeners;
 
+use Illuminate\Support\Facades\Log;
+
+
 class TicketEventSubscriber
 {
     /**
      * Handle new ticket event
      */
     public function handleNewTicket($event) {
-        echo "NewTicket event occured in subscriber<br>\n";
+        Log::notice("TicketEventSubscriber: NewTicket event occured in subscriber");
     }
 
     /**
      * Handle closed ticket event
      */
     public function handleClosedTicket($event) {
-        echo "ClosedTicket event occured in subscriber<br>\n";
+        Log::notice("TicketEventSubscriber: ClosedTicket event occured in subscriber");
     }
 
     /**

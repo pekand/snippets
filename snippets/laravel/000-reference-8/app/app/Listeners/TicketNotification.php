@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\NewTicket;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 /*
  *
@@ -32,6 +33,6 @@ class TicketNotification
      */
     public function handle(NewTicket $event)
     {
-        echo "NewTicket event occured:".$event->ticket->name."<br>\n";
+        Log::notice("TicketNotification: NewTicket event occured:".$event->ticket->name);
     }
 }

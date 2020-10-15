@@ -10,6 +10,7 @@ use App\Lib\Repositories\TicketRepository;
 use App\Lib\Repositories\TaggedRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Psr\Container\ContainerInterface;
+use Illuminate\Support\Facades\Log;
 
 class Services extends Controller
 {
@@ -53,8 +54,8 @@ class Services extends Controller
 
         try {
             $users5 = $this->container->get('App\Lib\Repositories\UserRepository'); // get instance
-        } catch (\Psr\Container\NotFoundExceptionInterface $e){
-            echo $e->getMessage();
+        } catch (\Psr\Container\NotFoundExceptionInterface $e) {
+            Log::error("Error: Services: UserRepository: Exception". $e->getMessage());
         }
 
         $app->instance('App\Lib\Repositories\UserRepository', $users2); // override instance

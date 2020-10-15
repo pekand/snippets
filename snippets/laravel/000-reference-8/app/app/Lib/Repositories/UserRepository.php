@@ -14,8 +14,6 @@ class UserRepository implements UserRepositoryContract
     public function getUsers() {
         $users = User::get();
 
-        Log::info("Request ".$requestUid);
-
         return $users;
     }
 }

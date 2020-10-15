@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Throwable;
+use Illuminate\Support\Facades\Log;
 
 class CustomException extends Exception
 {
@@ -16,7 +17,7 @@ class CustomException extends Exception
      */
     public function report()
     {
-        echo "report custom exception\n";
+        Log::notice("CustomException: report custom exception");
     }
 
     /**
@@ -29,6 +30,10 @@ class CustomException extends Exception
      */
     public function render($request)
     {
-        return "render custom exception\n";
+        Log::notice("CustomException: render custom exception");
+
+        $customException = "custom text for custom exception"; //here go custom exceptio text
+
+        return response()->json(['message' => $customException], 500);
     }
 }

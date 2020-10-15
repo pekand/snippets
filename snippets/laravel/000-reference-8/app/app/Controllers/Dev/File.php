@@ -156,7 +156,7 @@ class File extends Controller
 
     public function download(Request $request)
     {
-        return Storage::download('file.txt');
+        return Storage::disk('documents')->download('file.txt');
     }
 
     public function downloadMime(Request $request)
@@ -167,7 +167,7 @@ class File extends Controller
             'Content-Type: text/plain',
         ];
 
-        return Storage::download('file.txt', "test.txt", $headers);
+        return Storage::disk('documents')->download('file.txt', "test.txt", $headers);
     }
 
     public function uploadForm(Request $request)

@@ -76,16 +76,25 @@ class Caching extends Controller
     {
         Cache::put('key', 0);
 
-        $lock = Cache::lock('lock', 10);
+        $error = null;
 
-        if ($lock->get()) {
-            // Lock acquired for 10 seconds...
+        if(method_exists('Cache','lock')) {
+            try {
+                $lock = Cache::lock('lock', 10);
 
-            $lock->release();
+                if ($lock->get()) {
+                    // Lock acquired for 10 seconds...
+
+                    $lock->release();
+                }
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+            }
         }
 
         return [
             'key' => $key1 = Cache::get('key'),
+            'error' => $error,
         ];
     }
 
@@ -100,7 +109,7 @@ class Caching extends Controller
         if (!Cache::tags(['people', 'artists'])->has('user1')) { // check if exist and is not null
              Cache::tags(['people', 'artists'])->put('user1', 'tagged_value', 10);
         }
-       
+
         $user1 = Cache::tags(['people', 'artists'])->get('user1');
 
         // remove items
