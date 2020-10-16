@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Vendor\Package\Models;
+namespace Database\Factories\Vendor\Package;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

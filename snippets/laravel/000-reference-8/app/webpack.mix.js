@@ -18,7 +18,7 @@ if (mix.inProduction()) {
 }
 
 mix
-//.webpackConfig({}) // custom webpack config
+.webpackConfig({devtool: 'source-map'}) // custom webpack config
 //.browserSync()
 //.disableNotifications()
 //.copy('node_modules/source', 'public/destination'); // manuali copy files
@@ -36,6 +36,7 @@ mix
 .js('resources/js/app-vue.js', 'public/js')
 .react('resources/js/app-react.js', 'public/js')
 .sass('resources/sass/app.scss', 'public/css')
-.extract(['axios', 'jquery', 'bootstrap', 'vue', 'react']); // add hash to names
+.extract(['axios', 'jquery', 'bootstrap', 'vue', 'react'])
+.sourceMaps(); // extract to separate file
 
 

@@ -1,6 +1,11 @@
-SCRIPT_PATH=$(dirname $0)
+CURRENT_SCRIPT_DIR=$(dirname $0)
+
 . clean.sh
-cd $SCRIPT_PATH
-. composer.download.sh
-cd $SCRIPT_PATH
-. vendors.install.dev.sh
+
+cd $CURRENT_SCRIPT_DIR/composer/
+
+bash composer.download.sh
+
+cd $CURRENT_SCRIPT_DIR/vendors/
+
+bash vendors.install.dev.sh

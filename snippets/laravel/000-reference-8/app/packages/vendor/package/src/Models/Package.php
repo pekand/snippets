@@ -17,4 +17,14 @@ class Package extends Model
     protected $fillable = [
         'name'
     ];
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return \Database\Factories\Vendor\Package\PackageFactory::new();
+    }
 }
