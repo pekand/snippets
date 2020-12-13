@@ -2,3 +2,5 @@
 .vs
 vendor
 node_modules
+composer.phar
+dist
