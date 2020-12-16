@@ -7,3 +7,4 @@ php artisan config:clear
 php artisan event:clear
 php artisan view:clear  
 
+read -p "done"

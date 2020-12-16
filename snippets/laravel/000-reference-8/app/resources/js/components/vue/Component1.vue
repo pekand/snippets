@@ -16,10 +16,8 @@
                 test: 'test1'
             }
         },
-        computed :function() {
-            return {
-                test: 'test1'
-            }
+        computed : {
+            
         },
         mounted() {
             console.log('Component mounted.')

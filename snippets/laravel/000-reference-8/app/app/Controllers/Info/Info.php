@@ -65,6 +65,7 @@ class Info extends Controller
         ];
     }
 
+    // https://laravel.loc/info/routes?RAW
     public function routes(Request $request)
     {
         $routes = \Route::getRoutes();

@@ -15,4 +15,4 @@ php artisan migrate:reset --force --env=testing
 php artisan migrate --force --seed --env=testing
 
 ./vendor/bin/phpunit
-#read -p "Press enter to continue"
+read -p "Press enter to continue"
