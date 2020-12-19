@@ -5,6 +5,11 @@ date_default_timezone_set('Europe/Berlin');
 $date = new DateTime();
 $date = new DateTime("now", new DateTimeZone('Europe/Berlin'));
 $date = DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-01 00:00:00');
+$date = new DateTime("1970-01-01T00:00:00", new DateTimeZone('UTC'));
+$date = new DateTime("1970-01-01T00:00:00+00:00");
+$date = new DateTime("1970-01-01T00:00:00 GMT");
+$date = new DateTime("1970-01-01T00:00:00 GMT+0000");
+$date = new DateTime("1970-01-01T01:00:00 CET"); // Europe/Berlin
 
 echo $date->getTimestamp() . PHP_EOL;
 
@@ -183,6 +188,7 @@ array(9) {
 
 $localTimeZone = new DateTimeZone('UTC');
 $localTime = new DateTime('now', $localTimeZone);
+echo $localTime->format('Y-m-d H:i:s').PHP_EOL;
 
 $userTimeZone = new DateTimeZone('Europe/Berlin');
 $userTime = new DateTime('now', $userTimeZone);
