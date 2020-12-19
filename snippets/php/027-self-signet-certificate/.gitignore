@@ -1,0 +1,7 @@
+.rnd
+self-signed.crt
+self-signed.csr
+self-signed.key
+self-signed-ca.crt
+self-signed-ca.csr
+self-signed-ca.key
