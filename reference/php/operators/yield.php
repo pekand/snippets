@@ -1,9 +1,6 @@
 <?php
 
 echo "<pre>";
-	
-/*	yield
-yield from*/
 
 function generator($c) {
     for ($i = 1; $i <= $c; $i++) {
