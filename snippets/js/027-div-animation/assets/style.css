@@ -1,0 +1,10 @@
+body { background-color: #dce8fa;}
+h1 {font-size:54px;font-family:fantasy; padding: 20px 0px 0px 0px;}
+h2 {font-size:32px;font-family:fantasy;}
+p {font-size:22px;font-family:sans-serif;}
+main {width: 100%; margin: 0 auto;}
+time {font-size:20px;font-family:fantasy;}
+a {color:inherit; font-size:22px;font-family:sans-serif; text-decoration: none;}
+@media only screen and (min-width: 1000px) {
+    main {width: 1000px;}
+}
