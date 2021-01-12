@@ -9,9 +9,9 @@ date_default_timezone_set('UTC');
 echo json_encode(getdate()).PHP_EOL;
 echo json_encode(getdate(time())).PHP_EOL;
 
-echo date('Y-m-d h:i:s').PHP_EOL;
+echo date('Y-m-d H:i:s').PHP_EOL;
 
-echo date("Y-m-d h:i:s", time()).PHP_EOL;
+echo date("Y-m-d H:i:s", time()).PHP_EOL;
 
 echo date('d').PHP_EOL; // 01 - 31
 echo date('D').PHP_EOL; // Mon - Sun
@@ -107,7 +107,7 @@ echo strtotime("+1 weeks").PHP_EOL;
 
 echo strtotime("last day of next month").PHP_EOL;
 
-echo date('Y-m-d h:i:s', strtotime("2020-01-01 01:01:01")).PHP_EOL; // convert string to timestamp and back to string
+echo date('Y-m-d H:i:s', strtotime("2020-01-01 01:01:01")).PHP_EOL; // convert string to timestamp and back to string
 
 ///////////////////////
 
