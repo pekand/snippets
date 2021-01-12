@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unregister</title>
+</head>
+<body>
+
+    <script type="text/javascript">
+        
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+            registration.unregister()
+        }
+    });
+
+    </script>
+
+</body>
+</html>
