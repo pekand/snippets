@@ -2,33 +2,35 @@
 
 echo "<pre>";
 
-$itemCount = 100000;
+$data = isset($_GET['text']) ? $_GET['text'] : rand();
 
-echo "<h1>Sort alg by time over $itemCount random items</h1>";
+echo '
+<form method="get">
+<input type="text" name="text" value="'.$data.'">
+<input type="submit">
+</form>
+';
 
-$data = [];
-for ($i=0; $i < $itemCount; $i++) { 
-    $data[] = random_bytes(1024);
-}
+
 
 $algOut = [];
 foreach (hash_algos() as $alg) {
-    $starttime = microtime(true);
-    foreach ($data as $value) {
-        $out = hash($alg, $value);
-    }
-    $endtime = microtime(true);
-    $timediff = $endtime - $starttime;
-
-    $algOut[] = ['alg'=>$alg, 'time'=>$timediff];
+    $out = hash($alg, $data);
+    $algOut[] = ['alg'=>$alg, 'value'=>$out];
 }
-
 
 usort($algOut, function ($a, $b) {
-    return $a['time'] <=> $b['time'];
+    return strlen($a['value']) <=> strlen($b['value']);
 });
 
+echo '
+<style>
+table, tr, td {border:1px solid black;border-collapse: collapse;}
+</style>
+';
 
+echo '<table>'.PHP_EOL;
 foreach ($algOut as $value) {
-    echo $value['alg']. ' = '.$value['time'].PHP_EOL;
+    echo '<tr><td>'.$value['alg'].'</td><td>'.strlen($value['value']).'</td><td>'.$value['value'].'</td></tr>'.PHP_EOL;
 }
+echo '</table>'.PHP_EOL;
