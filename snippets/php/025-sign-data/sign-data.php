@@ -12,8 +12,8 @@ if (!file_exists('signature-private-key.pem') || !file_exists('signature-public-
     $config = array(
         'config' => $opensslCnf,
         'digest_alg' => 'sha512',
-        "private_key_bits" => 4096,
-        "private_key_type" => OPENSSL_KEYTYPE_RSA,
+        'private_key_bits' => 4096,
+        'private_key_type' => OPENSSL_KEYTYPE_RSA,
     );
 
     $new_key_pair = openssl_pkey_new($config);

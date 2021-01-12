@@ -8,9 +8,9 @@ if (!file_exists('encrypt-private.key') || !file_exists('encrypt-public.key')) {
 
     $config = array(
         'config' => $opensslCnf,
-        "digest_alg" => "sha512",
-        "private_key_bits" => 4096,
-        "private_key_type" => OPENSSL_KEYTYPE_RSA,
+        'digest_alg' => 'sha512',
+        'private_key_bits' => 4096,
+        'private_key_type' => OPENSSL_KEYTYPE_RSA,
     );
 
     $res = openssl_pkey_new($config);
