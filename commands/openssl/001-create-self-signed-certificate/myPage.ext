@@ -1,0 +1,11 @@
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+
+DNS.1 =  *.mypage.dev
+DNS.2 =  example.mypage.dev
+DNS.3 =  admin.mypage.dev
+DNS.4 =  db.mypage.dev
