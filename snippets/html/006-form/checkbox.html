@@ -1,0 +1,10 @@
+<html lang="en"><meta charset="utf-8"><title>Form with checkbox</title><h1>Form with checkbox</h1>
+
+
+<h2>Checkbox in form with hidden input value (javascript)</h2>
+
+<form action="" method="GET">
+Checkbox:
+<input type="hidden" name="seed_random" value="1"><input type="checkbox" onclick="this.previousSibling.value=this.checked?1:0" onchange="console.log(this.checked);" checked><br>
+<input type="submit">
+</form>
