@@ -13,7 +13,7 @@
     <style type="text/css">
         main {
             padding-top: 0px;
-            width:1100px;
+            width:1200px;
             margin: 0px auto;
         }
 
@@ -25,8 +25,8 @@
         .block {
             margin:0px;
             padding:0px;
-            height:12px;
-            width:12px;
+            height:3px;
+            width:3px;
             background-color: white;
             color:black;
             text-align:center;
@@ -73,7 +73,7 @@
             margin:0px 10px;
             padding:0px 10px;
             width:300px;
-            height:625px;
+            height:750px;
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -110,8 +110,8 @@
         function changeColor() {
             range1 = id('range1').value;
 
-            for(var i = 0; i <= 255; i = i+5) {
-                for(var j = 0; j <= 255; j = j+5) {
+            for(var i = 0; i <= 255; i = i+1) {
+                for(var j = 0; j <= 255; j = j+1) {
                     var color = "#"+toHex(range1)+toHex(i)+toHex(j);
                     id('b-'+i+'-'+j).style.backgroundColor = color;
                     id('b-'+i+'-'+j).dataset.color = color;
@@ -119,13 +119,38 @@
             }
         }
 
+        var mDown = false;
+
+        function mouseDown(event, el) {
+            mDown = true;
+        }
+
+        function mouseMove(event, el) {
+            if (event.which === 1 || event.buttons === 1) {
+                setColor(el);
+            }
+        }
+
+        function mouseUp(event, el) {
+            if (mDown) {
+                setColor(el);
+                pickColor(el);
+            }
+        }
+
+        window.addEventListener('mouseup', function(event){
+            mDown = false;
+        })
+
         function setColor(el) {
             id('color').innerHTML = el.dataset.color;
             id('color').style.backgroundColor = el.style.backgroundColor;
 
             id('color-invert').innerHTML = invertColor(el.dataset.color);
             id('color-invert').style.backgroundColor = invertColor(el.dataset.color);
+        }
 
+        function pickColor(el) {
             var picked = document.createElement("div");
             picked.classList.add("picker-block");
             picked.innerHTML = el.dataset.color;
@@ -141,15 +166,17 @@
     </script>
 </div>
 <div>
-<div id="colors">
+<div id="colors" draggable='false'>
 
     <?php
 
-    for($i = 0; $i <= 255; $i=$i+5) {
-        for($j = 0; $j <= 255; $j=$j+5) {
-            echo "<div id='b-{$i}-{$j}' class='block' onclick='setColor(this)'></div>";
+    for($i = 0; $i <= 255; $i=$i+1) {
+        echo "<div>";
+        for($j = 0; $j <= 255; $j=$j+1) {
+            echo "<div id='b-{$i}-{$j}' draggable='false' class='block' onmousedown='mouseDown(event, this);' onmousemove='mouseMove(event, this);' onmouseup='mouseUp(event, this);'></div>";
         } 
         echo "<div style='clear:both;'></div>";
+        echo "</div>";
     }
     ?>
     
