@@ -1,0 +1,46 @@
+{
+  "name": "031-encrypt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "rollup": "rollup -c rollup.config.js",
+    "webpack": "webpack",
+    "build": "gulp build",
+    "bundle": "gulp bundle"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crypto-es": "^1.2.6",
+    "crypto-js": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "@rollup/stream": "^2.0.0",
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rollup": "^2.17.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "requirejs": "^2.3.6",
+    "rollup": "^2.36.2",
+    "rollup-stream": "^1.24.1",
+    "stream-browserify": "^3.0.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "webpack": "^5.15.0",
+    "webpack-cli": "^4.3.1"
+  }
+}
