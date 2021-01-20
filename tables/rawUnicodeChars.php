@@ -2,7 +2,7 @@
 
 function row($charDec) {
     $htmlEntity = "&#x".strtoupper(str_pad(dechex($charDec),4,"0", STR_PAD_LEFT)).";";
-    return '<span title="'.htmlspecialchars($htmlEntity).'" onclick="log(this)">'.$htmlEntity."</span>";
+    return '<span title="'.htmlspecialchars($htmlEntity).'" onclick="log(this)">'.$htmlEntity."</span> ";
 }
 ?><!DOCTYPE html>
 <html>
