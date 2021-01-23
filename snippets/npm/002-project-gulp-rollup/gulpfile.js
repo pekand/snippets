@@ -3,7 +3,6 @@ const plumber = require("gulp-plumber");
 const sourcemaps = require('gulp-sourcemaps');
 const concat = require('gulp-concat');
 const babel = require('gulp-babel');
-const terser = require('gulp-terser');
 const minify = require('gulp-minify');
 const uglify = require('gulp-uglify');
 const del = require('del');
@@ -15,6 +14,8 @@ const buffer = require('vinyl-buffer');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjsRollup = require('@rollup/plugin-commonjs');
 const babelRollup = require('@rollup/plugin-babel');
+const { terser } = require('rollup-plugin-terser');
+
 
 function depsTask(cb) {
   const files = [
@@ -33,25 +34,31 @@ function depsTask(cb) {
   cb();
 }
 
+let cache;
+
 function jsTask(cb) {
     const options = { 
       input: 'src/index.js',
+      cache,
       output: {
         format: 'cjs'
       },
       plugins: [
         nodeResolve({ignoreGlobal: false, include: ['node_modules/**']}),
         commonjsRollup(),
-        babelRollup.babel({ babelHelpers: 'bundled' })
+        babelRollup.babel({ babelHelpers: 'bundled' }),
+        terser()
       ]
     };
 
   rollupStream(options)
     .pipe(source('script.js'))
+    .on('bundle', (bundle) => {
+      cache = bundle;
+    })
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(plumber())
-    .pipe(terser({ keep_fnames: true, mangle: false }))
     .pipe(sourcemaps.write('.'))
     .pipe(dest('./public/assets/js'));
 

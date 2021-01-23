@@ -29,10 +29,10 @@
     "gulp-plumber": "^1.2.1",
     "gulp-rollup": "^2.17.0",
     "gulp-sourcemaps": "^3.0.0",
-    "gulp-terser": "^2.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
     "rollup": "^2.36.2",
+    "rollup-plugin-terser": "^7.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   }

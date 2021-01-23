@@ -1,1 +1,0 @@
-{"version":3,"sources":["script.js"],"names":["Person","[object Object]","firstName","lastName","this","console","log","app","display"],"mappings":"AAAA,aAEA,MAAMA,OACJC,YAAYC,UAAWC,UACrBC,KAAKF,UAAYA,UACjBE,KAAKD,SAAWA,SAGlBF,UACEI,QAAQC,IAAIF,KAAKF,UAAY,IAAME,KAAKD,WAK5C,SAASI,MACC,IAAIP,OAAO,OAAQ,SACzBQ,UAGJD","file":"script.js","sourcesContent":[]}
