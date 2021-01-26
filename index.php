@@ -44,6 +44,20 @@
     </style>
     <main>
         <h1>Snippets</h1>
+
+        <div>
+            <form action="/search.php" method="get">
+                <input type="text" id="search" class="search" name="search" placeholder="search"><input type="submit" value="Search">
+            </form>
+        </div>
+        <style type="text/css">
+            .search {
+                margin:10px 0px;
+            }
+        </style>
+        <script type="text/javascript">
+            
+        </script>
         <table>
             
             <tr>
