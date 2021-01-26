@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>IndexedDB</title>
+    <style></style>
+</head>
+
+<body>
+    <main >
+        <button id="storage-delete">Delete</button>
+    </main>
+    <script type="text/javascript" >
+
+        var storage = {
+
+            init: function(){
+                this.storageName = "store";
+                this.storageVersion = 1;
+
+                this.storage = null;
+                this.db = null;
+
+                this.initStorage();
+
+
+                this.bindCompontents();
+                this.bindEvents();
+
+                return this;
+            },
+
+            bindCompontents: function() {
+                this.storageDeleteButton = document.getElementById('storage-delete');
+            },
+
+            bindEvents: function() {
+                this.storage.onupgradeneeded = this.upgradeNeededEvent.bind(this);
+                this.storage.onerror = this.errorEvent.bind(this);
+                this.storage.onsuccess = this.successEvent.bind(this);
+                this.storage.onblocked = this.blockedEvent.bind(this);
+                this.storageDeleteButton.addEventListener("click", this.deleteStrageClick.bind(this));
+            },
+
+            initStorage: function() {
+                this.storage = indexedDB.open(this.storageName, this.storageVersion);
+            },
+
+            upgradeNeededEvent: function() {
+                console.log("first time initialization (no db exist yet)");
+
+                this.db = this.storage.result;
+                switch(event.oldVersion) {
+                case 0:
+                    console.log("new database init");
+                case 1:
+                    console.log("client has version 1");
+                }
+
+                this.db.onversionchange = this.versionChange.bind(this);
+            },
+
+            versionChange: function() {
+                this.db.close();
+                console.log("Database is outdated, please reload the page.")
+            },
+
+            errorEvent: function(event) {
+                console.error("Error", this.storage.error);
+                console.log(event.target);
+
+                if (this.storage.error.name == "ConstraintError") {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                } else {
+
+                }
+            },
+
+            successEvent: function() {
+                this.db = this.storage.result;
+            },
+
+            blockedEvent: function() {
+                console.log('blockedEvent'); // other connection to db block update
+            },
+
+            deleteStrageClick: function() {
+                console.log('Delete storage:' + this.storageName);
+                let deleteRequest = indexedDB.deleteDatabase(this.storageName)
+            },
+
+        }.init();
+
+
+
+    </script>
+</body>
+
+</html>
