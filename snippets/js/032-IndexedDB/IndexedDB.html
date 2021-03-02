@@ -22,7 +22,7 @@
                 this.storageName = "store";
                 this.storageVersion = 1;
 
-                this.storage = null;
+                this.connection = null;
                 this.db = null;
 
                 this.initStorage();
@@ -39,21 +39,22 @@
             },
 
             bindEvents: function() {
-                this.storage.onupgradeneeded = this.upgradeNeededEvent.bind(this);
-                this.storage.onerror = this.errorEvent.bind(this);
-                this.storage.onsuccess = this.successEvent.bind(this);
-                this.storage.onblocked = this.blockedEvent.bind(this);
+                this.connection.onupgradeneeded = this.upgradeNeededEvent.bind(this);
+                this.connection.onerror = this.errorEvent.bind(this);
+                this.connection.onsuccess = this.successEvent.bind(this);
+                this.connection.onblocked = this.blockedEvent.bind(this);
+
                 this.storageDeleteButton.addEventListener("click", this.deleteStrageClick.bind(this));
             },
 
             initStorage: function() {
-                this.storage = indexedDB.open(this.storageName, this.storageVersion);
+                this.connection = indexedDB.open(this.storageName, this.storageVersion);
             },
 
             upgradeNeededEvent: function() {
                 console.log("first time initialization (no db exist yet)");
 
-                this.db = this.storage.result;
+                this.db = this.connection.result;
                 switch(event.oldVersion) {
                 case 0:
                     console.log("new database init");
@@ -70,10 +71,10 @@
             },
 
             errorEvent: function(event) {
-                console.error("Error", this.storage.error);
+                console.error("Error", this.connection.error);
                 console.log(event.target);
 
-                if (this.storage.error.name == "ConstraintError") {
+                if (this.connection.error.name == "ConstraintError") {
                     event.preventDefault();
                     event.stopPropagation();
 
@@ -83,7 +84,8 @@
             },
 
             successEvent: function() {
-                this.db = this.storage.result;
+                console.log('success');
+                this.db = this.connection.result;
             },
 
             blockedEvent: function() {
