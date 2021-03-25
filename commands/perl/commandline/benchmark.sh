@@ -1,0 +1,1 @@
+perl -MBenchmark -we 'timethis -10, sub { print STDERR $_ for 1..5 }' 2>/dev/null

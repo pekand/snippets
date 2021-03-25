@@ -1,0 +1,7 @@
+param1: value1
+param2: 
+    - value1
+    - value2
+group1:
+    param3: value3
+    param4: value4
