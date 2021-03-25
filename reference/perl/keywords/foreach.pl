@@ -1,4 +1,4 @@
-#!"c:\Apps\Strawberry\perl\bin\perl.exe"
+#!"c:\Program Files\Git\usr\bin\perl.exe"
 
 use strict;
 use warnings;
