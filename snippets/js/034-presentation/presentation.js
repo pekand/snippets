@@ -103,6 +103,8 @@ class Presentation {
 			!this.active.classList.contains(this.active.dataset.action)) {
 			this.active.classList.add(this.active.dataset.action);
 		}
+
+		this.active.scrollIntoView();
 	}
 
 	first() {
@@ -180,6 +182,7 @@ class Presentation {
 		}
 
 		this.setUrl(this.active.id);
+		this.active.scrollIntoView();
 	}
 
 	prev() {
@@ -206,6 +209,7 @@ class Presentation {
 		}
 
 		this.setUrl(this.active.id);
+		this.active.scrollIntoView();
 	}
 
 	last() {
