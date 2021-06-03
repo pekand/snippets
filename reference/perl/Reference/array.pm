@@ -27,6 +27,18 @@ sub Main {
 
     my $indexMax = $#a1; 
     print "Largest index: $indexMax\n";
+
+    my $a2 = [1,2,3,4,5,6,7];
+    my $size4 = scalar @$a2;
+    print "item count: $size4\n";
+
+    my $size5 = @$a2;
+    print "item count: $size5\n";
+
+    if(@$a2 == 7) {
+         print "compare\n";
+    }
+
 }
 
 
