@@ -1,0 +1,25 @@
+{
+    "name": "customvendor/customapplication",
+    "description": "test package",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "me",
+            "email": "me@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",    
+    "require": {
+        "customvendor/custompackage": "dev-master"
+    },
+    "repositories": [
+        {
+          "type": "path",
+          "url": "./packages/customvendor/custompackage"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"CustomVendor\\CustomApplication\\": "src/"}
+    }
+}

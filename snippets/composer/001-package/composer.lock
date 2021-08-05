@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ec8b2347c49ff0f50f1eaa6adae37e1c",
+    "packages": [
+        {
+            "name": "CustomVendor/CustomPackage",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./packages/customvendor/custompackage",
+                "reference": "ccf8656d44d45e9452ddb2e6e068da6eb7a729b0"
+            },
+            "require": {
+                "php": ">=7.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CustomVendor\\CustomPackage\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "email <email@gmail.com> ",
+                    "email": "email@gmail.com",
+                    "homepage": "https://www.page.com",
+                    "role": ""
+                }
+            ],
+            "description": "CustomPackage",
+            "homepage": "https://www.page.com",
+            "keywords": [
+                "websocketserver"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "customvendor/custompackage": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}

@@ -1,0 +1,24 @@
+{
+    "name": "CustomVendor/CustomPackage",
+    "type": "library",
+    "description": "CustomPackage",
+    "keywords": ["websocketserver"],
+    "homepage": "https://www.page.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "email <email@gmail.com> ",
+            "email": "email@gmail.com",
+            "homepage": "https://www.page.com",
+            "role": ""
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CustomVendor\\CustomPackage\\": "src/"
+        }
+    }
+}
