@@ -1,0 +1,13 @@
+version: "3.0"
+
+services:
+
+  cron:
+    container_name: cron
+    image: cron
+    build: .
+    restart: always
+    volumes:
+      - ./cronjobs:/etc/cron.d/cronjobs
+      - ./logs/:/logs
+

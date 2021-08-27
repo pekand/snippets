@@ -1,0 +1,6 @@
+
+* * * * * echo "job done" >> /logs/cron.log 2>&1
+* * * * * echo "job2 done" >> /logs/cron.log 2>&1
+* * * * * echo "job3 done" >> /logs/cron.log 2>&1
+
+# remember to end this file with an empty new line
