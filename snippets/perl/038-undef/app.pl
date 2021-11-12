@@ -9,16 +9,39 @@ use warnings;
 
 my $data = undef;
 
+
+### 1. is undef
+### 2. is undef
+### 3. is undef
+### 4. is not undef
+### 5. is undef
+### 6. is not undef
+### 7. is undef
+### 8. is not undef
+
+
+# 1. is undef
+
 if(!$data) {
-    print "is undef\n";
+    print "1. is undef\n";
 } else {
-    print "is not undef\n";
+    print "1. is not undef\n";
 }
 
+# 2. is undef
+
 if(defined $data) {
-    print "is not undef\n";
+    print "2. is not undef\n";
 } else {
-    print "is undef\n";
+    print "2. is undef\n";
+}
+
+# 2. is undef
+
+if(!defined $data) {
+     print "2. is undef\n";
+} else {
+    print "2. is not undef\n";
 }
 
 my $data1 = {
@@ -26,38 +49,52 @@ my $data1 = {
     b=>123
 };
 
+# 3. is undef
+
 if(!$data1->{a}) {
-    print "is undef\n";
+    print "3. is undef\n";
 } else {
-    print "is not undef\n";
+    print "3. is not undef\n";
 }
+
+# 4. is not undef
 
 if(!$data1->{b}) {
-    print "is undef\n";
+    print "4. is undef\n";
 } else {
-    print "is not undef\n";
+    print "4. is not undef\n";
 }
+
+# 5. is undef
+
 
 if(defined $data1->{a}) {
-    print "is not undef\n";
+    print "5. is not undef\n";
 } else {
-    print "is undef\n";
+    print "5. is undef\n";
 }
+
+# 6. is not undef
+
 
 if(defined $data1->{b}) {
-    print "is not undef\n";
+    print "6. is not undef\n";
 } else {
-    print "is undef\n";
+    print "6. is undef\n";
 }
+
+# 7. is undef
 
 if(!defined $data1->{a}) {
-    print "is undef\n";
+    print "7. is undef\n";
 } else {
-    print "is not undef\n";
+    print "7. is not undef\n";
 }
 
+# 8. is not undef
+
 if(!defined $data1->{b}) {
-    print "is undef\n";
+    print "8. is undef\n";
 } else {
-    print "is not undef\n";
+    print "8. is not undef\n";
 }
