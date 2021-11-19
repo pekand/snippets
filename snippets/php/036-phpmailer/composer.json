@@ -1,0 +1,17 @@
+{
+    "name": "andrej/036-send-email",
+    "autoload": {
+        "psr-4": {
+            "Andrej\\036SendEmail\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Andrej Pekar",
+            "email": "andrej.pekar@nike.sk"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.5"
+    }
+}
