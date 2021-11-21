@@ -10,7 +10,6 @@ my $var = 123;
 
 sub Main {
     print "Main\n";
-    print Dumper {};
 }
 
 __PACKAGE__->Main unless caller;
