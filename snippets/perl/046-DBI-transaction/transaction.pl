@@ -66,24 +66,27 @@ sub testTransaction {
     $dbh->{AutoCommit} = 0; # enable transactions
     $dbh->{RaiseError} = 1; # die( ) if a query has problems
 
-    my $records = [
-        [1, "admin", 'admin@email.com', "password"]
-    ];
+    
 
     eval {
-        my $values = "( ".(@$records > 0 ? join ", ", (join ", ", ("?") x @{@$records[0]}) x @$records : '()')." )";
-        my $query  = "INSERT INTO users (id, name, email, password) VALUES $values";
-        print "QUERY: $query\n";
-        my $sth = $dbh->prepare($query);
-        $sth->execute(map { @$_ } @$records);
+        for (my $i = 1; $i < 30; $i += 2) {
+            my $records = [
+                [$i, "user".$i, 'user'.$i.'@email.com', "password"]
+            ];
+            my $values = "( ".(@$records > 0 ? join ", ", (join ", ", ("?") x @{@$records[0]}) x @$records : '()')." )";
+            my $query  = "INSERT INTO users (id, name, email, password) VALUES $values";
+            print "QUERY: $query\n";
+            my $sth = $dbh->prepare($query);
+            $sth->execute(map { @$_ } @$records);
+            sleep(1);
+        }
         
+        $dbh->commit();
     };
 
     if ($@) {
       warn "Transaction aborted: $@";
       eval { $dbh->rollback( ) };
-    } else {
-        $dbh->commit();
     }
 }
 
