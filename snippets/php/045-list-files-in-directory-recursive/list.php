@@ -23,7 +23,7 @@ function listDir($dir) {
     return $paths;
 }
 
-$paths = listDir('../bonus/');
+$paths = listDir('.');
 
 var_dump($paths);
 
