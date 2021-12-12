@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Page</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    
+<style>
+
+    .list-block {
+        background: lightgreen;
+        width: 250px;
+        min-height:300px;
+        margin:20px;
+    }
+
+    .list-block.over {
+        background: green;
+    }
+
+    .list-item.over {
+        background: green;
+    }
+
+    .list-item {
+        width: 250px;
+        height: 30px;
+        background: lightgreen;
+    }
+
+    </style>
+
+    <main>
+        <div class="list-block" >
+            <div class="list-item">
+                <div>1</div>
+            </div>
+            <div class="list-item">
+                2
+            </div>
+            <div class="list-item">
+                3
+            </div>
+            <div class="list-item">
+                4
+            </div>
+            <div class="list-item">
+                5
+            </div>
+            <div class="list-item">
+                6
+            </div>
+        </div>
+        <div class="list-block" >
+            <div class="list-item">
+                <div>1</div>
+            </div>
+            <div class="list-item">
+                2
+            </div>
+            <div class="list-item">
+                3
+            </div>
+            <div class="list-item">
+                4
+            </div>
+            <div class="list-item">
+                5
+            </div>
+            <div class="list-item">
+                6
+            </div>
+        </div>
+
+        <div class="list-block" >
+        </div>
+    </main>
+    <script>
+        function DragComponent(params) {
+            return {
+                dragoverEvent: function(ev) {
+                    ev.preventDefault();
+                },
+
+                dragenterEvent: function(ev) {
+                    if(this.draggedElement!= null && (ev.target.classList.contains(this.params.dropClass) || ev.target.classList.contains(this.params.dropAfterClass))) {
+                        ev.target.classList.add(this.params.overClass);
+                    }
+                },
+
+                dragleaveEvent: function(ev) {
+                    if(this.draggedElement!= null && (ev.target.classList.contains(this.params.dropClass) || ev.target.classList.contains(this.params.dropAfterClass))) {
+                        ev.target.classList.remove(this.params.overClass);
+                    }
+                },
+
+                dragEvent: function(ev) {
+                    if (ev.target.classList.contains(this.params.dragClass)) {
+                        this.draggedElement = ev.target;
+                    }
+                },
+
+                insertAfter: function(newNode, referenceNode) {
+                    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+                },
+
+                dropEvent: function(ev) {
+                    ev.preventDefault();
+
+                    if(this.draggedElement == null) {
+                        return;
+                    }
+
+                    var sourceElement = this.draggedElement;
+                    this.draggedElement = null;
+
+                    var targetElement = ev.target;
+
+                    if(targetElement.classList.contains(this.params.dropClass)) {
+                        targetElement.appendChild(sourceElement);
+                    }
+
+                    if(targetElement.classList.contains(this.params.dropAfterClass)) {
+                        this.insertAfter(sourceElement, targetElement);
+                        targetElement.classList.remove(this.params.overClass);
+                    }
+                },
+
+                init: function(params) {
+                    this.defaultParams = {
+                        dropClass:'drop',
+                        dropAfterClass:'after',
+                        dragClass:'drag',
+                        overClass:'over',
+                        usespaces: true,
+                    };
+
+                    this.params = this.defaultParams;
+                    for(key in params){
+                        this.params[key] = params[key];
+                    }
+
+                    this.draggedElement = null;
+
+                    var drops = document.getElementsByClassName(this.params.dropClass);
+                    for(i=0; i<drops.length; i++) {
+                        drops[i].addEventListener('drop', this.dropEvent.bind(this));
+                        drops[i].addEventListener('dragover', this.dragoverEvent.bind(this));
+                        drops[i].addEventListener('dragenter', this.dragenterEvent.bind(this));
+                        drops[i].addEventListener('dragleave', this.dragleaveEvent.bind(this));
+                    }
+
+                    var drops = document.getElementsByClassName(this.params.dropAfterClass);
+                    for(i=0; i<drops.length; i++) {
+                        drops[i].addEventListener('drop', this.dropEvent.bind(this));
+                        drops[i].addEventListener('dragover', this.dragoverEvent.bind(this));
+                        drops[i].addEventListener('dragenter', this.dragenterEvent.bind(this));
+                        drops[i].addEventListener('dragleave', this.dragleaveEvent.bind(this));
+                    }
+
+                    var drags = document.getElementsByClassName(this.params.dragClass);
+                    for(i=0; i<drags.length;i++) {
+                        drags[i].draggable = true;
+                        drags[i].addEventListener('dragstart', this.dragEvent.bind(this));
+                    }
+
+                    return this
+                }
+
+            }.init(params);
+        };
+
+        window.addEventListener("load", function () {
+            var dragComponent2 = DragComponent({
+                dropClass:'list-block',
+                dragClass:'list-item',
+                dropAfterClass:'list-item',
+                overClass:'over',
+                usespaces: false,
+            });
+        });
+    </script>
+</html>
