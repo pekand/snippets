@@ -1,0 +1,38 @@
+{
+    "name": "vendor/package",
+    "description": "Description",
+    "type": "project",
+    "homepage": "https://www.homepage.com",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./packages/LocalVendor/LocalPackage/"
+        }
+    ],
+    "require": {
+        "local-vendor/local-package": "^1.0",
+        "phpmailer/phpmailer": "v6.1.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9.3.11"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Author",
+            "email": "example@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "process-timeout": 300
+    },
+    "autoload": {
+        "psr-4": {
+            "MyVendor\\": "src/MyVendor/"
+        }
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests!"
+    }
+}

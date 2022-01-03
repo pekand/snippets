@@ -1,0 +1,25 @@
+{
+    "name": "local-vendor/local-package",
+    "version": "1.0.0",
+    "type": "library",
+    "description": "",
+    "keywords": ["example"],
+    "homepage": "https://www.example.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "author <example@gmail.com> ",
+            "email": "example@gmail.com",
+            "homepage": "https://www.example.com",
+            "role": ""
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LocalVendor\\LocalPackage\\": "src/"
+        }
+    }
+}
