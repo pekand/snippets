@@ -2,7 +2,7 @@
 
 # https://www.php.net/manual/en/language.fibers.php
 
-# ?? how implement this
+# ?? make some practical example
 
 $files = [
     'src/foo.png' => 'dest/foo.png',

@@ -1,7 +1,5 @@
 <?php
 
-# ?? how implement this 
-
 #[Attribute]
 class MyAttribute1
 {
