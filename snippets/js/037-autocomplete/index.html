@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Autocomplete</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style></style>
+</head>
+
+<body>
+    <main role="main" class="container">
+        <input id="notification-id" type="text" placeholder="templateId">
+        <input  id="notification-templates-name" list="notification-templates-list" />
+        <datalist id="notification-templates-list">
+            <option data-id="1" value="Template1"></option>
+        </datalist>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+
+    <script type="text/javascript" >
+
+    function changeTemplateId() {
+        var id = parseInt(this.value);
+
+        if(id == 0){
+            return;
+        }
+
+        getTemplateId(id);
+    }
+
+    function changeTemplateName(){
+        if (this.value.trim().length <3) {
+            return;
+        }
+
+        updateDatalist(name)
+    }
+
+    function selectTemplate(e) {        
+        selectedItem = document.getElementById("notification-templates-list").querySelector("[value='"+this.value+"']");
+        templateId = selectedItem.getAttribute("data-id");
+        document.getElementById("notification-id").value = templateId;
+    }
+
+    function getTemplateId(id) {
+        fetch('json.php?id='+encodeURIComponent(id)+'&limit=1', {method: 'GET'})
+        .then((response) => response.json())
+        .then((data) => {
+            var items = data;
+
+            var name = "";
+            if(items.length > 0) {
+                 name = items[0].name;
+            }
+
+            document.getElementById("notification-templates-name").value = name;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    function updateDatalist(name, limit) {
+        fetch('json.php?name='+encodeURIComponent(name)+'&limit='+limit, {method: 'GET'})
+        .then((response) => response.json())
+        .then((data) => {
+            document.getElementById("notification-templates-list").innerHTML = '';
+            var items = data;
+            for(var i = 0; i<items.length; i++) {                
+                var option = document.createElement('option');
+                option.value = items[i].name;
+                option.setAttribute('data-id', items[i].id);
+                document.getElementById("notification-templates-list").appendChild(option);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    function init() {
+
+        updateDatalist("", 20);
+
+        document.getElementById("notification-id").addEventListener("input", changeTemplateId);
+        document.getElementById("notification-templates-name").addEventListener("input", changeTemplateName);
+        document.getElementById("notification-templates-name").addEventListener("change", selectTemplate);
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+
+    </script>
+</body>
+
+</html>
