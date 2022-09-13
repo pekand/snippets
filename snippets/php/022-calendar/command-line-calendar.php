@@ -38,8 +38,8 @@ function printTable($header, $data) {
 
 }
 
-$dateStart = new DateTime("2021-01-01 00:00:00");
-$dateEnd =  new DateTime("2021-12-31 23:59:59");
+$dateStart = new DateTime("2022-01-01 00:00:00");
+$dateEnd =  new DateTime("2022-12-31 23:59:59");
 $dateNext = $dateStart;
 
 $header = ["Y-m-d","m","M", "F","N","D","l","W"  ];  
