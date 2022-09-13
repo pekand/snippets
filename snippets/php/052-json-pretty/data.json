@@ -1,0 +1,12 @@
+{
+  "idTournament": 0,
+  "name": "substring of the name of the tournament",
+  "state": "ACTIVE",
+  "sort": [
+    {
+      "colName": "asc"
+    }
+  ],
+  "count": 0,
+  "offset": 0
+}
