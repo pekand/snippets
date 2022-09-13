@@ -1,0 +1,6 @@
+{
+    "require": {
+        "flix-tech/avro-serde-php": "^1.7",
+        "guzzlehttp/guzzle": "^7.4"
+    }
+}
