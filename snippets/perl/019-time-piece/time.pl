@@ -7,7 +7,7 @@ use Data::Dumper;
 use Time::Piece;
 
 my $t = localtime;
-my $datum_exspiracie =  "2021-06-24T23:59:59.000+02:00";
+my $datum_exspiracie =  "2021-01-1T00:00:00.000+02:00";
 my $show_after_end_delay = 7;
 my $show_as_actual_till = Time::Piece->strptime($datum_exspiracie, '%Y-%m-%dT%H:%M:%S.000+02:00') + (86400 * $show_after_end_delay);
 
