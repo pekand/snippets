@@ -1,5 +1,7 @@
 <?php
 
+require_once "config.php";
+
 use RdKafka\Conf;
 use RdKafka\KafkaConsumer;
 use RdKafka\TopicPartition;
@@ -21,8 +23,8 @@ function rebalance(RdKafka\KafkaConsumer $kafka, $err, array $partitions = null)
 		}
 }
 
-$conf->set('group.id', '');
-$conf->set('metadata.broker.list', "");
+$conf->set('group.id', Config::$groupId);
+$conf->set('metadata.broker.list', Config::$metadataBbrokerList);
 $conf->set('enable.auto.commit', 'false');
 $conf->set('enable.partition.eof', 'true');
 $conf->set('statistics.interval.ms', '15000');
@@ -35,12 +37,12 @@ $conf->setRebalanceCb('rebalance');
 
 $partitions = [];
 for ($i = 0; $i < 8; $i++) {
-	$partitions[$i] = new RdKafka\TopicPartition("", $i);
+	$partitions[$i] = new RdKafka\TopicPartition(Config::$topic, $i);
 	$partitions[$i]->setOffset(RD_KAFKA_OFFSET_BEGINNING);
 }
 
 $rk = new RdKafka\KafkaConsumer($conf);
-$rk->subscribe([""]);
+$rk->subscribe([Config::$topic]);
 $rk->assign($partitions);
 $rk->canRebalance = false;
 
