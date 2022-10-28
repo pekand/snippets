@@ -1,0 +1,13 @@
+{# templates/message.txt #}
+
+Hello {{ name }}!
+
+{% if name != "" %}
+ only if 
+{% endif %}
+
+I'm happy to inform you that you did very well on today's {{ test_name }}.
+You reached {{ score }} out of {{ max_score }} points.
+
+See you tomorrow!
+Anke
