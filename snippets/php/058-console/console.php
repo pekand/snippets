@@ -31,9 +31,11 @@ class Console {
 		while(true) {
 			$in = readline('$ ');
 		 
+		 	$found = false;
 		 	foreach($commands as $command) {
 				if($command->check($in)){
 					$command->execute($in);
+					$found = true;
 				}
 			}
 			  
@@ -41,7 +43,10 @@ class Console {
 				break;
 			}
 
-			echo $in.PHP_EOL; 
+			if(!$found){
+				echo "?".PHP_EOL;
+			}
+
 		}
 	}
 }
