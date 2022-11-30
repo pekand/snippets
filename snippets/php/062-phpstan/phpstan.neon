@@ -1,0 +1,27 @@
+#includes:
+#	- ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+	paths:
+		- src
+		
+	scanDirectories:
+		- vendor
+
+	# The level 9 is the highest level
+	level: 4
+
+	#ignoreErrors:
+	#	- '#PHPDoc tag @var#'
+
+	#excludePaths:
+	#	- ./*/*/FileToBeExcluded.php
+
+	checkMissingIterableValueType: false
+
+	#stubFiles:
+	#	- doc/phpstanStubFiles/PDO.php
+
+	bootstrapFiles:
+		- vendor/autoload.php
