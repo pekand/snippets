@@ -62,4 +62,5 @@ while (true) {
             echo "ERROR: ".$message->err." ".$message->errstr()."\n";
             break;
     }
+    sleep(1);
 }
