@@ -8,8 +8,12 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: test_db
+      PGDATA: /var/lib/postgresql/data/pgdat
     ports:
       - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./sql:/sql
     networks:
       - frontend
       

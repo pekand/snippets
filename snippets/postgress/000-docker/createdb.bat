@@ -1,0 +1,1 @@
+docker exec -it pg psql -U root -c "CREATE DATABASE your_database;"
