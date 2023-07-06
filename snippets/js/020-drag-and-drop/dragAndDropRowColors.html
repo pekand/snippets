@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="description here.">
+    <title>Page</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    
+
+    <style>
+
+    .sortable {
+        height:30px;
+        line-height: 30px;
+    }
+
+    .drop {
+        width: 100px;
+        height: 100%;
+        margin:0px;
+        padding-top:10px;
+        float:left;        
+    }
+
+    .space {
+        width: 10px;
+        height: 100%;
+        margin:0px;
+        float:left;
+    }
+
+    .drag {
+        width: 100px;
+        height: 100%;
+        background: red;
+        text-align:center;
+        color:white;
+    }
+
+    .item-1 {
+        background: red;
+    }
+
+    .item-2 {
+        background: green;
+    }
+
+    .item-3 {
+        background: blue;
+    }
+
+    </style>
+
+
+    <main>
+        <div id="sortable1" class="sortable">
+            <div class="drop">
+                <div class="drag item-1">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-2">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-3">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-1">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-2">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-3">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-1">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-2">Text</div>
+            </div>
+            <div class="drop">
+                <div class="drag item-3">Text</div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </main>
+    <script>
+
+    var sortable = {
+        allowDropEvent: function(ev) {
+          ev.preventDefault();
+        },
+
+        dragEvent: function(ev) {
+            this.draggedElement = ev.target;
+        },
+
+        dropEvent: function(ev) {
+            ev.preventDefault();
+            var sourceId = ev.dataTransfer.getData("sourceId");
+            var sourceElement = this.draggedElement;
+            this.draggedElement = null;
+
+            var targetElement = ev.target;
+
+            if (!this.isParent(this.el, sourceElement)) {
+                return;
+            }
+
+            if(targetElement.classList.contains('drop')) {
+                targetElement.appendChild(sourceElement);
+            }
+
+            if(targetElement.classList.contains('space')) {
+
+                var space1 = document.createElement('div');
+                var drop = document.createElement('div');
+                var space2 = document.createElement('div');
+
+                space1.classList.add("space");
+                space2.classList.add("space");
+                drop.classList.add("drop");
+
+                targetElement.parentNode.replaceChild(drop, targetElement);
+                drop.parentNode.insertBefore(space1, drop);
+                drop.parentNode.insertBefore(space2, drop.nextSibling);
+
+                drop.appendChild(sourceElement);
+
+                space1.addEventListener('drop', this.dropEvent.bind(this));
+                space1.addEventListener('dragover', this.allowDropEvent.bind(this));
+                space2.addEventListener('drop', this.dropEvent.bind(this));
+                space2.addEventListener('dragover', this.allowDropEvent.bind(this));
+                drop.addEventListener('drop', this.dropEvent.bind(this));
+                drop.addEventListener('dragover', this.allowDropEvent.bind(this));
+
+                this.removeEmpty();
+
+            }
+        },
+
+        removeEmpty: function(){
+            var drops = document.getElementsByClassName("drop");
+            for(var i=drops.length-1; i>=0;i--) {
+                console.log(drops[i].childElementCount);
+                if(drops[i].childElementCount === 0) {
+                    var toRemove = [];
+                    var sibling =  drops[i].nextSibling;
+                    while(sibling != null && (sibling.classList == null || !sibling.classList.contains('drop'))) {
+                        toRemove.push(sibling);
+                        sibling = sibling.nextSibling;
+                    }
+
+                    for(var j=toRemove.length-1; j>=0;j--) {
+                        drops[i].parentElement.removeChild(toRemove[j]);
+                    }
+
+                    drops[i].remove();
+                }
+
+            }
+        },
+
+        swap: function(node1, node2) {
+            const afterNode2 = node2.nextElementSibling;
+            const parent = node2.parentNode;
+            node1.replaceWith(node2);
+            parent.insertBefore(node1, afterNode2);
+        },
+
+        isParent: function(el1, el2){
+            var parent = el2.parentElement;
+            while (parent != null ) {
+                if (parent = el1) {
+                    return true;
+                }
+                parent = parent.parentElement;
+            }
+
+            return false;
+        },
+        dropOnDropEvent: function(ev) {
+            ev.preventDefault();
+            var sourceElement = this.draggedElement;
+            var targetElement = ev.target;
+
+            if (!this.isParent(this.el, sourceElement)) {
+                return;
+            }
+
+            this.swap(targetElement, sourceElement)
+        },
+
+        update: function(data) {
+            debugger;
+            var drops = this.el.getElementsByClassName("drop");
+            for(i=0; i<drops.length;i++) {
+                drops[i].addEventListener('drop', this.dropEvent.bind(this));
+                drops[i].addEventListener('dragover', this.allowDropEvent.bind(this));
+
+                var space1 = document.createElement('div');
+                space1.classList.add("space");
+                drops[i].parentNode.insertBefore(space1, drops[i]);
+                space1.addEventListener('drop', this.dropEvent.bind(this));
+                space1.addEventListener('dragover', this.allowDropEvent.bind(this));
+
+                var isLat = true;
+                var node = drops[i].nextSibling
+                while ( node ) {
+                    if (node.nodeType == 3){
+                        node = node.nextSibling;
+                        continue;
+                    }
+
+                    if(node.classList.contains('drop')){
+                        isLat = false;
+                        break;
+                    }
+                    node = node.nextSibling;
+                }
+
+                if(isLat){
+                    var space2 = document.createElement('div');
+                    space2.classList.add("space");
+                    drops[i].parentNode.insertBefore(space2, drops[i]);
+                    space2.addEventListener('drop', this.dropEvent.bind(this));
+                    space2.addEventListener('dragover', this.allowDropEvent.bind(this));
+                    drops[i].parentNode.insertBefore(space2, drops[i].nextSibling);
+                }
+
+            }
+
+            var drags = this.el.getElementsByClassName("drag");
+            for(i=0; i<drags.length;i++) {
+                drags[i].draggable = true;
+                drags[i].addEventListener('dragstart', this.dragEvent.bind(this));
+                drags[i].addEventListener('drop', this.dropOnDropEvent.bind(this));
+            }
+
+            return this;
+        },
+
+        sorted: function() {
+
+        },
+        
+        init: function(id) {
+            debugger;
+            this.draggedElement = null;
+            this.el = document.getElementById(id);
+            return this;
+        },
+    };
+
+    var sortable1 = Object.assign({}, sortable); 
+    sortable1.init('sortable1');
+
+
+    window.addEventListener("load", sortable1.update.bind(sortable1));
+    </script>
+</html>
