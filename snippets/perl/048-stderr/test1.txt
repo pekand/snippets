@@ -1,0 +1,6 @@
+$VAR1 = 'sss';
+
+$VAR1 = 'test';
+
+$VAR1 = 'test';
+
