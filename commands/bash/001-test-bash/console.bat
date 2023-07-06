@@ -1,0 +1,1 @@
+docker run -it --rm --name bash -v %cd%/script:/script bash /bin/bash
