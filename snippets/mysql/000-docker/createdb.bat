@@ -1,0 +1,1 @@
+docker exec -it sql mysql -u root -c "CREATE DATABASE your_database;"

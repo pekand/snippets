@@ -1,1 +1,1 @@
-docker exec -it pg psql -U root -d test_db -f /sql/init.sql
+docker exec -it pg psql -U root -d test -f /sql/init.sql

@@ -1,1 +1,1 @@
-docker exec -it pg psql -U root -d test_db
+docker exec -it pg psql -U root -d test1

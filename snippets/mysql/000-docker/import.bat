@@ -1,0 +1,1 @@
+docker exec -it sql mysq -u root test_db < /sql/init.sql

@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   pg:
     container_name: pg
     image: postgres
@@ -8,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
+      POSTGRES_DB: test
       PGDATA: /var/lib/postgresql/data/pgdat
     ports:
       - "5432:5432"
@@ -16,14 +17,11 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./sql:/sql
     networks:
-      - frontend
-
+      - pg
       
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
-    depends_on:
-      - pg
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -31,11 +29,22 @@ services:
     ports:
       - "5050:80"
     networks:
-      - frontend
+      - pg
+
+  pgadminer:
+    container_name: pgadminer
+    image: adminer
+    restart: always    
+    ports:
+      - "9999:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: pgsql      
+    networks:
+      - pg
 
 volumes:
   pgdata:
 
 networks:
-  frontend:
+  pg:
     driver: bridge

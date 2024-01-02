@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  sql:
+    container_name: sql
+    image: mysql
+    #image: mysql:5.7.35
+    restart: always
+    environment:
+      TZ: Europe/Bratislava
+      MYSQL_DATABASE: test1
+      MYSQL_USER: sql
+      MYSQL_PASSWORD: sql
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/mysql:/var/lib/mysql
+    networks:
+      - sql
+    
+  sql_admin:
+    container_name: sql_admin
+    image: phpmyadmin
+    restart: always    
+    ports:
+      - "8888:80"
+    environment:
+      PMA_PMADB: test1
+      PMA_HOST: sql
+      PMA_USER: sql
+      PMA_PASSWORD: sql
+    networks:
+      - sql
+
+  sql_adminer:
+    container_name: sql_adminer
+    image: adminer
+    restart: always    
+    ports:
+      - "9999:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql      
+    networks:
+      - sql
+
+volumes:
+  pgdata:
+
+networks:
+  sql:
+    driver: bridge
