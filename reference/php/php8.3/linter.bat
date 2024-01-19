@@ -1,0 +1,3 @@
+
+rem new php 8.3 support of multiple files for linter
+php -l Command_line_linter_supports_multiple_files.php Deep-cloning_of_readonly_properties.php Dynamic_class_constant_fetch.php New_json_validate_function.php New_Override_attribute.php New_Randomizer_getBytesFromString_method.php New_Randomizer_getFloat_and_Randomizer_nextFloat_methods.php Typed_class_constants.php
