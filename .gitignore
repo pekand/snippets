@@ -4,6 +4,8 @@
 *.exe
 *.dll
 *.obj
+*.input
+*.output
 *.out
 vendor
 node_modules
