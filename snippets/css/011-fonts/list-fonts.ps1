@@ -8,3 +8,6 @@ foreach ($item in $stringArray) {
     # Print the current item
     Write-Output $item.Name
 }
+
+Write-Host "Press any key to continue..."
+$null = Read-Host
