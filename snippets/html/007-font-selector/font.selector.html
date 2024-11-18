@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Selector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #fontPreview {
+      margin-top: 20px;
+      font-size: 24px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 50%;
+      margin: 20px auto;
+    }
+    #fontSelect{
+      font-size: 32px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Font Selector</h1>
+  <label for="fontSelect">Choose a font:</label>
+  <select id="fontSelect" onchange="updateFontPreview()">
+    <option value="Agency FB">Agency FB</option>
+<option value="Alef">Alef</option>
+<option value="Algerian">Algerian</option>
+<option value="Amiri">Amiri</option>
+<option value="Amiri Quran">Amiri Quran</option>
+<option value="AniMe Matrix - MB_EN">AniMe Matrix - MB_EN</option>
+<option value="Arial">Arial</option>
+<option value="Arial Black">Arial Black</option>
+<option value="Arial Narrow">Arial Narrow</option>
+<option value="Arial Rounded MT Bold">Arial Rounded MT Bold</option>
+<option value="Bahnschrift">Bahnschrift</option>
+<option value="Bahnschrift Condensed">Bahnschrift Condensed</option>
+<option value="Bahnschrift Light">Bahnschrift Light</option>
+<option value="Bahnschrift Light Condensed">Bahnschrift Light Condensed</option>
+<option value="Bahnschrift Light SemiCondensed">Bahnschrift Light SemiCondensed</option>
+<option value="Bahnschrift SemiBold">Bahnschrift SemiBold</option>
+<option value="Bahnschrift SemiBold Condensed">Bahnschrift SemiBold Condensed</option>
+<option value="Bahnschrift SemiBold SemiConden">Bahnschrift SemiBold SemiConden</option>
+<option value="Bahnschrift SemiCondensed">Bahnschrift SemiCondensed</option>
+<option value="Bahnschrift SemiLight">Bahnschrift SemiLight</option>
+<option value="Bahnschrift SemiLight Condensed">Bahnschrift SemiLight Condensed</option>
+<option value="Bahnschrift SemiLight SemiConde">Bahnschrift SemiLight SemiConde</option>
+<option value="Baskerville Old Face">Baskerville Old Face</option>
+<option value="Bauhaus 93">Bauhaus 93</option>
+<option value="Bell MT">Bell MT</option>
+<option value="Berlin Sans FB">Berlin Sans FB</option>
+<option value="Berlin Sans FB Demi">Berlin Sans FB Demi</option>
+<option value="Bernard MT Condensed">Bernard MT Condensed</option>
+<option value="Blackadder ITC">Blackadder ITC</option>
+<option value="Bodoni MT">Bodoni MT</option>
+<option value="Bodoni MT Black">Bodoni MT Black</option>
+<option value="Bodoni MT Condensed">Bodoni MT Condensed</option>
+<option value="Bodoni MT Poster Compressed">Bodoni MT Poster Compressed</option>
+<option value="Book Antiqua">Book Antiqua</option>
+<option value="Bookman Old Style">Bookman Old Style</option>
+<option value="Bookshelf Symbol 7">Bookshelf Symbol 7</option>
+<option value="Bradley Hand ITC">Bradley Hand ITC</option>
+<option value="Britannic Bold">Britannic Bold</option>
+<option value="Broadway">Broadway</option>
+<option value="Brush Script MT">Brush Script MT</option>
+<option value="Caladea">Caladea</option>
+<option value="Calibri">Calibri</option>
+<option value="Calibri Light">Calibri Light</option>
+<option value="Californian FB">Californian FB</option>
+<option value="Calisto MT">Calisto MT</option>
+<option value="Cambria">Cambria</option>
+<option value="Cambria Math">Cambria Math</option>
+<option value="Candara">Candara</option>
+<option value="Candara Light">Candara Light</option>
+<option value="Carlito">Carlito</option>
+<option value="Cascadia Code">Cascadia Code</option>
+<option value="Cascadia Code ExtraLight">Cascadia Code ExtraLight</option>
+<option value="Cascadia Code Light">Cascadia Code Light</option>
+<option value="Cascadia Code SemiBold">Cascadia Code SemiBold</option>
+<option value="Cascadia Code SemiLight">Cascadia Code SemiLight</option>
+<option value="Cascadia Mono">Cascadia Mono</option>
+<option value="Cascadia Mono ExtraLight">Cascadia Mono ExtraLight</option>
+<option value="Cascadia Mono Light">Cascadia Mono Light</option>
+<option value="Cascadia Mono SemiBold">Cascadia Mono SemiBold</option>
+<option value="Cascadia Mono SemiLight">Cascadia Mono SemiLight</option>
+<option value="Castellar">Castellar</option>
+<option value="Centaur">Centaur</option>
+<option value="Century">Century</option>
+<option value="Century Gothic">Century Gothic</option>
+<option value="Century Schoolbook">Century Schoolbook</option>
+<option value="Chiller">Chiller</option>
+<option value="Colonna MT">Colonna MT</option>
+<option value="Comic Sans MS">Comic Sans MS</option>
+<option value="Consolas">Consolas</option>
+<option value="Constantia">Constantia</option>
+<option value="Cooper Black">Cooper Black</option>
+<option value="Copperplate Gothic Bold">Copperplate Gothic Bold</option>
+<option value="Copperplate Gothic Light">Copperplate Gothic Light</option>
+<option value="Corbel">Corbel</option>
+<option value="Corbel Light">Corbel Light</option>
+<option value="Courier New">Courier New</option>
+<option value="Curlz MT">Curlz MT</option>
+<option value="David CLM">David CLM</option>
+<option value="David Libre">David Libre</option>
+<option value="DejaVu Math TeX Gyre">DejaVu Math TeX Gyre</option>
+<option value="DejaVu Sans">DejaVu Sans</option>
+<option value="DejaVu Sans Condensed">DejaVu Sans Condensed</option>
+<option value="DejaVu Sans Light">DejaVu Sans Light</option>
+<option value="DejaVu Sans Mono">DejaVu Sans Mono</option>
+<option value="DejaVu Serif">DejaVu Serif</option>
+<option value="DejaVu Serif Condensed">DejaVu Serif Condensed</option>
+<option value="Dubai">Dubai</option>
+<option value="Dubai Light">Dubai Light</option>
+<option value="Dubai Medium">Dubai Medium</option>
+<option value="Ebrima">Ebrima</option>
+<option value="Edwardian Script ITC">Edwardian Script ITC</option>
+<option value="Elephant">Elephant</option>
+<option value="Engravers MT">Engravers MT</option>
+<option value="Eras Bold ITC">Eras Bold ITC</option>
+<option value="Eras Demi ITC">Eras Demi ITC</option>
+<option value="Eras Light ITC">Eras Light ITC</option>
+<option value="Eras Medium ITC">Eras Medium ITC</option>
+<option value="Felix Titling">Felix Titling</option>
+<option value="Footlight MT Light">Footlight MT Light</option>
+<option value="Forte">Forte</option>
+<option value="Frank Ruehl CLM">Frank Ruehl CLM</option>
+<option value="Frank Ruhl Hofshi">Frank Ruhl Hofshi</option>
+<option value="Franklin Gothic Book">Franklin Gothic Book</option>
+<option value="Franklin Gothic Demi">Franklin Gothic Demi</option>
+<option value="Franklin Gothic Demi Cond">Franklin Gothic Demi Cond</option>
+<option value="Franklin Gothic Heavy">Franklin Gothic Heavy</option>
+<option value="Franklin Gothic Medium">Franklin Gothic Medium</option>
+<option value="Franklin Gothic Medium Cond">Franklin Gothic Medium Cond</option>
+<option value="Freestyle Script">Freestyle Script</option>
+<option value="French Script MT">French Script MT</option>
+<option value="Gabriola">Gabriola</option>
+<option value="Gadugi">Gadugi</option>
+<option value="Garamond">Garamond</option>
+<option value="Gentium Basic">Gentium Basic</option>
+<option value="Gentium Book Basic">Gentium Book Basic</option>
+<option value="Georgia">Georgia</option>
+<option value="Gigi">Gigi</option>
+<option value="Gill Sans MT">Gill Sans MT</option>
+<option value="Gill Sans MT Condensed">Gill Sans MT Condensed</option>
+<option value="Gill Sans MT Ext Condensed Bold">Gill Sans MT Ext Condensed Bold</option>
+<option value="Gill Sans Ultra Bold">Gill Sans Ultra Bold</option>
+<option value="Gill Sans Ultra Bold Condensed">Gill Sans Ultra Bold Condensed</option>
+<option value="Gloucester MT Extra Condensed">Gloucester MT Extra Condensed</option>
+<option value="Goudy Old Style">Goudy Old Style</option>
+<option value="Goudy Stout">Goudy Stout</option>
+<option value="Haettenschweiler">Haettenschweiler</option>
+<option value="Harlow Solid Italic">Harlow Solid Italic</option>
+<option value="Harrington">Harrington</option>
+<option value="High Tower Text">High Tower Text</option>
+<option value="Impact">Impact</option>
+<option value="Imprint MT Shadow">Imprint MT Shadow</option>
+<option value="Informal Roman">Informal Roman</option>
+<option value="Ink Free">Ink Free</option>
+<option value="Javanese Text">Javanese Text</option>
+<option value="Jokerman">Jokerman</option>
+<option value="Juice ITC">Juice ITC</option>
+<option value="Kristen ITC">Kristen ITC</option>
+<option value="Kunstler Script">Kunstler Script</option>
+<option value="Leelawadee UI">Leelawadee UI</option>
+<option value="Leelawadee UI Semilight">Leelawadee UI Semilight</option>
+<option value="Liberation Mono">Liberation Mono</option>
+<option value="Liberation Sans">Liberation Sans</option>
+<option value="Liberation Sans Narrow">Liberation Sans Narrow</option>
+<option value="Liberation Serif">Liberation Serif</option>
+<option value="Linux Biolinum G">Linux Biolinum G</option>
+<option value="Linux Libertine Display G">Linux Libertine Display G</option>
+<option value="Linux Libertine G">Linux Libertine G</option>
+<option value="Lucida Bright">Lucida Bright</option>
+<option value="Lucida Calligraphy">Lucida Calligraphy</option>
+<option value="Lucida Console">Lucida Console</option>
+<option value="Lucida Fax">Lucida Fax</option>
+<option value="Lucida Handwriting">Lucida Handwriting</option>
+<option value="Lucida Sans">Lucida Sans</option>
+<option value="Lucida Sans Typewriter">Lucida Sans Typewriter</option>
+<option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
+<option value="Magneto">Magneto</option>
+<option value="Maiandra GD">Maiandra GD</option>
+<option value="Malgun Gothic">Malgun Gothic</option>
+<option value="Malgun Gothic Semilight">Malgun Gothic Semilight</option>
+<option value="Marlett">Marlett</option>
+<option value="Matura MT Script Capitals">Matura MT Script Capitals</option>
+<option value="Microsoft Himalaya">Microsoft Himalaya</option>
+<option value="Microsoft JhengHei">Microsoft JhengHei</option>
+<option value="Microsoft JhengHei Light">Microsoft JhengHei Light</option>
+<option value="Microsoft JhengHei UI">Microsoft JhengHei UI</option>
+<option value="Microsoft JhengHei UI Light">Microsoft JhengHei UI Light</option>
+<option value="Microsoft New Tai Lue">Microsoft New Tai Lue</option>
+<option value="Microsoft PhagsPa">Microsoft PhagsPa</option>
+<option value="Microsoft Sans Serif">Microsoft Sans Serif</option>
+<option value="Microsoft Tai Le">Microsoft Tai Le</option>
+<option value="Microsoft YaHei">Microsoft YaHei</option>
+<option value="Microsoft YaHei Light">Microsoft YaHei Light</option>
+<option value="Microsoft YaHei UI">Microsoft YaHei UI</option>
+<option value="Microsoft YaHei UI Light">Microsoft YaHei UI Light</option>
+<option value="Microsoft Yi Baiti">Microsoft Yi Baiti</option>
+<option value="MingLiU-ExtB">MingLiU-ExtB</option>
+<option value="MingLiU_HKSCS-ExtB">MingLiU_HKSCS-ExtB</option>
+<option value="MingLiU_MSCS-ExtB">MingLiU_MSCS-ExtB</option>
+<option value="Miriam CLM">Miriam CLM</option>
+<option value="Miriam Libre">Miriam Libre</option>
+<option value="Miriam Mono CLM">Miriam Mono CLM</option>
+<option value="Mistral">Mistral</option>
+<option value="Modern No. 20">Modern No. 20</option>
+<option value="Mongolian Baiti">Mongolian Baiti</option>
+<option value="Monotype Corsiva">Monotype Corsiva</option>
+<option value="MS Gothic">MS Gothic</option>
+<option value="MS Outlook">MS Outlook</option>
+<option value="MS PGothic">MS PGothic</option>
+<option value="MS Reference Sans Serif">MS Reference Sans Serif</option>
+<option value="MS Reference Specialty">MS Reference Specialty</option>
+<option value="MS UI Gothic">MS UI Gothic</option>
+<option value="MT Extra">MT Extra</option>
+<option value="MV Boli">MV Boli</option>
+<option value="Myanmar Text">Myanmar Text</option>
+<option value="Nachlieli CLM">Nachlieli CLM</option>
+<option value="Niagara Engraved">Niagara Engraved</option>
+<option value="Niagara Solid">Niagara Solid</option>
+<option value="Nirmala Text">Nirmala Text</option>
+<option value="Nirmala Text Semilight">Nirmala Text Semilight</option>
+<option value="Nirmala UI">Nirmala UI</option>
+<option value="Nirmala UI Semilight">Nirmala UI Semilight</option>
+<option value="Noto Kufi Arabic">Noto Kufi Arabic</option>
+<option value="Noto Naskh Arabic">Noto Naskh Arabic</option>
+<option value="Noto Sans">Noto Sans</option>
+<option value="Noto Sans Arabic">Noto Sans Arabic</option>
+<option value="Noto Sans Armenian">Noto Sans Armenian</option>
+<option value="Noto Sans Georgian">Noto Sans Georgian</option>
+<option value="Noto Sans Georgian Bold">Noto Sans Georgian Bold</option>
+<option value="Noto Sans Hebrew">Noto Sans Hebrew</option>
+<option value="Noto Sans Lao">Noto Sans Lao</option>
+<option value="Noto Sans Lisu">Noto Sans Lisu</option>
+<option value="Noto Serif">Noto Serif</option>
+<option value="Noto Serif Armenian">Noto Serif Armenian</option>
+<option value="Noto Serif Bold">Noto Serif Bold</option>
+<option value="Noto Serif Georgian">Noto Serif Georgian</option>
+<option value="Noto Serif Hebrew">Noto Serif Hebrew</option>
+<option value="Noto Serif Lao">Noto Serif Lao</option>
+<option value="NSimSun">NSimSun</option>
+<option value="OCR A Extended">OCR A Extended</option>
+<option value="Old English Text MT">Old English Text MT</option>
+<option value="Onyx">Onyx</option>
+<option value="OpenSymbol">OpenSymbol</option>
+<option value="Palace Script MT">Palace Script MT</option>
+<option value="Palatino Linotype">Palatino Linotype</option>
+<option value="Papyrus">Papyrus</option>
+<option value="Parchment">Parchment</option>
+<option value="Perpetua">Perpetua</option>
+<option value="Perpetua Titling MT">Perpetua Titling MT</option>
+<option value="Playbill">Playbill</option>
+<option value="PMingLiU-ExtB">PMingLiU-ExtB</option>
+<option value="Poor Richard">Poor Richard</option>
+<option value="Pristina">Pristina</option>
+<option value="qtquickcontrols">qtquickcontrols</option>
+<option value="Rage Italic">Rage Italic</option>
+<option value="Ravie">Ravie</option>
+<option value="Reem Kufi">Reem Kufi</option>
+<option value="Rockwell">Rockwell</option>
+<option value="Rockwell Condensed">Rockwell Condensed</option>
+<option value="Rockwell Extra Bold">Rockwell Extra Bold</option>
+<option value="ROG Fonts">ROG Fonts</option>
+<option value="Rubik">Rubik</option>
+<option value="Sans Serif Collection">Sans Serif Collection</option>
+<option value="Scheherazade">Scheherazade</option>
+<option value="Script MT Bold">Script MT Bold</option>
+<option value="Segoe Fluent Icons">Segoe Fluent Icons</option>
+<option value="Segoe MDL2 Assets">Segoe MDL2 Assets</option>
+<option value="Segoe Print">Segoe Print</option>
+<option value="Segoe Script">Segoe Script</option>
+<option value="Segoe UI">Segoe UI</option>
+<option value="Segoe UI Black">Segoe UI Black</option>
+<option value="Segoe UI Emoji">Segoe UI Emoji</option>
+<option value="Segoe UI Historic">Segoe UI Historic</option>
+<option value="Segoe UI Light">Segoe UI Light</option>
+<option value="Segoe UI Semibold">Segoe UI Semibold</option>
+<option value="Segoe UI Semilight">Segoe UI Semilight</option>
+<option value="Segoe UI Symbol">Segoe UI Symbol</option>
+<option value="Segoe UI Variable Display">Segoe UI Variable Display</option>
+<option value="Segoe UI Variable Display Light">Segoe UI Variable Display Light</option>
+<option value="Segoe UI Variable Display Semib">Segoe UI Variable Display Semib</option>
+<option value="Segoe UI Variable Display Semil">Segoe UI Variable Display Semil</option>
+<option value="Segoe UI Variable Small">Segoe UI Variable Small</option>
+<option value="Segoe UI Variable Small Light">Segoe UI Variable Small Light</option>
+<option value="Segoe UI Variable Small Semibol">Segoe UI Variable Small Semibol</option>
+<option value="Segoe UI Variable Small Semilig">Segoe UI Variable Small Semilig</option>
+<option value="Segoe UI Variable Text">Segoe UI Variable Text</option>
+<option value="Segoe UI Variable Text Light">Segoe UI Variable Text Light</option>
+<option value="Segoe UI Variable Text Semibold">Segoe UI Variable Text Semibold</option>
+<option value="Segoe UI Variable Text Semiligh">Segoe UI Variable Text Semiligh</option>
+<option value="Showcard Gothic">Showcard Gothic</option>
+<option value="SimSun">SimSun</option>
+<option value="SimSun-ExtB">SimSun-ExtB</option>
+<option value="SimSun-ExtG">SimSun-ExtG</option>
+<option value="Sitka Banner">Sitka Banner</option>
+<option value="Sitka Banner Semibold">Sitka Banner Semibold</option>
+<option value="Sitka Display">Sitka Display</option>
+<option value="Sitka Display Semibold">Sitka Display Semibold</option>
+<option value="Sitka Heading">Sitka Heading</option>
+<option value="Sitka Heading Semibold">Sitka Heading Semibold</option>
+<option value="Sitka Small">Sitka Small</option>
+<option value="Sitka Small Semibold">Sitka Small Semibold</option>
+<option value="Sitka Subheading">Sitka Subheading</option>
+<option value="Sitka Subheading Semibold">Sitka Subheading Semibold</option>
+<option value="Sitka Text">Sitka Text</option>
+<option value="Sitka Text Semibold">Sitka Text Semibold</option>
+<option value="Snap ITC">Snap ITC</option>
+<option value="Stencil">Stencil</option>
+<option value="Sylfaen">Sylfaen</option>
+<option value="Symbol">Symbol</option>
+<option value="Tahoma">Tahoma</option>
+<option value="Tempus Sans ITC">Tempus Sans ITC</option>
+<option value="Times New Roman" selected>Times New Roman</option>
+<option value="Trebuchet MS">Trebuchet MS</option>
+<option value="Tw Cen MT">Tw Cen MT</option>
+<option value="Tw Cen MT Condensed">Tw Cen MT Condensed</option>
+<option value="Tw Cen MT Condensed Extra Bold">Tw Cen MT Condensed Extra Bold</option>
+<option value="Verdana">Verdana</option>
+<option value="Viner Hand ITC">Viner Hand ITC</option>
+<option value="Vivaldi">Vivaldi</option>
+<option value="Vladimir Script">Vladimir Script</option>
+<option value="Webdings">Webdings</option>
+<option value="Wide Latin">Wide Latin</option>
+<option value="Wingdings">Wingdings</option>
+<option value="Wingdings 2">Wingdings 2</option>
+<option value="Wingdings 3">Wingdings 3</option>
+<option value="Yu Gothic">Yu Gothic</option>
+<option value="Yu Gothic Light">Yu Gothic Light</option>
+<option value="Yu Gothic Medium">Yu Gothic Medium</option>
+<option value="Yu Gothic UI">Yu Gothic UI</option>
+<option value="Yu Gothic UI Light">Yu Gothic UI Light</option>
+<option value="Yu Gothic UI Semibold">Yu Gothic UI Semibold</option>
+<option value="Yu Gothic UI Semilight">Yu Gothic UI Semilight</option>
+  </select>
+
+  <div id="fontPreview">The quick brown fox jumps over the lazy dog.</div>
+
+  <script>
+    function updateFontPreview() {
+      const selectedFont = document.getElementById('fontSelect').value;
+      const previewElement = document.getElementById('fontPreview');
+      previewElement.style.fontFamily = selectedFont;
+    }
+
+    // Initialize with the default font
+    updateFontPreview();
+  </script>
+
+</body>
+</html>
