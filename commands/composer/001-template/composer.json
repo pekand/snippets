@@ -11,7 +11,7 @@
     ],
     "require": {
         "local-vendor/local-package": "^1.0",
-        "phpmailer/phpmailer": "v6.1.7"
+        "phpmailer/phpmailer": "v6.5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "9.3.11"
