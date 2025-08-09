@@ -15,10 +15,11 @@ function deleteDirectory($dir) {
     rmdir($dir);
 }
 
+$force = in_array('--force', $argv);
+
 $root = getcwd();
 $directoriesToDelete = [];
 
-// Step 1: Find all matching dirs first
 $rii = new RecursiveIteratorIterator(
     new RecursiveDirectoryIterator($root, RecursiveDirectoryIterator::SKIP_DOTS),
     RecursiveIteratorIterator::SELF_FIRST
@@ -27,16 +28,38 @@ $rii = new RecursiveIteratorIterator(
 foreach ($rii as $file) {
     if ($file->isDir()) {
         $name = $file->getFilename();
-        if ($name === 'vendor' || $name === 'node_modules' || $name === 'packages' || $name === 'bin') {
-            $directoriesToDelete[] = $file->getPathname();
+        if ($name === 'vendor') {
+            $projectDir = dirname($file->getPathname());
+            $hasComposer = file_exists($projectDir . '/composer.json');
+            
+            if ($hasComposer) {
+                $directoriesToDelete[] = $file->getPathname();
+            }
+        } else if ($name === 'node_modules') {
+            $projectDir = dirname($file->getPathname());
+            $hasPackage = file_exists($projectDir . '/package.json');
+            
+            if ($hasPackage) {
+                $directoriesToDelete[] = $file->getPathname();
+            }
         }
     }
 }
 
-// Step 2: Delete them
-foreach ($directoriesToDelete as $dir) {
-    echo "Deleting: $dir\n";
-    deleteDirectory($dir);
+
+if (!$force) {
+    echo "Dry run mode — no directories will be deleted.\n";
+    echo "Run this script with --force to actually delete the directories.\n\n";
+    foreach ($directoriesToDelete as $dir) {
+        echo "Would delete: $dir\n";
+    }
+    echo "\nFound " . count($directoriesToDelete) . " directories matching criteria.\n";
+} else {
+    foreach ($directoriesToDelete as $dir) {
+        echo "Deleting: $dir\n";
+        deleteDirectory($dir);
+    }
+    echo "Done. Deleted " . count($directoriesToDelete) . " directories.\n";
 }
 
 echo "Done. Deleted " . count($directoriesToDelete) . " directories.\n";
