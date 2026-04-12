@@ -1,0 +1,1 @@
+.\Build\RotatingCube.exe -screen-fullscreen 0 -screen-width 800 -screen-height 600
